@@ -18,6 +18,8 @@ interface Props {
     demografi?: DemografiData;
 }
 
+const COLORS = ['#6366f1', '#10b981', '#f59e0b', '#ec4899', '#8b5cf6', '#3b82f6'];
+
 export default function Welcome({ stats, demografi }: Props) {
     const { auth } = usePage().props as any;
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
