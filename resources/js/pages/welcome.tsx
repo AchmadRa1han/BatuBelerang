@@ -42,9 +42,9 @@ export default function Welcome({ stats, demografi }: Props) {
         { name: 'Dusun IV', value: 298 }
     ];
 
-    const genderData = demografi && demografi.gender.length > 0 ? demografi.gender : fallbackGender;
-    const religionData = demografi && demografi.agama.length > 0 ? demografi.agama : fallbackAgama;
-    const dusunData = demografi && demografi.dusun.length > 0 ? demografi.dusun : fallbackDusun;
+    const genderData = demografi?.gender?.length ? demografi.gender : fallbackGender;
+    const religionData = demografi?.agama?.length ? demografi.agama : fallbackAgama;
+    const dusunData = demografi?.dusun?.length ? demografi.dusun : fallbackDusun;
 
     // Kalkulasi Donut Chart Gender
     const totalGender = genderData.reduce((acc, curr) => acc + curr.value, 0);
@@ -278,9 +278,9 @@ export default function Welcome({ stats, demografi }: Props) {
                                 <div className="flex-1 flex items-center justify-center relative">
                                     <svg width="160" height="160" className="transform -rotate-90">
                                         {(() => {
-                                            const val1 = genderData[0]?.value || 1;
+                                            const val1 = genderData[0]?.value || 0;
                                             const val2 = genderData[1]?.value || 0;
-                                            const total = val1 + val2;
+                                            const total = (val1 + val2) || 1;
                                             const p1 = (val1 / total) * circumference;
                                             const p2 = (val2 / total) * circumference;
                                             return (
@@ -403,7 +403,6 @@ export default function Welcome({ stats, demografi }: Props) {
                                                     </div>
                                                     {/* Bar rect */}
                                                     <div 
-                                                        style={{ height: `${barH}px` }} 
                                                         className="w-8 rounded-t-lg transition-all duration-300 cursor-pointer shadow-lg shadow-indigo-650/10"
                                                         style={{ 
                                                             height: `${barH}px`,
