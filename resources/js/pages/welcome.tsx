@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { Head, Link, usePage } from '@inertiajs/react';
+import { useAppearance } from '@/hooks/use-appearance';
+import { Sun, Moon } from 'lucide-react';
 
 interface DemografiData {
     gender: Array<{ name: string; value: number }>;
@@ -25,6 +27,11 @@ export default function Welcome({ stats, demografi }: Props) {
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
     const [activeGenderIndex, setActiveGenderIndex] = useState<number | null>(null);
     const [hoveredBarIndex, setHoveredBarIndex] = useState<number | null>(null);
+    const { resolvedAppearance, updateAppearance } = useAppearance();
+
+    const toggleTheme = () => {
+        updateAppearance(resolvedAppearance === 'dark' ? 'light' : 'dark');
+    };
 
     // Mock data untuk fallback jika database kosong
     const fallbackGender = [
@@ -124,6 +131,19 @@ export default function Welcome({ stats, demografi }: Props) {
 
                     {/* Auth Actions */}
                     <div className="hidden md:flex items-center gap-4">
+                        {/* Theme Toggle Button */}
+                        <button
+                            onClick={toggleTheme}
+                            className="p-2.5 text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-slate-200 transition-colors focus:outline-none rounded-xl bg-slate-100 hover:bg-slate-200/50 dark:bg-slate-900 dark:hover:bg-slate-850/80 border border-slate-200/60 dark:border-slate-800"
+                            aria-label="Toggle Theme"
+                        >
+                            {resolvedAppearance === 'dark' ? (
+                                <Sun className="h-4 w-4" />
+                            ) : (
+                                <Moon className="h-4 w-4" />
+                            )}
+                        </button>
+
                         {auth.user ? (
                             <Link 
                                 href="/dashboard" 
@@ -161,6 +181,20 @@ export default function Welcome({ stats, demografi }: Props) {
                 {/* Mobile Dropdown Menu */}
                 {mobileMenuOpen && (
                     <div className="md:hidden border-b border-slate-200 dark:border-slate-900 bg-white dark:bg-slate-955 p-6 space-y-4 text-sm font-medium transition-colors">
+                        <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-900 pb-2">
+                            <span className="text-slate-900 dark:text-white font-bold">Menu</span>
+                            <button
+                                onClick={toggleTheme}
+                                className="p-2 text-slate-500 hover:text-slate-850 dark:text-slate-400 dark:hover:text-white transition-colors focus:outline-none rounded-lg bg-slate-100 dark:bg-slate-900 border border-slate-200/60 dark:border-slate-800"
+                                aria-label="Toggle Theme"
+                            >
+                                {resolvedAppearance === 'dark' ? (
+                                    <Sun className="h-4 w-4" />
+                                ) : (
+                                    <Moon className="h-4 w-4" />
+                                )}
+                            </button>
+                        </div>
                         <Link href="/" className="block text-slate-900 dark:text-white">Beranda</Link>
                         <Link href="#" className="block text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white">Profil</Link>
                         <Link href="#" className="block text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white">Lembaga</Link>
