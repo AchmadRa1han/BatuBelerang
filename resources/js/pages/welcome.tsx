@@ -1,6 +1,6 @@
 import { Head, Link, usePage } from '@inertiajs/react';
 import { Sun, Moon, Calendar, MapPin, User, FileText, Download, ArrowRight, Clock, ChevronLeft, ChevronRight } from 'lucide-react';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import WeatherShalatWidget from '@/components/weather-shalat-widget';
 import { useAppearance } from '@/hooks/use-appearance';
 
@@ -81,12 +81,28 @@ export default function Welcome({
     };
 
     const prevAparatur = () => {
-        setAparaturIndex((prev) => Math.max(0, prev - 1));
+        setAparaturIndex((prev) => {
+            const max = getMaxAparaturIndex();
+            if (prev === 0) return max;
+            return prev - 1;
+        });
     };
 
     const nextAparatur = () => {
-        setAparaturIndex((prev) => Math.min(getMaxAparaturIndex(), prev + 1));
+        setAparaturIndex((prev) => {
+            const max = getMaxAparaturIndex();
+            if (prev >= max) return 0;
+            return prev + 1;
+        });
     };
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            nextAparatur();
+        }, 4000); // Auto-scroll every 4 seconds
+
+        return () => clearInterval(interval);
+    }, [aparaturIndex]);
 
     // Mock data untuk fallback jika database kosong
     const fallbackGender = [
@@ -1130,7 +1146,7 @@ export default function Welcome({
                                         SIRAJUDDIN, S.I.P
                                     </h4>
                                     <p className="text-xs font-semibold text-indigo-600 dark:text-indigo-400">
-                                        Kepala Desa (Pinned)
+                                        Kepala Desa
                                     </p>
                                 </div>
                             </div>
