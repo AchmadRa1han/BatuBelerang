@@ -71,38 +71,45 @@ export default function Welcome({
         updateAppearance(resolvedAppearance === 'dark' ? 'light' : 'dark');
     };
 
-    const [aparaturIndex, setAparaturIndex] = useState(0);
-
-    const getMaxAparaturIndex = () => {
-        if (typeof window === 'undefined') return 2;
-        if (window.innerWidth < 640) return 4; // mobile (1 card)
-        if (window.innerWidth < 1024) return 3; // tablet (2 cards)
-        return 2; // desktop (3 cards)
-    };
+    const [aparaturIndex, setAparaturIndex] = useState(5); // Mulai dari klon tengah (index 5)
+    const [transitionEnabled, setTransitionEnabled] = useState(true);
 
     const prevAparatur = () => {
-        setAparaturIndex((prev) => {
-            const max = getMaxAparaturIndex();
-            if (prev === 0) return max;
-            return prev - 1;
-        });
+        if (!transitionEnabled) return;
+        setAparaturIndex((prev) => prev - 1);
     };
 
     const nextAparatur = () => {
-        setAparaturIndex((prev) => {
-            const max = getMaxAparaturIndex();
-            if (prev >= max) return 0;
-            return prev + 1;
-        });
+        if (!transitionEnabled) return;
+        setAparaturIndex((prev) => prev + 1);
     };
+
+    const handleTransitionEnd = () => {
+        if (aparaturIndex >= 10) {
+            setTransitionEnabled(false);
+            setAparaturIndex((prev) => prev - 5);
+        } else if (aparaturIndex < 5) {
+            setTransitionEnabled(false);
+            setAparaturIndex((prev) => prev + 5);
+        }
+    };
+
+    useEffect(() => {
+        if (!transitionEnabled) {
+            const raf = requestAnimationFrame(() => {
+                setTransitionEnabled(true);
+            });
+            return () => cancelAnimationFrame(raf);
+        }
+    }, [transitionEnabled]);
 
     useEffect(() => {
         const interval = setInterval(() => {
             nextAparatur();
-        }, 4000); // Auto-scroll every 4 seconds
+        }, 4000); // Auto-scroll setiap 4 detik
 
         return () => clearInterval(interval);
-    }, [aparaturIndex]);
+    }, [aparaturIndex, transitionEnabled]);
 
     // Mock data untuk fallback jika database kosong
     const fallbackGender = [
@@ -1108,16 +1115,14 @@ export default function Welcome({
                         <div className="flex items-center gap-2 self-start md:self-end">
                             <button
                                 onClick={prevAparatur}
-                                disabled={aparaturIndex === 0}
-                                className="flex h-10 w-10 items-center justify-center rounded-xl border border-slate-200 bg-white text-slate-600 transition-all hover:bg-slate-50 disabled:opacity-40 disabled:hover:bg-white disabled:cursor-not-allowed dark:border-slate-800 dark:bg-slate-900 dark:text-slate-400 dark:hover:bg-slate-800 dark:disabled:hover:bg-slate-900 shadow-sm"
+                                className="flex h-10 w-10 items-center justify-center rounded-xl border border-slate-200 bg-white text-slate-600 transition-all hover:bg-slate-50 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-400 dark:hover:bg-slate-800 shadow-sm"
                                 aria-label="Aparatur Sebelumnya"
                             >
                                 <ChevronLeft className="h-5 w-5" />
                             </button>
                             <button
                                 onClick={nextAparatur}
-                                disabled={aparaturIndex >= getMaxAparaturIndex()}
-                                className="flex h-10 w-10 items-center justify-center rounded-xl border border-slate-200 bg-white text-slate-600 transition-all hover:bg-slate-50 disabled:opacity-40 disabled:hover:bg-white disabled:cursor-not-allowed dark:border-slate-800 dark:bg-slate-900 dark:text-slate-400 dark:hover:bg-slate-800 dark:disabled:hover:bg-slate-900 shadow-sm"
+                                className="flex h-10 w-10 items-center justify-center rounded-xl border border-slate-200 bg-white text-slate-600 transition-all hover:bg-slate-50 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-400 dark:hover:bg-slate-800 shadow-sm"
                                 aria-label="Aparatur Selanjutnya"
                             >
                                 <ChevronRight className="h-5 w-5" />
@@ -1159,35 +1164,31 @@ export default function Welcome({
 
                             {/* Sliding Track */}
                             <div
-                                className="flex gap-6 transition-transform duration-500 ease-out py-2"
+                                className={`flex gap-6 py-2 ${transitionEnabled ? 'transition-transform duration-500 ease-out' : 'transition-none'}`}
                                 style={{ transform: `translateX(-${aparaturIndex * (220 + 24)}px)` }}
+                                onTransitionEnd={handleTransitionEnd}
                             >
                                 {[
-                                    {
-                                        nama: 'AKBAR HIJRI, S.IP',
-                                        jabatan: 'Sekretaris Desa',
-                                        foto: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=400&auto=format&fit=crop&q=80',
-                                    },
-                                    {
-                                        nama: 'IRSAN RAMLI, S.A.P',
-                                        jabatan: 'Kaur Keuangan',
-                                        foto: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&auto=format&fit=crop&q=80',
-                                    },
-                                    {
-                                        nama: 'RAFIKA, S.Pd.I, Gr',
-                                        jabatan: 'Kasi Pemerintahan',
-                                        foto: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=400&auto=format&fit=crop&q=80',
-                                    },
-                                    {
-                                        nama: 'SAINAB, S.Pd',
-                                        jabatan: 'Kasi Pelayanan',
-                                        foto: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?w=400&auto=format&fit=crop&q=80',
-                                    },
-                                    {
-                                        nama: 'ANWAR SADAT, S.Pd',
-                                        jabatan: 'Kadus Babana',
-                                        foto: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&auto=format&fit=crop&q=80',
-                                    },
+                                    // Set 1 (Klon Pertama)
+                                    { nama: 'AKBAR HIJRI, S.IP', jabatan: 'Sekretaris Desa', foto: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=400&auto=format&fit=crop&q=80' },
+                                    { nama: 'IRSAN RAMLI, S.A.P', jabatan: 'Kaur Keuangan', foto: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&auto=format&fit=crop&q=80' },
+                                    { nama: 'RAFIKA, S.Pd.I, Gr', jabatan: 'Kasi Pemerintahan', foto: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=400&auto=format&fit=crop&q=80' },
+                                    { nama: 'SAINAB, S.Pd', jabatan: 'Kasi Pelayanan', foto: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?w=400&auto=format&fit=crop&q=80' },
+                                    { nama: 'ANWAR SADAT, S.Pd', jabatan: 'Kadus Babana', foto: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&auto=format&fit=crop&q=80' },
+                                    
+                                    // Set 2 (Klon Utama / Tengah)
+                                    { nama: 'AKBAR HIJRI, S.IP', jabatan: 'Sekretaris Desa', foto: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=400&auto=format&fit=crop&q=80' },
+                                    { nama: 'IRSAN RAMLI, S.A.P', jabatan: 'Kaur Keuangan', foto: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&auto=format&fit=crop&q=80' },
+                                    { nama: 'RAFIKA, S.Pd.I, Gr', jabatan: 'Kasi Pemerintahan', foto: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=400&auto=format&fit=crop&q=80' },
+                                    { nama: 'SAINAB, S.Pd', jabatan: 'Kasi Pelayanan', foto: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?w=400&auto=format&fit=crop&q=80' },
+                                    { nama: 'ANWAR SADAT, S.Pd', jabatan: 'Kadus Babana', foto: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&auto=format&fit=crop&q=80' },
+                                    
+                                    // Set 3 (Klon Akhir)
+                                    { nama: 'AKBAR HIJRI, S.IP', jabatan: 'Sekretaris Desa', foto: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=400&auto=format&fit=crop&q=80' },
+                                    { nama: 'IRSAN RAMLI, S.A.P', jabatan: 'Kaur Keuangan', foto: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&auto=format&fit=crop&q=80' },
+                                    { nama: 'RAFIKA, S.Pd.I, Gr', jabatan: 'Kasi Pemerintahan', foto: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=400&auto=format&fit=crop&q=80' },
+                                    { nama: 'SAINAB, S.Pd', jabatan: 'Kasi Pelayanan', foto: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?w=400&auto=format&fit=crop&q=80' },
+                                    { nama: 'ANWAR SADAT, S.Pd', jabatan: 'Kadus Babana', foto: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&auto=format&fit=crop&q=80' },
                                 ].map((item, idx) => (
                                     <div
                                         key={idx}
