@@ -1,5 +1,5 @@
 import { Head, Link, usePage } from '@inertiajs/react';
-import { Sun, Moon, Calendar, MapPin, User, FileText, Download, ArrowRight, Clock } from 'lucide-react';
+import { Sun, Moon, Calendar, MapPin, User, FileText, Download, ArrowRight, Clock, ChevronLeft, ChevronRight } from 'lucide-react';
 import React, { useState } from 'react';
 import WeatherShalatWidget from '@/components/weather-shalat-widget';
 import { useAppearance } from '@/hooks/use-appearance';
@@ -69,6 +69,23 @@ export default function Welcome({
 
     const toggleTheme = () => {
         updateAppearance(resolvedAppearance === 'dark' ? 'light' : 'dark');
+    };
+
+    const [aparaturIndex, setAparaturIndex] = useState(0);
+
+    const getMaxAparaturIndex = () => {
+        if (typeof window === 'undefined') return 2;
+        if (window.innerWidth < 640) return 4; // mobile (1 card)
+        if (window.innerWidth < 1024) return 3; // tablet (2 cards)
+        return 2; // desktop (3 cards)
+    };
+
+    const prevAparatur = () => {
+        setAparaturIndex((prev) => Math.max(0, prev - 1));
+    };
+
+    const nextAparatur = () => {
+        setAparaturIndex((prev) => Math.min(getMaxAparaturIndex(), prev + 1));
     };
 
     // Mock data untuk fallback jika database kosong
@@ -1058,80 +1075,132 @@ export default function Welcome({
                         </div>
                     </div>
                 </section>
-
                 {/* Aparatur Pemerintah Desa */}
                 <section className="space-y-10 scroll-mt-24">
-                    <div className="space-y-2 text-center">
-                        <span className="block text-xs font-semibold tracking-widest text-indigo-600 uppercase dark:text-indigo-400">
-                            Struktur Organisasi
-                        </span>
-                        <h2 className="text-2xl font-extrabold tracking-tight text-slate-900 md:text-3xl dark:text-white">
-                            Aparatur Pemerintah Desa
-                        </h2>
-                        <p className="mx-auto max-w-lg text-sm text-slate-500 dark:text-slate-400">
-                            Perangkat Desa Batu Belerang yang siap melayani kebutuhan administrasi dan kemajuan warga.
-                        </p>
+                    <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4">
+                        <div className="space-y-2 text-left">
+                            <span className="block text-xs font-semibold tracking-widest text-indigo-600 uppercase dark:text-indigo-400">
+                                Struktur Organisasi
+                            </span>
+                            <h2 className="text-2xl font-extrabold tracking-tight text-slate-900 md:text-3xl dark:text-white">
+                                Aparatur Pemerintah Desa
+                            </h2>
+                            <p className="max-w-lg text-sm text-slate-500 dark:text-slate-400">
+                                Perangkat Desa Batu Belerang yang siap melayani kebutuhan administrasi dan kemajuan warga.
+                            </p>
+                        </div>
+                        <div className="flex items-center gap-2 self-start md:self-end">
+                            <button
+                                onClick={prevAparatur}
+                                disabled={aparaturIndex === 0}
+                                className="flex h-10 w-10 items-center justify-center rounded-xl border border-slate-200 bg-white text-slate-600 transition-all hover:bg-slate-50 disabled:opacity-40 disabled:hover:bg-white disabled:cursor-not-allowed dark:border-slate-800 dark:bg-slate-900 dark:text-slate-400 dark:hover:bg-slate-800 dark:disabled:hover:bg-slate-900 shadow-sm"
+                                aria-label="Aparatur Sebelumnya"
+                            >
+                                <ChevronLeft className="h-5 w-5" />
+                            </button>
+                            <button
+                                onClick={nextAparatur}
+                                disabled={aparaturIndex >= getMaxAparaturIndex()}
+                                className="flex h-10 w-10 items-center justify-center rounded-xl border border-slate-200 bg-white text-slate-600 transition-all hover:bg-slate-50 disabled:opacity-40 disabled:hover:bg-white disabled:cursor-not-allowed dark:border-slate-800 dark:bg-slate-900 dark:text-slate-400 dark:hover:bg-slate-800 dark:disabled:hover:bg-slate-900 shadow-sm"
+                                aria-label="Aparatur Selanjutnya"
+                            >
+                                <ChevronRight className="h-5 w-5" />
+                            </button>
+                        </div>
                     </div>
 
-                    <div className="grid grid-cols-2 gap-6 sm:grid-cols-3 lg:grid-cols-6">
-                        {[
-                            {
-                                nama: 'SIRAJUDDIN, S.I.P',
-                                jabatan: 'Kepala Desa',
-                                foto: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?w=400&auto=format&fit=crop&q=80',
-                            },
-                            {
-                                nama: 'AKBAR HIJRI, S.IP',
-                                jabatan: 'Sekretaris Desa',
-                                foto: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=400&auto=format&fit=crop&q=80',
-                            },
-                            {
-                                nama: 'IRSAN RAMLI, S.A.P',
-                                jabatan: 'Kaur Keuangan',
-                                foto: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&auto=format&fit=crop&q=80',
-                            },
-                            {
-                                nama: 'RAFIKA, S.Pd.I, Gr',
-                                jabatan: 'Kasi Pemerintahan',
-                                foto: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=400&auto=format&fit=crop&q=80',
-                            },
-                            {
-                                nama: 'SAINAB, S.Pd',
-                                jabatan: 'Kasi Pelayanan',
-                                foto: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?w=400&auto=format&fit=crop&q=80',
-                            },
-                            {
-                                nama: 'ANWAR SADAT, S.Pd',
-                                jabatan: 'Kadus Babana',
-                                foto: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&auto=format&fit=crop&q=80',
-                            },
-                        ].map((item, idx) => (
-                            <div
-                                key={idx}
-                                className="group flex flex-col items-center text-center space-y-3"
-                            >
-                                <div className="relative overflow-hidden rounded-2xl border border-slate-200 bg-slate-100 shadow-sm transition-all duration-300 group-hover:-translate-y-1 group-hover:shadow-md dark:border-slate-800 dark:bg-slate-900 w-full aspect-4/5">
+                    <div className="flex flex-col md:flex-row gap-8 items-stretch relative">
+                        {/* Kepala Desa - Pinned Left */}
+                        <div className="w-full md:w-[240px] shrink-0 z-20 bg-slate-50 dark:bg-slate-950 relative md:pr-4 flex justify-center md:justify-start">
+                            <div className="group flex flex-col items-center text-center space-y-3 w-[220px]">
+                                <div className="relative overflow-hidden rounded-2xl border border-indigo-200 bg-indigo-50/50 shadow-md transition-all duration-300 group-hover:-translate-y-1 group-hover:shadow-lg dark:border-indigo-900/50 dark:bg-indigo-950/20 w-full aspect-4/5">
                                     <img
-                                        src={item.foto}
-                                        alt={item.nama}
+                                        src="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=400&auto=format&fit=crop&q=80"
+                                        alt="SIRAJUDDIN, S.I.P"
                                         className="h-full w-full object-cover object-center grayscale group-hover:grayscale-0 transition-all duration-500"
                                     />
-                                    <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end justify-center p-3">
-                                        <span className="text-[10px] font-semibold text-slate-200 tracking-wide uppercase">
-                                            Batu Belerang
+                                    <div className="absolute inset-0 bg-gradient-to-t from-indigo-950/95 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-3">
+                                        <span className="text-[10px] font-bold text-indigo-300 tracking-wider uppercase">
+                                            Pemimpin Desa
                                         </span>
                                     </div>
                                 </div>
                                 <div className="w-full">
                                     <h4 className="text-sm font-bold text-slate-900 dark:text-white line-clamp-1 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
-                                        {item.nama}
+                                        SIRAJUDDIN, S.I.P
                                     </h4>
-                                    <p className="text-xs font-semibold text-slate-500 dark:text-slate-400">
-                                        {item.jabatan}
+                                    <p className="text-xs font-semibold text-indigo-600 dark:text-indigo-400">
+                                        Kepala Desa (Pinned)
                                     </p>
                                 </div>
                             </div>
-                        ))}
+                        </div>
+
+                        {/* Carousel Wrapper with Slide/Fade-out Effect */}
+                        <div className="flex-1 relative overflow-hidden">
+                            {/* Left Fade-out Mask Overlay (Visible on md and up) */}
+                            <div className="absolute top-0 bottom-0 left-0 w-16 bg-gradient-to-r from-slate-50 via-slate-50/40 to-transparent pointer-events-none z-10 dark:from-slate-950 dark:via-slate-950/40 hidden md:block" />
+
+                            {/* Sliding Track */}
+                            <div
+                                className="flex gap-6 transition-transform duration-500 ease-out py-2"
+                                style={{ transform: `translateX(-${aparaturIndex * (220 + 24)}px)` }}
+                            >
+                                {[
+                                    {
+                                        nama: 'AKBAR HIJRI, S.IP',
+                                        jabatan: 'Sekretaris Desa',
+                                        foto: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=400&auto=format&fit=crop&q=80',
+                                    },
+                                    {
+                                        nama: 'IRSAN RAMLI, S.A.P',
+                                        jabatan: 'Kaur Keuangan',
+                                        foto: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&auto=format&fit=crop&q=80',
+                                    },
+                                    {
+                                        nama: 'RAFIKA, S.Pd.I, Gr',
+                                        jabatan: 'Kasi Pemerintahan',
+                                        foto: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=400&auto=format&fit=crop&q=80',
+                                    },
+                                    {
+                                        nama: 'SAINAB, S.Pd',
+                                        jabatan: 'Kasi Pelayanan',
+                                        foto: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?w=400&auto=format&fit=crop&q=80',
+                                    },
+                                    {
+                                        nama: 'ANWAR SADAT, S.Pd',
+                                        jabatan: 'Kadus Babana',
+                                        foto: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&auto=format&fit=crop&q=80',
+                                    },
+                                ].map((item, idx) => (
+                                    <div
+                                        key={idx}
+                                        className="group flex flex-col items-center text-center space-y-3 flex-none w-[220px]"
+                                    >
+                                        <div className="relative overflow-hidden rounded-2xl border border-slate-200 bg-slate-100 shadow-sm transition-all duration-300 group-hover:-translate-y-1 group-hover:shadow-md dark:border-slate-800 dark:bg-slate-900 w-full aspect-4/5">
+                                            <img
+                                                src={item.foto}
+                                                alt={item.nama}
+                                                className="h-full w-full object-cover object-center grayscale group-hover:grayscale-0 transition-all duration-500"
+                                            />
+                                            <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end justify-center p-3">
+                                                <span className="text-[10px] font-semibold text-slate-200 tracking-wide uppercase">
+                                                    Batu Belerang
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div className="w-full">
+                                            <h4 className="text-sm font-bold text-slate-900 dark:text-white line-clamp-1 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
+                                                {item.nama}
+                                            </h4>
+                                            <p className="text-xs font-semibold text-slate-500 dark:text-slate-400">
+                                                {item.jabatan}
+                                            </p>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
                     </div>
                 </section>
 
