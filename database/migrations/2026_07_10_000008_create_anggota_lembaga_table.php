@@ -13,15 +13,15 @@ return new class extends Migration
     {
         Schema::create('anggota_lembaga', function (Blueprint $table) {
             $table->id();
-            
+
             $table->foreignId('lembaga_id')
                 ->constrained('lembaga')
                 ->cascadeOnDelete();
-                
+
             $table->foreignId('penduduk_id')
                 ->constrained('penduduk')
                 ->cascadeOnDelete();
-                
+
             $table->string('jabatan'); // e.g. Ketua, Sekretaris, Anggota
             $table->year('periode_mulai');
             $table->year('periode_selesai');

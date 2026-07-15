@@ -13,15 +13,15 @@ return new class extends Migration
     {
         Schema::create('produk_umkm', function (Blueprint $table) {
             $table->id();
-            
+
             $table->foreignId('penduduk_id')
                 ->constrained('penduduk')
                 ->cascadeOnDelete();
-                
+
             $table->foreignId('kategori_umkm_id')
                 ->constrained('kategori_umkm')
                 ->restrictOnDelete();
-                
+
             $table->string('nama');
             $table->string('slug')->unique();
             $table->text('deskripsi');

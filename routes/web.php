@@ -11,6 +11,19 @@ Route::get('/', function () {
     $umkmCount = DB::table('produk_umkm')->where('status', 'aktif')->count();
     $wisataCount = DB::table('destinasi_wisata')->count();
 
+    $regulasi = DB::table('regulasi')
+        ->where('status', true)
+        ->orderBy('tahun', 'desc')
+        ->orderBy('created_at', 'desc')
+        ->limit(3)
+        ->get();
+
+    $agenda = DB::table('agenda_desa')
+        ->where('waktu_mulai', '>=', now())
+        ->orderBy('waktu_mulai', 'asc')
+        ->limit(3)
+        ->get();
+
     return Inertia::render('welcome', [
         'stats' => [
             'warga' => $wargaCount,
@@ -19,6 +32,8 @@ Route::get('/', function () {
             'umkm' => $umkmCount,
             'wisata' => $wisataCount,
         ],
+        'regulasi' => $regulasi,
+        'agenda' => $agenda,
         'demografi' => Inertia::defer(fn () => [
             'gender' => DB::table('penduduk')
                 ->select('jenis_kelamin', DB::raw('count(*) as jumlah'))

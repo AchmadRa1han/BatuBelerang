@@ -13,16 +13,16 @@ return new class extends Migration
     {
         Schema::create('penginapan', function (Blueprint $table) {
             $table->id();
-            
+
             $table->foreignId('destinasi_wisata_id')
                 ->constrained('destinasi_wisata')
                 ->cascadeOnDelete();
-                
+
             $table->foreignId('pemilik_penduduk_id')
                 ->nullable()
                 ->constrained('penduduk')
                 ->nullOnDelete();
-                
+
             $table->string('nama');
             $table->enum('tipe', ['homestay', 'guest_house', 'villa', 'cottage']);
             $table->text('deskripsi');

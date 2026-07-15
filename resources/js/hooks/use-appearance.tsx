@@ -75,7 +75,14 @@ export function initializeTheme(): void {
         return;
     }
 
-    if (!localStorage.getItem('appearance')) {
+    // Force one-time migration to light mode for development cache compatibility
+    if (!localStorage.getItem('theme_migrated_to_light')) {
+        localStorage.setItem('appearance', 'light');
+        setCookie('appearance', 'light');
+        localStorage.setItem('theme_migrated_to_light', 'true');
+    }
+
+    if (!localStorage.getItem('appearance') || localStorage.getItem('appearance') === 'system') {
         localStorage.setItem('appearance', 'light');
         setCookie('appearance', 'light');
     }

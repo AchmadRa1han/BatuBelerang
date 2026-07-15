@@ -20,33 +20,33 @@ return new class extends Migration
             $table->date('tanggal_lahir');
             $table->enum('golongan_darah', ['A', 'B', 'AB', 'O', '-']);
             $table->string('agama');
-            
+
             $table->foreignId('pendidikan_id')
                 ->nullable()
                 ->constrained('pendidikan')
                 ->nullOnDelete();
-                
+
             $table->foreignId('pekerjaan_id')
                 ->nullable()
                 ->constrained('pekerjaan')
                 ->nullOnDelete();
-                
+
             $table->enum('status_perkawinan', ['belum_kawin', 'kawin', 'cerai_hidup', 'cerai_mati']);
-            
+
             $table->foreignId('kartu_keluarga_id')
                 ->nullable()
                 ->constrained('kartu_keluarga')
                 ->nullOnDelete();
-                
+
             $table->foreignId('dusun_id')
                 ->constrained('dusun')
                 ->restrictOnDelete();
-                
+
             $table->string('rt', 3);
             $table->string('rw', 3);
             $table->text('alamat');
             $table->enum('status_warga', ['aktif', 'pindah', 'meninggal'])->default('aktif');
-            
+
             $table->boolean('is_hamil')->default(false);
             $table->boolean('is_stunting')->default(false);
             $table->boolean('is_disabilitas')->default(false);

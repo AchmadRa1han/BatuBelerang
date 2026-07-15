@@ -1,5 +1,5 @@
 import { Head, Link, usePage } from '@inertiajs/react';
-import { Sun, Moon } from 'lucide-react';
+import { Sun, Moon, Calendar, MapPin, User, FileText, Download, ArrowRight, Clock } from 'lucide-react';
 import React, { useState } from 'react';
 import WeatherShalatWidget from '@/components/weather-shalat-widget';
 import { useAppearance } from '@/hooks/use-appearance';
@@ -8,6 +8,27 @@ interface DemografiData {
     gender: Array<{ name: string; value: number }>;
     agama: Array<{ name: string; value: number }>;
     dusun: Array<{ name: string; value: number }>;
+}
+
+interface RegulasiItem {
+    id: number;
+    judul: string;
+    jenis: 'perdes' | 'perkades' | 'sk_kades' | 'instruksi';
+    tahun: number;
+    nomor: string;
+    deskripsi?: string;
+    file_path?: string;
+    status: boolean;
+}
+
+interface AgendaItem {
+    id: number;
+    judul: string;
+    deskripsi?: string;
+    lokasi: string;
+    waktu_mulai: string;
+    waktu_selesai?: string;
+    koordinator?: string;
 }
 
 interface Props {
@@ -19,6 +40,8 @@ interface Props {
         wisata: number;
     };
     demografi?: DemografiData;
+    regulasi?: RegulasiItem[];
+    agenda?: AgendaItem[];
 }
 
 const COLORS = [
@@ -30,7 +53,12 @@ const COLORS = [
     '#3b82f6',
 ];
 
-export default function Welcome({ stats, demografi }: Props) {
+export default function Welcome({
+    stats,
+    demografi,
+    regulasi = [],
+    agenda = [],
+}: Props) {
     const { auth } = usePage().props as any;
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
     const [activeGenderIndex, setActiveGenderIndex] = useState<number | null>(
@@ -70,6 +98,72 @@ export default function Welcome({ stats, demografi }: Props) {
     const dusunData = demografi?.dusun?.length
         ? demografi.dusun
         : fallbackDusun;
+
+    const fallbackAgenda: AgendaItem[] = [
+        {
+            id: 1,
+            judul: 'Musyawarah Dusun (Musdus) Rencana Kerja 2027',
+            deskripsi: 'Pertemuan warga dusun untuk merumuskan usulan pembangunan prioritas.',
+            lokasi: 'Aula Pertemuan Dusun Cempae',
+            waktu_mulai: '2026-07-20 09:00:00',
+            waktu_selesai: '2026-07-20 12:00:00',
+            koordinator: 'Baharuddin (Kadus Cempae)',
+        },
+        {
+            id: 2,
+            judul: 'Penyaluran BLT-Dana Desa Tahap III',
+            deskripsi: 'Pembagian bantuan langsung tunai tahap ketiga bagi KPM yang terdata.',
+            lokasi: 'Aula Kantor Desa Batu Belerang',
+            waktu_mulai: '2026-07-22 08:30:00',
+            waktu_selesai: '2026-07-22 14:00:00',
+            koordinator: 'Irsan Ramli (Kaur Keuangan)',
+        },
+        {
+            id: 3,
+            judul: 'Sosialisasi Pencegahan Stunting Anak',
+            deskripsi: 'Kegiatan edukasi pemenuhan gizi balita bersama kader Posyandu dan Puskesmas.',
+            lokasi: 'Posyandu Terpadu Dusun Babana',
+            waktu_mulai: '2026-07-25 09:00:00',
+            waktu_selesai: '2026-07-25 11:30:00',
+            koordinator: 'Marni (Kasi Kesejahteraan)',
+        },
+    ];
+
+    const fallbackRegulasi: RegulasiItem[] = [
+        {
+            id: 1,
+            judul: 'Rencana Pembangunan Jangka Menengah Desa (RPJMDes) Tahun 2026-2031',
+            jenis: 'perdes',
+            tahun: 2026,
+            nomor: 'Nomor 02 Tahun 2026',
+            deskripsi: 'Dokumen perencanaan jangka menengah desa mengenai arah kebijakan pembangunan.',
+            file_path: '#',
+            status: true,
+        },
+        {
+            id: 2,
+            judul: 'Pencegahan dan Penanganan Stunting Terintegrasi tingkat Desa',
+            jenis: 'perkades',
+            tahun: 2025,
+            nomor: 'Nomor 04 Tahun 2025',
+            deskripsi: 'Peraturan Kepala Desa mengenai alokasi anggaran dan aksi penanganan stunting.',
+            file_path: '#',
+            status: true,
+        },
+        {
+            id: 3,
+            judul: 'Pembentukan Pengurus Lembaga Kemasyarakatan Desa (LKD)',
+            jenis: 'sk_kades',
+            tahun: 2025,
+            nomor: 'SK Nomor 18 Tahun 2025',
+            deskripsi: 'Surat Keputusan Kepala Desa untuk penetapan pengurus PKK, LKD, dan Posyandu.',
+            file_path: '#',
+            status: true,
+        },
+    ];
+
+    const agendaData = agenda?.length ? agenda : fallbackAgenda;
+    const regulasiData = regulasi?.length ? regulasi : fallbackRegulasi;
 
     // Kalkulasi Donut Chart Gender
     const totalGender = genderData.reduce((acc, curr) => acc + curr.value, 0);
@@ -685,6 +779,145 @@ export default function Welcome({ stats, demografi }: Props) {
                             </div>
                         </div>
                     )}
+                </section>
+
+                {/* Agenda Kegiatan & Regulasi Desa */}
+                <section className="grid grid-cols-1 gap-10 md:grid-cols-2">
+                    {/* Agenda Kegiatan */}
+                    <div className="space-y-6 rounded-3xl border border-slate-200 bg-white p-6 shadow-sm shadow-slate-100/50 transition-colors dark:border-slate-800 dark:bg-slate-900/20 dark:shadow-none md:p-8">
+                        <div className="flex items-center justify-between border-b border-slate-100 pb-4 dark:border-slate-800">
+                            <div className="flex items-center gap-3">
+                                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-indigo-50 text-indigo-600 dark:bg-indigo-950/40 dark:text-indigo-400">
+                                    <Calendar className="h-5 w-5" />
+                                </div>
+                                <div>
+                                    <h3 className="text-lg font-bold text-slate-900 dark:text-white">
+                                        Agenda Kegiatan Desa
+                                    </h3>
+                                    <p className="text-xs text-slate-500 dark:text-slate-400">
+                                        Jadwal acara & musyawarah mendatang
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="space-y-4">
+                            {agendaData.map((item) => {
+                                const eventDate = new Date(item.waktu_mulai);
+                                const dateFormatted = eventDate.toLocaleDateString('id-ID', {
+                                    day: 'numeric',
+                                    month: 'short',
+                                    year: 'numeric',
+                                });
+                                const timeFormatted = eventDate.toLocaleTimeString('id-ID', {
+                                    hour: '2-digit',
+                                    minute: '2-digit',
+                                });
+
+                                return (
+                                    <div
+                                        key={item.id}
+                                        className="group relative rounded-2xl border border-slate-100 bg-slate-50/50 p-4 transition-all duration-305 hover:-translate-y-0.5 hover:border-slate-200 hover:bg-slate-50 dark:border-slate-850 dark:bg-slate-900/10 dark:hover:border-slate-805 dark:hover:bg-slate-900/30"
+                                    >
+                                        <h4 className="font-semibold text-slate-900 group-hover:text-indigo-600 dark:text-white dark:group-hover:text-indigo-400">
+                                            {item.judul}
+                                        </h4>
+                                        {item.deskripsi && (
+                                            <p className="mt-1 text-xs text-slate-500 dark:text-slate-400 line-clamp-2">
+                                                {item.deskripsi}
+                                            </p>
+                                        )}
+                                        <div className="mt-3 flex flex-wrap gap-x-4 gap-y-1 text-xs text-slate-500 dark:text-slate-405">
+                                            <div className="flex items-center gap-1">
+                                                <Clock className="h-3.5 w-3.5 text-indigo-500" />
+                                                <span>{dateFormatted} - {timeFormatted} WIB</span>
+                                            </div>
+                                            <div className="flex items-center gap-1">
+                                                <MapPin className="h-3.5 w-3.5 text-emerald-500" />
+                                                <span>{item.lokasi}</span>
+                                            </div>
+                                        </div>
+                                        {item.koordinator && (
+                                            <div className="mt-2 flex items-center gap-1 border-t border-slate-100 pt-2 text-[10px] text-slate-400 dark:border-slate-800/40">
+                                                <User className="h-3 w-3" />
+                                                <span>Koordinator: {item.koordinator}</span>
+                                            </div>
+                                        )}
+                                    </div>
+                                );
+                            })}
+                        </div>
+                    </div>
+
+                    {/* Regulasi & Produk Hukum */}
+                    <div className="space-y-6 rounded-3xl border border-slate-200 bg-white p-6 shadow-sm shadow-slate-100/50 transition-colors dark:border-slate-800 dark:bg-slate-900/20 dark:shadow-none md:p-8">
+                        <div className="flex items-center justify-between border-b border-slate-100 pb-4 dark:border-slate-800">
+                            <div className="flex items-center gap-3">
+                                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-50 text-emerald-600 dark:bg-emerald-950/40 dark:text-emerald-400">
+                                    <FileText className="h-5 w-5" />
+                                </div>
+                                <div>
+                                    <h3 className="text-lg font-bold text-slate-900 dark:text-white">
+                                        Regulasi & Produk Hukum
+                                    </h3>
+                                    <p className="text-xs text-slate-500 dark:text-slate-400">
+                                        Peraturan & surat keputusan resmi desa
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="space-y-4">
+                            {regulasiData.map((item) => {
+                                const typeNames = {
+                                    perdes: 'Peraturan Desa',
+                                    perkades: 'Peraturan Kades',
+                                    sk_kades: 'SK Kades',
+                                    instruksi: 'Instruksi',
+                                };
+                                const badgeColors = {
+                                    perdes: 'bg-blue-50 text-blue-700 dark:bg-blue-950/30 dark:text-blue-400 border-blue-100 dark:border-blue-900/30',
+                                    perkades: 'bg-purple-50 text-purple-700 dark:bg-purple-950/30 dark:text-purple-400 border-purple-100 dark:border-purple-900/30',
+                                    sk_kades: 'bg-amber-50 text-amber-700 dark:bg-amber-950/30 dark:text-amber-400 border-amber-100 dark:border-amber-900/30',
+                                    instruksi: 'bg-rose-50 text-rose-700 dark:bg-rose-950/30 dark:text-rose-400 border-rose-100 dark:border-rose-900/30',
+                                };
+
+                                return (
+                                    <div
+                                        key={item.id}
+                                        className="group flex items-start justify-between gap-4 rounded-2xl border border-slate-100 bg-slate-50/50 p-4 transition-all duration-300 hover:-translate-y-0.5 hover:border-slate-200 hover:bg-slate-50 dark:border-slate-850 dark:bg-slate-900/10 dark:hover:border-slate-800 dark:hover:bg-slate-900/30"
+                                    >
+                                        <div className="space-y-1.5">
+                                            <div className="flex items-center gap-2">
+                                                <span className={`rounded-md border px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider ${badgeColors[item.jenis]}`}>
+                                                    {typeNames[item.jenis]}
+                                                </span>
+                                                <span className="text-xs font-semibold text-slate-500 dark:text-slate-400">
+                                                    {item.nomor}
+                                                </span>
+                                            </div>
+                                            <h4 className="font-semibold text-slate-900 dark:text-white">
+                                                {item.judul}
+                                            </h4>
+                                            {item.deskripsi && (
+                                                <p className="text-xs text-slate-500 dark:text-slate-400 line-clamp-1">
+                                                    {item.deskripsi}
+                                                </p>
+                                            )}
+                                        </div>
+                                        <a
+                                            href={item.file_path || '#'}
+                                            className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-white border border-slate-200 text-slate-600 shadow-sm transition-all hover:bg-slate-50 hover:text-indigo-600 dark:bg-slate-900 dark:border-slate-800 dark:text-slate-400 dark:hover:bg-slate-805 dark:hover:text-indigo-400"
+                                            title="Unduh Berkas"
+                                            download
+                                        >
+                                            <Download className="h-4 w-4" />
+                                        </a>
+                                    </div>
+                                );
+                            })}
+                        </div>
+                    </div>
                 </section>
 
                 {/* APBDes Transparancy Widget */}

@@ -13,12 +13,12 @@ return new class extends Migration
     {
         Schema::create('pengaduan', function (Blueprint $table) {
             $table->id();
-            
+
             $table->foreignId('penduduk_id')
                 ->nullable()
                 ->constrained('penduduk')
                 ->nullOnDelete();
-                
+
             $table->string('judul');
             $table->text('isi');
             $table->string('foto_path')->nullable();
