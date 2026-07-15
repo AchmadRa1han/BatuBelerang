@@ -1059,6 +1059,82 @@ export default function Welcome({
                     </div>
                 </section>
 
+                {/* Aparatur Pemerintah Desa */}
+                <section className="space-y-10 scroll-mt-24">
+                    <div className="space-y-2 text-center">
+                        <span className="block text-xs font-semibold tracking-widest text-indigo-600 uppercase dark:text-indigo-400">
+                            Struktur Organisasi
+                        </span>
+                        <h2 className="text-2xl font-extrabold tracking-tight text-slate-900 md:text-3xl dark:text-white">
+                            Aparatur Pemerintah Desa
+                        </h2>
+                        <p className="mx-auto max-w-lg text-sm text-slate-500 dark:text-slate-400">
+                            Perangkat Desa Batu Belerang yang siap melayani kebutuhan administrasi dan kemajuan warga.
+                        </p>
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-6 sm:grid-cols-3 lg:grid-cols-6">
+                        {[
+                            {
+                                nama: 'SIRAJUDDIN, S.I.P',
+                                jabatan: 'Kepala Desa',
+                                foto: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?w=400&auto=format&fit=crop&q=80',
+                            },
+                            {
+                                nama: 'AKBAR HIJRI, S.IP',
+                                jabatan: 'Sekretaris Desa',
+                                foto: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=400&auto=format&fit=crop&q=80',
+                            },
+                            {
+                                nama: 'IRSAN RAMLI, S.A.P',
+                                jabatan: 'Kaur Keuangan',
+                                foto: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&auto=format&fit=crop&q=80',
+                            },
+                            {
+                                nama: 'RAFIKA, S.Pd.I, Gr',
+                                jabatan: 'Kasi Pemerintahan',
+                                foto: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=400&auto=format&fit=crop&q=80',
+                            },
+                            {
+                                nama: 'SAINAB, S.Pd',
+                                jabatan: 'Kasi Pelayanan',
+                                foto: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?w=400&auto=format&fit=crop&q=80',
+                            },
+                            {
+                                nama: 'ANWAR SADAT, S.Pd',
+                                jabatan: 'Kadus Babana',
+                                foto: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&auto=format&fit=crop&q=80',
+                            },
+                        ].map((item, idx) => (
+                            <div
+                                key={idx}
+                                className="group flex flex-col items-center text-center space-y-3"
+                            >
+                                <div className="relative overflow-hidden rounded-2xl border border-slate-200 bg-slate-100 shadow-sm transition-all duration-300 group-hover:-translate-y-1 group-hover:shadow-md dark:border-slate-800 dark:bg-slate-900 w-full aspect-4/5">
+                                    <img
+                                        src={item.foto}
+                                        alt={item.nama}
+                                        className="h-full w-full object-cover object-center grayscale group-hover:grayscale-0 transition-all duration-500"
+                                    />
+                                    <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end justify-center p-3">
+                                        <span className="text-[10px] font-semibold text-slate-200 tracking-wide uppercase">
+                                            Batu Belerang
+                                        </span>
+                                    </div>
+                                </div>
+                                <div className="w-full">
+                                    <h4 className="text-sm font-bold text-slate-900 dark:text-white line-clamp-1 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
+                                        {item.nama}
+                                    </h4>
+                                    <p className="text-xs font-semibold text-slate-500 dark:text-slate-400">
+                                        {item.jabatan}
+                                    </p>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </section>
+
                 {/* Quick Services Links Grid */}
                 <section className="space-y-8">
                     <div className="space-y-2 text-center">
