@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
 import { Head, Link, usePage } from '@inertiajs/react';
-import { useAppearance } from '@/hooks/use-appearance';
 import { Sun, Moon } from 'lucide-react';
+import React, { useState } from 'react';
+import WeatherShalatWidget from '@/components/weather-shalat-widget';
+import { useAppearance } from '@/hooks/use-appearance';
 
 interface DemografiData {
     gender: Array<{ name: string; value: number }>;
@@ -20,12 +21,21 @@ interface Props {
     demografi?: DemografiData;
 }
 
-const COLORS = ['#4f46e5', '#10b981', '#f59e0b', '#ec4899', '#8b5cf6', '#3b82f6'];
+const COLORS = [
+    '#4f46e5',
+    '#10b981',
+    '#f59e0b',
+    '#ec4899',
+    '#8b5cf6',
+    '#3b82f6',
+];
 
 export default function Welcome({ stats, demografi }: Props) {
     const { auth } = usePage().props as any;
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-    const [activeGenderIndex, setActiveGenderIndex] = useState<number | null>(null);
+    const [activeGenderIndex, setActiveGenderIndex] = useState<number | null>(
+        null,
+    );
     const [hoveredBarIndex, setHoveredBarIndex] = useState<number | null>(null);
     const { resolvedAppearance, updateAppearance } = useAppearance();
 
@@ -36,24 +46,30 @@ export default function Welcome({ stats, demografi }: Props) {
     // Mock data untuk fallback jika database kosong
     const fallbackGender = [
         { name: 'Laki-laki', value: 612 },
-        { name: 'Perempuan', value: 636 }
+        { name: 'Perempuan', value: 636 },
     ];
 
     const fallbackAgama = [
         { name: 'Islam', value: 1242 },
-        { name: 'Kristen', value: 6 }
+        { name: 'Kristen', value: 6 },
     ];
 
     const fallbackDusun = [
         { name: 'Dusun I', value: 310 },
         { name: 'Dusun II', value: 295 },
         { name: 'Dusun III', value: 345 },
-        { name: 'Dusun IV', value: 298 }
+        { name: 'Dusun IV', value: 298 },
     ];
 
-    const genderData = demografi?.gender?.length ? demografi.gender : fallbackGender;
-    const religionData = demografi?.agama?.length ? demografi.agama : fallbackAgama;
-    const dusunData = demografi?.dusun?.length ? demografi.dusun : fallbackDusun;
+    const genderData = demografi?.gender?.length
+        ? demografi.gender
+        : fallbackGender;
+    const religionData = demografi?.agama?.length
+        ? demografi.agama
+        : fallbackAgama;
+    const dusunData = demografi?.dusun?.length
+        ? demografi.dusun
+        : fallbackDusun;
 
     // Kalkulasi Donut Chart Gender
     const totalGender = genderData.reduce((acc, curr) => acc + curr.value, 0);
@@ -65,28 +81,31 @@ export default function Welcome({ stats, demografi }: Props) {
     const beritaList = [
         {
             id: 1,
-            judul: "Peresmian Kolam Rendam Air Panas Belerang Baru",
-            kategori: "Pariwisata",
-            tanggal: "09 Jul 2026",
-            ringkasan: "Pemerintah Desa meresmikan kolam berendam belerang baru dan gazebo bersantai bagi wisatawan lokal maupun mancanegara.",
-            foto: "https://images.unsplash.com/photo-1540553016722-983e48a2cd10?w=800&auto=format&fit=crop&q=60"
+            judul: 'Peresmian Kolam Rendam Air Panas Belerang Baru',
+            kategori: 'Pariwisata',
+            tanggal: '09 Jul 2026',
+            ringkasan:
+                'Pemerintah Desa meresmikan kolam berendam belerang baru dan gazebo bersantai bagi wisatawan lokal maupun mancanegara.',
+            foto: 'https://images.unsplash.com/photo-1540553016722-983e48a2cd10?w=800&auto=format&fit=crop&q=60',
         },
         {
             id: 2,
-            judul: "Penyaluran Bantuan Langsung Tunai (BLT) Tahap Kedua Sukses Terlaksana",
-            kategori: "Kesejahteraan Warga",
-            tanggal: "07 Jul 2026",
-            ringkasan: "Sebanyak 78 keluarga penerima manfaat di seluruh dusun menerima penyaluran bantuan tunai guna mendukung perekonomian lokal.",
-            foto: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=800&auto=format&fit=crop&q=60"
+            judul: 'Penyaluran Bantuan Langsung Tunai (BLT) Tahap Kedua Sukses Terlaksana',
+            kategori: 'Kesejahteraan Warga',
+            tanggal: '07 Jul 2026',
+            ringkasan:
+                'Sebanyak 78 keluarga penerima manfaat di seluruh dusun menerima penyaluran bantuan tunai guna mendukung perekonomian lokal.',
+            foto: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=800&auto=format&fit=crop&q=60',
         },
         {
             id: 3,
-            judul: "Musyawarah Perencanaan Pembangunan Desa (Musrenbangdes) TA 2027",
-            kategori: "Pemerintahan",
-            tanggal: "02 Jul 2026",
-            ringkasan: "Warga berkumpul mendiskusikan rencana pembangunan infrastruktur jalan tani dan perluasan jangkauan air bersih.",
-            foto: "https://images.unsplash.com/photo-1517048676732-d65bc937f952?w=800&auto=format&fit=crop&q=60"
-        }
+            judul: 'Musyawarah Perencanaan Pembangunan Desa (Musrenbangdes) TA 2027',
+            kategori: 'Pemerintahan',
+            tanggal: '02 Jul 2026',
+            ringkasan:
+                'Warga berkumpul mendiskusikan rencana pembangunan infrastruktur jalan tani dan perluasan jangkauan air bersih.',
+            foto: 'https://images.unsplash.com/photo-1517048676732-d65bc937f952?w=800&auto=format&fit=crop&q=60',
+        },
     ];
 
     // APBDesa Keuangan
@@ -94,7 +113,7 @@ export default function Welcome({ stats, demografi }: Props) {
         tahun: 2026,
         pendapatan: { anggaran: 1200000000, realisasi: 980000000 },
         belanja: { anggaran: 1150000000, realisasi: 720000000 },
-        pembiayaan: { anggaran: 50000000, realisasi: 50000000 }
+        pembiayaan: { anggaran: 50000000, realisasi: 50000000 },
     };
 
     const hitungPersentase = (realisasi: number, anggaran: number) => {
@@ -102,39 +121,76 @@ export default function Welcome({ stats, demografi }: Props) {
     };
 
     return (
-        <div className="min-h-screen bg-slate-50 text-slate-850 dark:bg-slate-950 dark:text-slate-100 font-sans selection:bg-indigo-500 selection:text-white overflow-x-hidden transition-colors duration-300">
+        <div className="min-h-screen overflow-x-hidden bg-slate-50 font-sans text-slate-800 transition-colors duration-300 selection:bg-indigo-500 selection:text-white dark:bg-slate-950 dark:text-slate-100">
             <Head title="Website Resmi Desa Batu Belerang" />
 
             {/* Navigation Header */}
-            <header className="fixed top-0 left-0 right-0 z-50 border-b border-slate-200 bg-white/80 dark:border-slate-900 dark:bg-slate-950/80 backdrop-blur-md transition-colors">
-                <div className="max-w-7xl mx-auto px-6 h-18 flex items-center justify-between">
+            <header className="fixed top-0 right-0 left-0 z-50 border-b border-slate-200 bg-white/80 backdrop-blur-md transition-colors dark:border-slate-900 dark:bg-slate-950/80">
+                <div className="mx-auto flex h-18 max-w-7xl items-center justify-between px-6">
                     {/* Logo */}
                     <Link href="/" className="flex items-center gap-3">
-                        <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-indigo-650 to-emerald-500 flex items-center justify-center font-bold text-white shadow-lg shadow-indigo-500/20">
+                        <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-tr from-indigo-600 to-emerald-500 font-bold text-white shadow-lg shadow-indigo-500/20">
                             BB
                         </div>
                         <div>
-                            <span className="text-base font-bold tracking-tight text-slate-900 dark:text-white block">Batu Belerang</span>
-                            <span className="text-[10px] text-slate-500 dark:text-slate-400 font-medium tracking-wide uppercase block -mt-1">Sinjai Timur</span>
+                            <span className="block text-base font-bold tracking-tight text-slate-900 dark:text-white">
+                                Batu Belerang
+                            </span>
+                            <span className="-mt-1 block text-[10px] font-medium tracking-wide text-slate-500 uppercase dark:text-slate-400">
+                                Sinjai Timur
+                            </span>
                         </div>
                     </Link>
 
                     {/* Desktop Menu */}
-                    <nav className="hidden md:flex items-center gap-8 text-sm font-medium text-slate-600 dark:text-slate-300">
-                        <Link href="/" className="hover:text-indigo-605 dark:hover:text-indigo-400 transition-colors text-slate-900 dark:text-white font-semibold">Beranda</Link>
-                        <Link href="#" className="hover:text-indigo-605 dark:hover:text-indigo-400 transition-colors">Profil</Link>
-                        <Link href="#" className="hover:text-indigo-605 dark:hover:text-indigo-400 transition-colors">Lembaga</Link>
-                        <Link href="#" className="hover:text-indigo-605 dark:hover:text-indigo-400 transition-colors" prefetch>UMKM</Link>
-                        <Link href="#" className="hover:text-indigo-605 dark:hover:text-indigo-400 transition-colors" prefetch>Wisata</Link>
-                        <Link href="/debug/database" className="hover:text-indigo-605 dark:hover:text-indigo-400 transition-colors" prefetch>DB Inspector</Link>
+                    <nav className="hidden items-center gap-8 text-sm font-medium text-slate-600 md:flex dark:text-slate-300">
+                        <Link
+                            href="/"
+                            className="font-semibold text-slate-900 transition-colors hover:text-indigo-600 dark:text-white dark:hover:text-indigo-400"
+                        >
+                            Beranda
+                        </Link>
+                        <Link
+                            href="#"
+                            className="transition-colors hover:text-indigo-600 dark:hover:text-indigo-400"
+                        >
+                            Profil
+                        </Link>
+                        <Link
+                            href="#"
+                            className="transition-colors hover:text-indigo-600 dark:hover:text-indigo-400"
+                        >
+                            Lembaga
+                        </Link>
+                        <Link
+                            href="#"
+                            className="transition-colors hover:text-indigo-600 dark:hover:text-indigo-400"
+                            prefetch
+                        >
+                            UMKM
+                        </Link>
+                        <Link
+                            href="#"
+                            className="transition-colors hover:text-indigo-600 dark:hover:text-indigo-400"
+                            prefetch
+                        >
+                            Wisata
+                        </Link>
+                        <Link
+                            href="/debug/database"
+                            className="transition-colors hover:text-indigo-600 dark:hover:text-indigo-400"
+                            prefetch
+                        >
+                            DB Inspector
+                        </Link>
                     </nav>
 
                     {/* Auth Actions */}
-                    <div className="hidden md:flex items-center gap-4">
+                    <div className="hidden items-center gap-4 md:flex">
                         {/* Theme Toggle Button */}
                         <button
                             onClick={toggleTheme}
-                            className="p-2.5 text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-slate-200 transition-colors focus:outline-none rounded-xl bg-slate-100 hover:bg-slate-200/50 dark:bg-slate-900 dark:hover:bg-slate-850/80 border border-slate-200/60 dark:border-slate-800"
+                            className="rounded-xl border border-slate-200/60 bg-slate-100 p-2.5 text-slate-500 transition-colors hover:bg-slate-200/50 hover:text-slate-800 focus:outline-none dark:border-slate-800 dark:bg-slate-900 dark:text-slate-400 dark:hover:bg-slate-800/80 dark:hover:text-slate-200"
                             aria-label="Toggle Theme"
                         >
                             {resolvedAppearance === 'dark' ? (
@@ -145,23 +201,23 @@ export default function Welcome({ stats, demografi }: Props) {
                         </button>
 
                         {auth.user ? (
-                            <Link 
-                                href="/dashboard" 
-                                className="px-4.5 py-2 bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold rounded-xl shadow-md shadow-indigo-500/10 transition-all"
+                            <Link
+                                href="/dashboard"
+                                className="rounded-xl bg-indigo-600 px-4.5 py-2 text-xs font-semibold text-white shadow-md shadow-indigo-500/10 transition-all hover:bg-indigo-500"
                             >
                                 Dashboard
                             </Link>
                         ) : (
                             <>
-                                <Link 
-                                    href="/login" 
-                                    className="text-xs font-semibold text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white transition-colors"
+                                <Link
+                                    href="/login"
+                                    className="text-xs font-semibold text-slate-500 transition-colors hover:text-slate-900 dark:text-slate-400 dark:hover:text-white"
                                 >
                                     Login
                                 </Link>
-                                <Link 
-                                    href="/register" 
-                                    className="px-4.5 py-2 bg-white border border-slate-200 hover:bg-slate-50 text-slate-700 dark:bg-slate-900 dark:border-slate-800 dark:hover:border-slate-700 dark:text-slate-200 text-xs font-semibold rounded-xl transition-all"
+                                <Link
+                                    href="/register"
+                                    className="rounded-xl border border-slate-200 bg-white px-4.5 py-2 text-xs font-semibold text-slate-700 transition-all hover:bg-slate-50 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-200 dark:hover:border-slate-700"
                                 >
                                     Layanan Mandiri
                                 </Link>
@@ -170,9 +226,9 @@ export default function Welcome({ stats, demografi }: Props) {
                     </div>
 
                     {/* Mobile Menu Button */}
-                    <button 
+                    <button
                         onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                        className="md:hidden p-2 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white focus:outline-none"
+                        className="p-2 text-slate-500 hover:text-slate-900 focus:outline-none md:hidden dark:text-slate-400 dark:hover:text-white"
                     >
                         {mobileMenuOpen ? '✕' : '☰'}
                     </button>
@@ -180,12 +236,14 @@ export default function Welcome({ stats, demografi }: Props) {
 
                 {/* Mobile Dropdown Menu */}
                 {mobileMenuOpen && (
-                    <div className="md:hidden border-b border-slate-200 dark:border-slate-900 bg-white dark:bg-slate-955 p-6 space-y-4 text-sm font-medium transition-colors">
-                        <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-900 pb-2">
-                            <span className="text-slate-900 dark:text-white font-bold">Menu</span>
+                    <div className="space-y-4 border-b border-slate-200 bg-white p-6 text-sm font-medium transition-colors md:hidden dark:border-slate-900 dark:bg-slate-950">
+                        <div className="flex items-center justify-between border-b border-slate-100 pb-2 dark:border-slate-900">
+                            <span className="font-bold text-slate-900 dark:text-white">
+                                Menu
+                            </span>
                             <button
                                 onClick={toggleTheme}
-                                className="p-2 text-slate-500 hover:text-slate-850 dark:text-slate-400 dark:hover:text-white transition-colors focus:outline-none rounded-lg bg-slate-100 dark:bg-slate-900 border border-slate-200/60 dark:border-slate-800"
+                                className="rounded-lg border border-slate-200/60 bg-slate-100 p-2 text-slate-500 transition-colors hover:text-slate-800 focus:outline-none dark:border-slate-800 dark:bg-slate-900 dark:text-slate-400 dark:hover:text-white"
                                 aria-label="Toggle Theme"
                             >
                                 {resolvedAppearance === 'dark' ? (
@@ -195,23 +253,62 @@ export default function Welcome({ stats, demografi }: Props) {
                                 )}
                             </button>
                         </div>
-                        <Link href="/" className="block text-slate-900 dark:text-white">Beranda</Link>
-                        <Link href="#" className="block text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white">Profil</Link>
-                        <Link href="#" className="block text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white">Lembaga</Link>
-                        <Link href="#" className="block text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white">UMKM</Link>
-                        <Link href="#" className="block text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white">Wisata</Link>
-                        <Link href="/debug/database" className="block text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white">DB Inspector</Link>
-                        <div className="pt-4 border-t border-slate-100 dark:border-slate-900 flex gap-4">
+                        <Link
+                            href="/"
+                            className="block text-slate-900 dark:text-white"
+                        >
+                            Beranda
+                        </Link>
+                        <Link
+                            href="#"
+                            className="block text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white"
+                        >
+                            Profil
+                        </Link>
+                        <Link
+                            href="#"
+                            className="block text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white"
+                        >
+                            Lembaga
+                        </Link>
+                        <Link
+                            href="#"
+                            className="block text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white"
+                        >
+                            UMKM
+                        </Link>
+                        <Link
+                            href="#"
+                            className="block text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white"
+                        >
+                            Wisata
+                        </Link>
+                        <Link
+                            href="/debug/database"
+                            className="block text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white"
+                        >
+                            DB Inspector
+                        </Link>
+                        <div className="flex gap-4 border-t border-slate-100 pt-4 dark:border-slate-900">
                             {auth.user ? (
-                                <Link href="/dashboard" className="flex-1 text-center py-2.5 bg-indigo-650 text-white rounded-xl text-xs font-semibold">
+                                <Link
+                                    href="/dashboard"
+                                    className="flex-1 rounded-xl bg-indigo-600 py-2.5 text-center text-xs font-semibold text-white"
+                                >
                                     Dashboard
                                 </Link>
                             ) : (
                                 <>
-                                    <Link href="/login" className="flex-1 text-center py-2.5 bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300 rounded-xl text-xs font-semibold">
+                                    <Link
+                                        href="/login"
+                                        className="flex-1 rounded-xl border border-slate-200 bg-slate-100 py-2.5 text-center text-xs font-semibold text-slate-700 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-300"
+                                    >
                                         Login
                                     </Link>
-                                    <Link href="/register" className="flex-1 text-center py-2.5 bg-indigo-650 text-white rounded-xl text-xs font-semibold">
+                                    <Link
+                                        href="/register"
+                                        className="flex-1 rounded-xl bg-indigo-600 py-2.5 text-center text-xs font-semibold text-white"
+                                    >
                                         Layanan Mandiri
                                     </Link>
                                 </>
@@ -222,30 +319,33 @@ export default function Welcome({ stats, demografi }: Props) {
             </header>
 
             {/* Hero Section */}
-            <section className="relative pt-32 pb-24 md:pt-40 md:pb-36 flex items-center justify-center bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-indigo-50/50 via-slate-50 to-slate-50 dark:from-indigo-900/10 dark:via-slate-950 dark:to-slate-955 transition-colors">
+            <section className="relative flex items-center justify-center bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-indigo-50/50 via-slate-50 to-slate-50 pt-32 pb-24 transition-colors md:pt-40 md:pb-36 dark:from-indigo-900/10 dark:via-slate-950 dark:to-slate-950">
                 {/* Background Grid Pattern */}
-                <div className="absolute inset-0 bg-[linear-gradient(to_right,#e2e8f0_1px,transparent_1px),linear-gradient(to_bottom,#e2e8f0_1px,transparent_1px)] dark:bg-[linear-gradient(to_right,#0f172a_1px,transparent_1px),linear-gradient(to_bottom,#0f172a_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_40%,#000_70%,transparent_100%)]"></div>
+                <div className="absolute inset-0 bg-[linear-gradient(to_right,#e2e8f0_1px,transparent_1px),linear-gradient(to_bottom,#e2e8f0_1px,transparent_1px)] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_40%,#000_70%,transparent_100%)] bg-[size:4rem_4rem] dark:bg-[linear-gradient(to_right,#0f172a_1px,transparent_1px),linear-gradient(to_bottom,#0f172a_1px,transparent_1px)]"></div>
 
-                <div className="max-w-5xl mx-auto px-6 text-center space-y-8 relative z-10">
-                    <span className="inline-flex px-3.5 py-1 bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 rounded-full border border-indigo-500/20 text-xs font-semibold uppercase tracking-wider">
+                <div className="relative z-10 mx-auto max-w-5xl space-y-8 px-6 text-center">
+                    <span className="inline-flex rounded-full border border-indigo-500/20 bg-indigo-500/10 px-3.5 py-1 text-xs font-semibold tracking-wider text-indigo-600 uppercase dark:text-indigo-400">
                         Portal Resmi Desa Batu Belerang
                     </span>
-                    <h1 className="text-4xl md:text-6xl font-extrabold text-slate-900 dark:text-white tracking-tight leading-tight max-w-4xl mx-auto bg-gradient-to-b from-slate-950 via-slate-800 to-slate-655 dark:from-white dark:via-white dark:to-slate-400 bg-clip-text text-transparent">
+                    <h1 className="mx-auto max-w-4xl bg-gradient-to-b from-slate-950 via-slate-800 to-slate-600 bg-clip-text text-4xl leading-tight font-extrabold tracking-tight text-slate-900 text-transparent md:text-6xl dark:from-white dark:via-white dark:to-slate-400 dark:text-white">
                         Membangun Desa Modern, Menjaga Potensi Alam
                     </h1>
-                    <p className="text-base md:text-lg text-slate-600 dark:text-slate-400 max-w-2xl mx-auto font-medium">
-                        Selamat datang di gerbang digital resmi Desa Batu Belerang, Kecamatan Sinjai Timur. Temukan kemudahan layanan mandiri warga, transparansi pembangunan, informasi UMKM, dan keindahan wisata belerang kami.
+                    <p className="mx-auto max-w-2xl text-base font-medium text-slate-600 md:text-lg dark:text-slate-400">
+                        Selamat datang di gerbang digital resmi Desa Batu
+                        Belerang, Kecamatan Sinjai Timur. Temukan kemudahan
+                        layanan mandiri warga, transparansi pembangunan,
+                        informasi UMKM, dan keindahan wisata belerang kami.
                     </p>
-                    <div className="flex flex-col sm:flex-row gap-4 justify-center pt-4">
-                        <Link 
-                            href="/register" 
-                            className="px-6 py-3.5 bg-gradient-to-tr from-indigo-600 to-indigo-505 hover:from-indigo-505 hover:to-indigo-455 text-white rounded-xl font-semibold shadow-md shadow-indigo-600/15 transition-all text-sm"
+                    <div className="flex flex-col justify-center gap-4 pt-4 sm:flex-row">
+                        <Link
+                            href="/register"
+                            className="rounded-xl bg-gradient-to-tr from-indigo-600 to-indigo-500 px-6 py-3.5 text-sm font-semibold text-white shadow-md shadow-indigo-600/15 transition-all hover:from-indigo-500 hover:to-indigo-400"
                         >
                             Layanan Mandiri Warga
                         </Link>
-                        <Link 
-                            href="#" 
-                            className="px-6 py-3.5 bg-white hover:bg-slate-50 border border-slate-200 hover:border-slate-300 dark:bg-slate-900 dark:hover:bg-slate-800 dark:border-slate-800 dark:hover:border-slate-700 text-slate-700 dark:text-slate-205 rounded-xl font-semibold transition-all text-sm"
+                        <Link
+                            href="#"
+                            className="rounded-xl border border-slate-200 bg-white px-6 py-3.5 text-sm font-semibold text-slate-700 transition-all hover:border-slate-300 hover:bg-slate-50 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-200 dark:hover:border-slate-700 dark:hover:bg-slate-800"
                         >
                             Jelajahi Pariwisata Desa
                         </Link>
@@ -254,71 +354,114 @@ export default function Welcome({ stats, demografi }: Props) {
             </section>
 
             {/* Quick Stats Widget */}
-            <section className="relative z-20 -mt-12 max-w-7xl mx-auto px-6">
-                <div className="grid grid-cols-2 md:grid-cols-5 gap-4 bg-white/90 dark:bg-slate-900/60 backdrop-blur-md border border-slate-200 dark:border-slate-850 p-6 rounded-2xl shadow-xl shadow-slate-200/50 dark:shadow-slate-955/50 transition-colors">
-                    <div className="p-4 text-center border-r border-slate-150 dark:border-slate-800/40 last:border-0 col-span-1">
-                        <div className="text-3xl font-extrabold text-slate-900 dark:text-white">{stats.warga > 0 ? stats.warga : 1254}</div>
-                        <div className="text-[10px] font-bold text-slate-500 dark:text-slate-400 tracking-wider uppercase mt-1">Total Warga</div>
+            <section className="relative z-20 mx-auto -mt-12 max-w-7xl px-6">
+                <div className="grid grid-cols-2 gap-4 rounded-2xl border border-slate-200 bg-white/90 p-6 shadow-xl shadow-slate-200/50 backdrop-blur-md transition-colors md:grid-cols-5 dark:border-slate-800 dark:bg-slate-900/60 dark:shadow-slate-950/50">
+                    <div className="border-slate-150 col-span-1 border-r p-4 text-center last:border-0 dark:border-slate-800/40">
+                        <div className="text-3xl font-extrabold text-slate-900 dark:text-white">
+                            {stats.warga > 0 ? stats.warga : 1254}
+                        </div>
+                        <div className="mt-1 text-[10px] font-bold tracking-wider text-slate-500 uppercase dark:text-slate-400">
+                            Total Warga
+                        </div>
                     </div>
-                    <div className="p-4 text-center border-r border-slate-150 dark:border-slate-800/40 last:border-0 col-span-1">
-                        <div className="text-3xl font-extrabold text-slate-900 dark:text-white">{stats.kk > 0 ? stats.kk : 382}</div>
-                        <div className="text-[10px] font-bold text-slate-500 dark:text-slate-400 tracking-wider uppercase mt-1">Kartu Keluarga</div>
+                    <div className="border-slate-150 col-span-1 border-r p-4 text-center last:border-0 dark:border-slate-800/40">
+                        <div className="text-3xl font-extrabold text-slate-900 dark:text-white">
+                            {stats.kk > 0 ? stats.kk : 382}
+                        </div>
+                        <div className="mt-1 text-[10px] font-bold tracking-wider text-slate-500 uppercase dark:text-slate-400">
+                            Kartu Keluarga
+                        </div>
                     </div>
-                    <div className="p-4 text-center border-r border-slate-150 dark:border-slate-800/40 last:border-0 col-span-1">
-                        <div className="text-3xl font-extrabold text-slate-900 dark:text-white">{stats.dusun > 0 ? stats.dusun : 4}</div>
-                        <div className="text-[10px] font-bold text-slate-500 dark:text-slate-400 tracking-wider uppercase mt-1">Wilayah Dusun</div>
+                    <div className="border-slate-150 col-span-1 border-r p-4 text-center last:border-0 dark:border-slate-800/40">
+                        <div className="text-3xl font-extrabold text-slate-900 dark:text-white">
+                            {stats.dusun > 0 ? stats.dusun : 4}
+                        </div>
+                        <div className="mt-1 text-[10px] font-bold tracking-wider text-slate-500 uppercase dark:text-slate-400">
+                            Wilayah Dusun
+                        </div>
                     </div>
-                    <div className="p-4 text-center border-r border-slate-150 dark:border-slate-800/40 last:border-0 col-span-1">
-                        <div className="text-3xl font-extrabold text-slate-900 dark:text-white">{stats.umkm > 0 ? stats.umkm : 24}</div>
-                        <div className="text-[10px] font-bold text-slate-500 dark:text-slate-400 tracking-wider uppercase mt-1">UMKM Warga</div>
+                    <div className="border-slate-150 col-span-1 border-r p-4 text-center last:border-0 dark:border-slate-800/40">
+                        <div className="text-3xl font-extrabold text-slate-900 dark:text-white">
+                            {stats.umkm > 0 ? stats.umkm : 24}
+                        </div>
+                        <div className="mt-1 text-[10px] font-bold tracking-wider text-slate-500 uppercase dark:text-slate-400">
+                            UMKM Warga
+                        </div>
                     </div>
-                    <div className="p-4 text-center col-span-2 md:col-span-1">
-                        <div className="text-3xl font-extrabold text-slate-900 dark:text-white">{stats.wisata > 0 ? stats.wisata : 3}</div>
-                        <div className="text-[10px] font-bold text-slate-500 dark:text-slate-400 tracking-wider uppercase mt-1">Spot Wisata</div>
+                    <div className="col-span-2 p-4 text-center md:col-span-1">
+                        <div className="text-3xl font-extrabold text-slate-900 dark:text-white">
+                            {stats.wisata > 0 ? stats.wisata : 3}
+                        </div>
+                        <div className="mt-1 text-[10px] font-bold tracking-wider text-slate-500 uppercase dark:text-slate-400">
+                            Spot Wisata
+                        </div>
                     </div>
                 </div>
             </section>
 
             {/* Main Content Sections */}
-            <div className="max-w-7xl mx-auto px-6 py-20 space-y-28">
+            <div className="mx-auto max-w-7xl space-y-28 px-6 py-20">
+                {/* Weather & Prayer Time Dashboard */}
+                <section className="animate-fade-in scroll-mt-24">
+                    <WeatherShalatWidget />
+                </section>
 
                 {/* Demographic Charts Section (Deferred Props) */}
                 <section className="space-y-8">
-                    <div className="text-center md:text-left space-y-2">
-                        <h2 className="text-2xl md:text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight">Statistik Penduduk Desa</h2>
-                        <p className="text-sm text-slate-500 dark:text-slate-400">Peta demografi kependudukan real-time Desa Batu Belerang.</p>
+                    <div className="space-y-2 text-center md:text-left">
+                        <h2 className="text-2xl font-extrabold tracking-tight text-slate-900 md:text-3xl dark:text-white">
+                            Statistik Penduduk Desa
+                        </h2>
+                        <p className="text-sm text-slate-500 dark:text-slate-400">
+                            Peta demografi kependudukan real-time Desa Batu
+                            Belerang.
+                        </p>
                     </div>
 
                     {!demografi ? (
                         /* Skeleton Loading */
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
                             {[1, 2, 3].map((i) => (
-                                <div key={i} className="bg-white/80 border border-slate-200 dark:bg-slate-900/30 dark:border-slate-850 p-6 rounded-2xl h-[320px] flex flex-col justify-between animate-pulse">
-                                    <div className="h-4 bg-slate-200 dark:bg-slate-800 rounded w-2/3"></div>
-                                    <div className="h-40 bg-slate-100 dark:bg-slate-800/50 rounded-lg flex items-center justify-center">
-                                        <div className="w-10 h-10 rounded-full border-4 border-slate-350 dark:border-slate-700 border-t-transparent animate-spin"></div>
+                                <div
+                                    key={i}
+                                    className="flex h-[320px] animate-pulse flex-col justify-between rounded-2xl border border-slate-200 bg-white/80 p-6 dark:border-slate-800 dark:bg-slate-900/30"
+                                >
+                                    <div className="h-4 w-2/3 rounded bg-slate-200 dark:bg-slate-800"></div>
+                                    <div className="flex h-40 items-center justify-center rounded-lg bg-slate-100 dark:bg-slate-800/50">
+                                        <div className="border-slate-350 h-10 w-10 animate-spin rounded-full border-4 border-t-transparent dark:border-slate-700"></div>
                                     </div>
                                     <div className="space-y-2">
-                                        <div className="h-3 bg-slate-200 dark:bg-slate-800 rounded w-full"></div>
-                                        <div className="h-3 bg-slate-200 dark:bg-slate-800 rounded w-5/6"></div>
+                                        <div className="h-3 w-full rounded bg-slate-200 dark:bg-slate-800"></div>
+                                        <div className="h-3 w-5/6 rounded bg-slate-200 dark:bg-slate-800"></div>
                                     </div>
                                 </div>
                             ))}
                         </div>
                     ) : (
                         /* Custom dependency-free SVG Charts */
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
                             {/* Gender Chart (SVG Donut) */}
-                            <div className="bg-white border border-slate-200 dark:bg-slate-900/30 dark:border-slate-850 p-6 rounded-2xl flex flex-col justify-between min-h-[340px] shadow-sm shadow-slate-100/50 dark:shadow-none">
-                                <h3 className="text-sm font-semibold text-slate-900 dark:text-white tracking-wide mb-2">Rasio Jenis Kelamin</h3>
-                                <div className="flex-1 flex items-center justify-center relative">
-                                    <svg width="160" height="160" className="transform -rotate-90">
+                            <div className="flex min-h-[340px] flex-col justify-between rounded-2xl border border-slate-200 bg-white p-6 shadow-sm shadow-slate-100/50 dark:border-slate-800 dark:bg-slate-900/30 dark:shadow-none">
+                                <h3 className="mb-2 text-sm font-semibold tracking-wide text-slate-900 dark:text-white">
+                                    Rasio Jenis Kelamin
+                                </h3>
+                                <div className="relative flex flex-1 items-center justify-center">
+                                    <svg
+                                        width="160"
+                                        height="160"
+                                        className="-rotate-90 transform"
+                                    >
                                         {(() => {
-                                            const val1 = genderData[0]?.value || 0;
-                                            const val2 = genderData[1]?.value || 0;
-                                            const total = (val1 + val2) || 1;
-                                            const p1 = (val1 / total) * circumference;
-                                            const p2 = (val2 / total) * circumference;
+                                            const val1 =
+                                                genderData[0]?.value || 0;
+                                            const val2 =
+                                                genderData[1]?.value || 0;
+                                            const total = val1 + val2 || 1;
+                                            const p1 =
+                                                (val1 / total) * circumference;
+                                            const p2 =
+                                                (val2 / total) * circumference;
+
                                             return (
                                                 <>
                                                     {/* Segment 1: Laki-laki */}
@@ -328,12 +471,27 @@ export default function Welcome({ stats, demografi }: Props) {
                                                         r={radius}
                                                         fill="transparent"
                                                         stroke="#4f46e5"
-                                                        strokeWidth={strokeWidth}
+                                                        strokeWidth={
+                                                            strokeWidth
+                                                        }
                                                         strokeDasharray={`${p1} ${circumference}`}
-                                                        className="transition-all duration-500 cursor-pointer"
-                                                        onMouseEnter={() => setActiveGenderIndex(0)}
-                                                        onMouseLeave={() => setActiveGenderIndex(null)}
-                                                        opacity={activeGenderIndex === 1 ? 0.4 : 1}
+                                                        className="cursor-pointer transition-all duration-500"
+                                                        onMouseEnter={() =>
+                                                            setActiveGenderIndex(
+                                                                0,
+                                                            )
+                                                        }
+                                                        onMouseLeave={() =>
+                                                            setActiveGenderIndex(
+                                                                null,
+                                                            )
+                                                        }
+                                                        opacity={
+                                                            activeGenderIndex ===
+                                                            1
+                                                                ? 0.4
+                                                                : 1
+                                                        }
                                                     />
                                                     {/* Segment 2: Perempuan */}
                                                     <circle
@@ -342,13 +500,28 @@ export default function Welcome({ stats, demografi }: Props) {
                                                         r={radius}
                                                         fill="transparent"
                                                         stroke="#10b981"
-                                                        strokeWidth={strokeWidth}
+                                                        strokeWidth={
+                                                            strokeWidth
+                                                        }
                                                         strokeDasharray={`${p2} ${circumference}`}
                                                         strokeDashoffset={-p1}
-                                                        className="transition-all duration-500 cursor-pointer"
-                                                        onMouseEnter={() => setActiveGenderIndex(1)}
-                                                        onMouseLeave={() => setActiveGenderIndex(null)}
-                                                        opacity={activeGenderIndex === 0 ? 0.4 : 1}
+                                                        className="cursor-pointer transition-all duration-500"
+                                                        onMouseEnter={() =>
+                                                            setActiveGenderIndex(
+                                                                1,
+                                                            )
+                                                        }
+                                                        onMouseLeave={() =>
+                                                            setActiveGenderIndex(
+                                                                null,
+                                                            )
+                                                        }
+                                                        opacity={
+                                                            activeGenderIndex ===
+                                                            0
+                                                                ? 0.4
+                                                                : 1
+                                                        }
                                                     />
                                                 </>
                                             );
@@ -356,51 +529,75 @@ export default function Welcome({ stats, demografi }: Props) {
                                     </svg>
                                     <div className="absolute flex flex-col items-center justify-center text-center">
                                         <span className="text-xl font-bold text-slate-900 dark:text-white">
-                                            {activeGenderIndex !== null 
-                                                ? genderData[activeGenderIndex]?.value 
-                                                : totalGender || 1248
-                                            }
+                                            {activeGenderIndex !== null
+                                                ? genderData[activeGenderIndex]
+                                                      ?.value
+                                                : totalGender || 1248}
                                         </span>
-                                        <span className="text-[10px] text-slate-550 dark:text-slate-400 uppercase font-semibold tracking-wider">
-                                            {activeGenderIndex !== null 
-                                                ? genderData[activeGenderIndex]?.name 
-                                                : 'Total Jiwa'
-                                            }
+                                        <span className="text-[10px] font-semibold tracking-wider text-slate-500 uppercase dark:text-slate-400">
+                                            {activeGenderIndex !== null
+                                                ? genderData[activeGenderIndex]
+                                                      ?.name
+                                                : 'Total Jiwa'}
                                         </span>
                                     </div>
                                 </div>
-                                <div className="flex justify-center gap-6 text-xs text-slate-500 dark:text-slate-400 mt-4">
+                                <div className="mt-4 flex justify-center gap-6 text-xs text-slate-500 dark:text-slate-400">
                                     <span className="flex items-center gap-1.5">
-                                        <span className="w-3 h-3 rounded-full bg-indigo-650"></span>
-                                        Laki-laki ({genderData[0]?.value || 612})
+                                        <span className="h-3 w-3 rounded-full bg-indigo-600"></span>
+                                        Laki-laki ({genderData[0]?.value || 612}
+                                        )
                                     </span>
                                     <span className="flex items-center gap-1.5">
-                                        <span className="w-3 h-3 rounded-full bg-emerald-500"></span>
-                                        Perempuan ({genderData[1]?.value || 636})
+                                        <span className="h-3 w-3 rounded-full bg-emerald-500"></span>
+                                        Perempuan ({genderData[1]?.value || 636}
+                                        )
                                     </span>
                                 </div>
                             </div>
 
                             {/* Religion Chart (Horizontal Progress Bars) */}
-                            <div className="bg-white border border-slate-200 dark:bg-slate-900/30 dark:border-slate-850 p-6 rounded-2xl flex flex-col justify-between min-h-[340px] shadow-sm shadow-slate-100/50 dark:shadow-none">
-                                <h3 className="text-sm font-semibold text-slate-900 dark:text-white tracking-wide mb-4">Komposisi Agama</h3>
-                                <div className="flex-1 flex flex-col justify-center space-y-4">
+                            <div className="flex min-h-[340px] flex-col justify-between rounded-2xl border border-slate-200 bg-white p-6 shadow-sm shadow-slate-100/50 dark:border-slate-800 dark:bg-slate-900/30 dark:shadow-none">
+                                <h3 className="mb-4 text-sm font-semibold tracking-wide text-slate-900 dark:text-white">
+                                    Komposisi Agama
+                                </h3>
+                                <div className="flex flex-1 flex-col justify-center space-y-4">
                                     {(() => {
-                                        const total = religionData.reduce((acc, curr) => acc + curr.value, 0) || 1;
+                                        const total =
+                                            religionData.reduce(
+                                                (acc, curr) => acc + curr.value,
+                                                0,
+                                            ) || 1;
+
                                         return religionData.map((item, idx) => {
-                                            const pct = Math.round((item.value / total) * 100);
+                                            const pct = Math.round(
+                                                (item.value / total) * 100,
+                                            );
+
                                             return (
-                                                <div key={item.name} className="space-y-1.5">
+                                                <div
+                                                    key={item.name}
+                                                    className="space-y-1.5"
+                                                >
                                                     <div className="flex justify-between text-xs font-medium">
-                                                        <span className="text-slate-700 dark:text-slate-300">{item.name}</span>
-                                                        <span className="text-slate-550 dark:text-slate-400">{item.value} ({pct}%)</span>
+                                                        <span className="text-slate-700 dark:text-slate-300">
+                                                            {item.name}
+                                                        </span>
+                                                        <span className="text-slate-500 dark:text-slate-400">
+                                                            {item.value} ({pct}
+                                                            %)
+                                                        </span>
                                                     </div>
-                                                    <div className="w-full bg-slate-100 dark:bg-slate-900 rounded-full h-2">
-                                                        <div 
+                                                    <div className="h-2 w-full rounded-full bg-slate-100 dark:bg-slate-900">
+                                                        <div
                                                             className="h-2 rounded-full transition-all duration-1000"
-                                                            style={{ 
-                                                                backgroundColor: COLORS[idx % COLORS.length],
-                                                                width: `${pct}%`
+                                                            style={{
+                                                                backgroundColor:
+                                                                    COLORS[
+                                                                        idx %
+                                                                            COLORS.length
+                                                                    ],
+                                                                width: `${pct}%`,
                                                             }}
                                                         ></div>
                                                     </div>
@@ -409,53 +606,81 @@ export default function Welcome({ stats, demografi }: Props) {
                                         });
                                     })()}
                                 </div>
-                                <div className="text-xs text-slate-500 dark:text-slate-400 text-center mt-4">
+                                <div className="mt-4 text-center text-xs text-slate-500 dark:text-slate-400">
                                     Grafik sebaran keyakinan penduduk terdaftar.
                                 </div>
                             </div>
 
                             {/* Dusun Chart (SVG Bar Chart) */}
-                            <div className="bg-white border border-slate-200 dark:bg-slate-900/30 dark:border-slate-850 p-6 rounded-2xl flex flex-col justify-between min-h-[340px] shadow-sm shadow-slate-100/50 dark:shadow-none">
-                                <h3 className="text-sm font-semibold text-slate-900 dark:text-white tracking-wide mb-2">Populasi per Dusun</h3>
-                                <div className="flex-1 flex items-end justify-between px-2 h-44">
+                            <div className="flex min-h-[340px] flex-col justify-between rounded-2xl border border-slate-200 bg-white p-6 shadow-sm shadow-slate-100/50 dark:border-slate-800 dark:bg-slate-900/30 dark:shadow-none">
+                                <h3 className="mb-2 text-sm font-semibold tracking-wide text-slate-900 dark:text-white">
+                                    Populasi per Dusun
+                                </h3>
+                                <div className="flex h-44 flex-1 items-end justify-between px-2">
                                     {(() => {
-                                        const maxVal = Math.max(...dusunData.map(d => d.value), 1);
+                                        const maxVal = Math.max(
+                                            ...dusunData.map((d) => d.value),
+                                            1,
+                                        );
                                         const chartHeight = 130;
+
                                         return dusunData.map((item, idx) => {
-                                            const barH = (item.value / maxVal) * chartHeight;
-                                            const isHovered = hoveredBarIndex === idx;
+                                            const barH =
+                                                (item.value / maxVal) *
+                                                chartHeight;
+                                            const isHovered =
+                                                hoveredBarIndex === idx;
+
                                             return (
-                                                <div 
-                                                    key={item.name} 
-                                                    className="flex flex-col items-center flex-1 group"
-                                                    onMouseEnter={() => setHoveredBarIndex(idx)}
-                                                    onMouseLeave={() => setHoveredBarIndex(null)}
+                                                <div
+                                                    key={item.name}
+                                                    className="group flex flex-1 flex-col items-center"
+                                                    onMouseEnter={() =>
+                                                        setHoveredBarIndex(idx)
+                                                    }
+                                                    onMouseLeave={() =>
+                                                        setHoveredBarIndex(null)
+                                                    }
                                                 >
                                                     {/* Tooltip on top */}
-                                                    <div className={`mb-2 bg-slate-900 dark:bg-slate-950 border border-slate-800 text-[10px] text-white px-2 py-0.5 rounded font-mono transition-opacity duration-200 ${
-                                                        isHovered ? 'opacity-100' : 'opacity-0'
-                                                    }`}>
+                                                    <div
+                                                        className={`mb-2 rounded border border-slate-800 bg-slate-900 px-2 py-0.5 font-mono text-[10px] text-white transition-opacity duration-200 dark:bg-slate-950 ${
+                                                            isHovered
+                                                                ? 'opacity-100'
+                                                                : 'opacity-0'
+                                                        }`}
+                                                    >
                                                         {item.value}
                                                     </div>
                                                     {/* Bar rect */}
-                                                    <div 
-                                                        className="w-8 rounded-t-lg transition-all duration-300 cursor-pointer shadow-lg shadow-indigo-650/5"
-                                                        style={{ 
+                                                    <div
+                                                        className="w-8 cursor-pointer rounded-t-lg shadow-lg shadow-indigo-600/5 transition-all duration-300"
+                                                        style={{
                                                             height: `${barH}px`,
-                                                            backgroundColor: isHovered ? '#6366f1' : COLORS[idx % COLORS.length]
+                                                            backgroundColor:
+                                                                isHovered
+                                                                    ? '#6366f1'
+                                                                    : COLORS[
+                                                                          idx %
+                                                                              COLORS.length
+                                                                      ],
                                                         }}
                                                     ></div>
                                                     {/* X Label */}
-                                                    <span className="text-[10px] text-slate-500 dark:text-slate-400 font-semibold tracking-wide mt-2">
-                                                        {item.name.replace('Dusun ', 'D. ')}
+                                                    <span className="mt-2 text-[10px] font-semibold tracking-wide text-slate-500 dark:text-slate-400">
+                                                        {item.name.replace(
+                                                            'Dusun ',
+                                                            'D. ',
+                                                        )}
                                                     </span>
                                                 </div>
                                             );
                                         });
                                     })()}
                                 </div>
-                                <div className="text-xs text-slate-500 dark:text-slate-400 text-center mt-4">
-                                    Penyebaran penduduk di 4 dusun administratif.
+                                <div className="mt-4 text-center text-xs text-slate-500 dark:text-slate-400">
+                                    Penyebaran penduduk di 4 dusun
+                                    administratif.
                                 </div>
                             </div>
                         </div>
@@ -463,15 +688,25 @@ export default function Welcome({ stats, demografi }: Props) {
                 </section>
 
                 {/* APBDes Transparancy Widget */}
-                <section className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center bg-white dark:bg-slate-900/20 border border-slate-200 dark:border-slate-850 p-8 md:p-12 rounded-3xl shadow-sm shadow-slate-100/50 dark:shadow-none transition-colors">
+                <section className="grid grid-cols-1 items-center gap-12 rounded-3xl border border-slate-200 bg-white p-8 shadow-sm shadow-slate-100/50 transition-colors md:grid-cols-2 md:p-12 dark:border-slate-800 dark:bg-slate-900/20 dark:shadow-none">
                     <div className="space-y-6">
-                        <span className="text-xs font-semibold text-indigo-600 dark:text-indigo-400 uppercase tracking-widest block">Akuntabilitas Keuangan</span>
-                        <h2 className="text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight leading-tight">Transparansi Dana Desa & APBDesa {apbdes.tahun}</h2>
-                        <p className="text-sm text-slate-655 dark:text-slate-400">
-                            Sebagai komitmen mewujudkan tata kelola desa yang bersih dan akuntabel, berikut rincian anggaran pendapatan, belanja, dan pembiayaan Desa Batu Belerang untuk tahun berjalan.
+                        <span className="block text-xs font-semibold tracking-widest text-indigo-600 uppercase dark:text-indigo-400">
+                            Akuntabilitas Keuangan
+                        </span>
+                        <h2 className="text-3xl leading-tight font-extrabold tracking-tight text-slate-900 dark:text-white">
+                            Transparansi Dana Desa & APBDesa {apbdes.tahun}
+                        </h2>
+                        <p className="text-sm text-slate-600 dark:text-slate-400">
+                            Sebagai komitmen mewujudkan tata kelola desa yang
+                            bersih dan akuntabel, berikut rincian anggaran
+                            pendapatan, belanja, dan pembiayaan Desa Batu
+                            Belerang untuk tahun berjalan.
                         </p>
                         <div className="pt-2">
-                            <Link href="#" className="inline-flex items-center gap-2 text-indigo-600 dark:text-indigo-400 text-sm font-semibold hover:text-indigo-500 dark:hover:text-indigo-300 transition-colors">
+                            <Link
+                                href="#"
+                                className="inline-flex items-center gap-2 text-sm font-semibold text-indigo-600 transition-colors hover:text-indigo-500 dark:text-indigo-400 dark:hover:text-indigo-300"
+                            >
                                 Lihat Laporan Keuangan Lengkap →
                             </Link>
                         </div>
@@ -481,54 +716,111 @@ export default function Welcome({ stats, demografi }: Props) {
                         {/* Pendapatan */}
                         <div className="space-y-2">
                             <div className="flex justify-between text-sm">
-                                <span className="font-semibold text-slate-900 dark:text-white">Pendapatan Desa</span>
-                                <span className="text-slate-550 dark:text-slate-400">Rp {apbdes.pendapatan.realisasi.toLocaleString('id-ID')} / Rp {apbdes.pendapatan.anggaran.toLocaleString('id-ID')}</span>
+                                <span className="font-semibold text-slate-900 dark:text-white">
+                                    Pendapatan Desa
+                                </span>
+                                <span className="text-slate-500 dark:text-slate-400">
+                                    Rp{' '}
+                                    {apbdes.pendapatan.realisasi.toLocaleString(
+                                        'id-ID',
+                                    )}{' '}
+                                    / Rp{' '}
+                                    {apbdes.pendapatan.anggaran.toLocaleString(
+                                        'id-ID',
+                                    )}
+                                </span>
                             </div>
-                            <div className="w-full bg-slate-100 dark:bg-slate-900 rounded-full h-3 border border-slate-200 dark:border-slate-800/40">
-                                <div 
-                                    className="bg-indigo-550 h-2.5 rounded-full" 
-                                    style={{ width: `${hitungPersentase(apbdes.pendapatan.realisasi, apbdes.pendapatan.anggaran)}%` }}
+                            <div className="h-3 w-full rounded-full border border-slate-200 bg-slate-100 dark:border-slate-800/40 dark:bg-slate-900">
+                                <div
+                                    className="h-2.5 rounded-full bg-indigo-500"
+                                    style={{
+                                        width: `${hitungPersentase(apbdes.pendapatan.realisasi, apbdes.pendapatan.anggaran)}%`,
+                                    }}
                                 ></div>
                             </div>
                             <div className="flex justify-between text-[11px] text-slate-500 dark:text-slate-400">
                                 <span>Realisasi Pendapatan</span>
-                                <span className="font-semibold text-slate-900 dark:text-white">{hitungPersentase(apbdes.pendapatan.realisasi, apbdes.pendapatan.anggaran)}%</span>
+                                <span className="font-semibold text-slate-900 dark:text-white">
+                                    {hitungPersentase(
+                                        apbdes.pendapatan.realisasi,
+                                        apbdes.pendapatan.anggaran,
+                                    )}
+                                    %
+                                </span>
                             </div>
                         </div>
 
                         {/* Belanja */}
                         <div className="space-y-2">
                             <div className="flex justify-between text-sm">
-                                <span className="font-semibold text-slate-900 dark:text-white">Belanja Desa</span>
-                                <span className="text-slate-550 dark:text-slate-400">Rp {apbdes.belanja.realisasi.toLocaleString('id-ID')} / Rp {apbdes.belanja.anggaran.toLocaleString('id-ID')}</span>
+                                <span className="font-semibold text-slate-900 dark:text-white">
+                                    Belanja Desa
+                                </span>
+                                <span className="text-slate-500 dark:text-slate-400">
+                                    Rp{' '}
+                                    {apbdes.belanja.realisasi.toLocaleString(
+                                        'id-ID',
+                                    )}{' '}
+                                    / Rp{' '}
+                                    {apbdes.belanja.anggaran.toLocaleString(
+                                        'id-ID',
+                                    )}
+                                </span>
                             </div>
-                            <div className="w-full bg-slate-100 dark:bg-slate-900 rounded-full h-3 border border-slate-200 dark:border-slate-800/40">
-                                <div 
-                                    className="bg-emerald-500 h-2.5 rounded-full" 
-                                    style={{ width: `${hitungPersentase(apbdes.belanja.realisasi, apbdes.belanja.anggaran)}%` }}
+                            <div className="h-3 w-full rounded-full border border-slate-200 bg-slate-100 dark:border-slate-800/40 dark:bg-slate-900">
+                                <div
+                                    className="h-2.5 rounded-full bg-emerald-500"
+                                    style={{
+                                        width: `${hitungPersentase(apbdes.belanja.realisasi, apbdes.belanja.anggaran)}%`,
+                                    }}
                                 ></div>
                             </div>
-                            <div className="flex justify-between text-[11px] text-slate-550 dark:text-slate-400">
+                            <div className="flex justify-between text-[11px] text-slate-500 dark:text-slate-400">
                                 <span>Realisasi Pengeluaran</span>
-                                <span className="font-semibold text-slate-900 dark:text-white">{hitungPersentase(apbdes.belanja.realisasi, apbdes.belanja.anggaran)}%</span>
+                                <span className="font-semibold text-slate-900 dark:text-white">
+                                    {hitungPersentase(
+                                        apbdes.belanja.realisasi,
+                                        apbdes.belanja.anggaran,
+                                    )}
+                                    %
+                                </span>
                             </div>
                         </div>
 
                         {/* Pembiayaan */}
                         <div className="space-y-2">
                             <div className="flex justify-between text-sm">
-                                <span className="font-semibold text-slate-900 dark:text-white">Pembiayaan Neto</span>
-                                <span className="text-slate-550 dark:text-slate-400">Rp {apbdes.pembiayaan.realisasi.toLocaleString('id-ID')} / Rp {apbdes.pembiayaan.anggaran.toLocaleString('id-ID')}</span>
+                                <span className="font-semibold text-slate-900 dark:text-white">
+                                    Pembiayaan Neto
+                                </span>
+                                <span className="text-slate-500 dark:text-slate-400">
+                                    Rp{' '}
+                                    {apbdes.pembiayaan.realisasi.toLocaleString(
+                                        'id-ID',
+                                    )}{' '}
+                                    / Rp{' '}
+                                    {apbdes.pembiayaan.anggaran.toLocaleString(
+                                        'id-ID',
+                                    )}
+                                </span>
                             </div>
-                            <div className="w-full bg-slate-100 dark:bg-slate-900 rounded-full h-3 border border-slate-200 dark:border-slate-800/40">
-                                <div 
-                                    className="bg-amber-500 h-2.5 rounded-full" 
-                                    style={{ width: `${hitungPersentase(apbdes.pembiayaan.realisasi, apbdes.pembiayaan.anggaran)}%` }}
+                            <div className="h-3 w-full rounded-full border border-slate-200 bg-slate-100 dark:border-slate-800/40 dark:bg-slate-900">
+                                <div
+                                    className="h-2.5 rounded-full bg-amber-500"
+                                    style={{
+                                        width: `${hitungPersentase(apbdes.pembiayaan.realisasi, apbdes.pembiayaan.anggaran)}%`,
+                                    }}
                                 ></div>
                             </div>
-                            <div className="flex justify-between text-[11px] text-slate-550 dark:text-slate-400">
+                            <div className="flex justify-between text-[11px] text-slate-500 dark:text-slate-400">
                                 <span>Realisasi Pembiayaan</span>
-                                <span className="font-semibold text-slate-900 dark:text-white">{hitungPersentase(apbdes.pembiayaan.realisasi, apbdes.pembiayaan.anggaran)}%</span>
+                                <span className="font-semibold text-slate-900 dark:text-white">
+                                    {hitungPersentase(
+                                        apbdes.pembiayaan.realisasi,
+                                        apbdes.pembiayaan.anggaran,
+                                    )}
+                                    %
+                                </span>
                             </div>
                         </div>
                     </div>
@@ -536,53 +828,83 @@ export default function Welcome({ stats, demografi }: Props) {
 
                 {/* Quick Services Links Grid */}
                 <section className="space-y-8">
-                    <div className="text-center space-y-2">
-                        <h2 className="text-2xl md:text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight">Layanan & Fitur Unggulan</h2>
-                        <p className="text-sm text-slate-550 dark:text-slate-400 max-w-lg mx-auto">Akses instan ke berbagai layanan administrasi, promosi warga, dan pengaduan.</p>
+                    <div className="space-y-2 text-center">
+                        <h2 className="text-2xl font-extrabold tracking-tight text-slate-900 md:text-3xl dark:text-white">
+                            Layanan & Fitur Unggulan
+                        </h2>
+                        <p className="mx-auto max-w-lg text-sm text-slate-500 dark:text-slate-400">
+                            Akses instan ke berbagai layanan administrasi,
+                            promosi warga, dan pengaduan.
+                        </p>
                     </div>
 
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
                         {/* Card 1: Layanan Mandiri */}
-                        <Link href="/register" className="p-6 bg-white hover:bg-indigo-50/10 border border-slate-200 dark:bg-slate-900/35 dark:hover:bg-indigo-950/15 dark:border-slate-850 dark:hover:border-indigo-500/40 rounded-2xl space-y-4 group transition-all duration-300 shadow-sm shadow-slate-100/50 dark:shadow-md">
-                            <div className="w-10 h-10 rounded-xl bg-indigo-500/10 text-indigo-650 dark:text-indigo-400 flex items-center justify-center font-bold text-lg border border-indigo-200 dark:border-indigo-500/20 group-hover:bg-indigo-600 group-hover:text-white transition-colors duration-300">
+                        <Link
+                            href="/register"
+                            className="group space-y-4 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm shadow-slate-100/50 transition-all duration-300 hover:bg-indigo-50/10 dark:border-slate-800 dark:bg-slate-900/35 dark:shadow-md dark:hover:border-indigo-500/40 dark:hover:bg-indigo-950/15"
+                        >
+                            <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-indigo-200 bg-indigo-500/10 text-lg font-bold text-indigo-600 transition-colors duration-300 group-hover:bg-indigo-600 group-hover:text-white dark:border-indigo-500/20 dark:text-indigo-400">
                                 📄
                             </div>
-                            <h3 className="font-bold text-slate-900 dark:text-white text-base group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">Layanan Mandiri</h3>
-                            <p className="text-xs leading-relaxed text-slate-555 dark:text-slate-400">
-                                Ajukan permohonan surat keterangan (SKU, SKTM, dsb.) secara mandiri dengan NIK dan PIN Anda.
+                            <h3 className="text-base font-bold text-slate-900 transition-colors group-hover:text-indigo-600 dark:text-white dark:group-hover:text-indigo-400">
+                                Layanan Mandiri
+                            </h3>
+                            <p className="text-xs leading-relaxed text-slate-500 dark:text-slate-400">
+                                Ajukan permohonan surat keterangan (SKU, SKTM,
+                                dsb.) secara mandiri dengan NIK dan PIN Anda.
                             </p>
                         </Link>
 
                         {/* Card 2: Lapak UMKM */}
-                        <Link href="#" className="p-6 bg-white hover:bg-emerald-50/10 border border-slate-200 dark:bg-slate-900/35 dark:hover:bg-emerald-955/15 dark:border-slate-850 dark:hover:border-emerald-500/40 rounded-2xl space-y-4 group transition-all duration-300 shadow-sm shadow-slate-100/50 dark:shadow-md">
-                            <div className="w-10 h-10 rounded-xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 flex items-center justify-center font-bold text-lg border border-emerald-200 dark:border-emerald-500/20 group-hover:bg-emerald-500 group-hover:text-white transition-colors duration-300">
+                        <Link
+                            href="#"
+                            className="group space-y-4 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm shadow-slate-100/50 transition-all duration-300 hover:bg-emerald-50/10 dark:border-slate-800 dark:bg-slate-900/35 dark:shadow-md dark:hover:border-emerald-500/40 dark:hover:bg-emerald-950/15"
+                        >
+                            <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-emerald-200 bg-emerald-500/10 text-lg font-bold text-emerald-600 transition-colors duration-300 group-hover:bg-emerald-500 group-hover:text-white dark:border-emerald-500/20 dark:text-emerald-400">
                                 🛍️
                             </div>
-                            <h3 className="font-bold text-slate-900 dark:text-white text-base group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors">Etalase UMKM</h3>
-                            <p className="text-xs leading-relaxed text-slate-555 dark:text-slate-400">
-                                Jelajahi berbagai produk makanan khas, kerajinan, dan hasil tani warga Desa Batu Belerang.
+                            <h3 className="text-base font-bold text-slate-900 transition-colors group-hover:text-emerald-600 dark:text-white dark:group-hover:text-emerald-400">
+                                Etalase UMKM
+                            </h3>
+                            <p className="text-xs leading-relaxed text-slate-500 dark:text-slate-400">
+                                Jelajahi berbagai produk makanan khas,
+                                kerajinan, dan hasil tani warga Desa Batu
+                                Belerang.
                             </p>
                         </Link>
 
                         {/* Card 3: Wisata */}
-                        <Link href="#" className="p-6 bg-white hover:bg-amber-50/10 border border-slate-200 dark:bg-slate-900/35 dark:hover:bg-amber-955/15 dark:border-slate-850 dark:hover:border-amber-500/40 rounded-2xl space-y-4 group transition-all duration-300 shadow-sm shadow-slate-100/50 dark:shadow-md">
-                            <div className="w-10 h-10 rounded-xl bg-amber-500/10 text-amber-605 dark:text-amber-400 flex items-center justify-center font-bold text-lg border border-amber-200 dark:border-amber-500/20 group-hover:bg-amber-500 group-hover:text-white transition-colors duration-300">
+                        <Link
+                            href="#"
+                            className="group space-y-4 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm shadow-slate-100/50 transition-all duration-300 hover:bg-amber-50/10 dark:border-slate-800 dark:bg-slate-900/35 dark:shadow-md dark:hover:border-amber-500/40 dark:hover:bg-amber-950/15"
+                        >
+                            <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-amber-200 bg-amber-500/10 text-lg font-bold text-amber-600 transition-colors duration-300 group-hover:bg-amber-500 group-hover:text-white dark:border-amber-500/20 dark:text-amber-400">
                                 🌋
                             </div>
-                            <h3 className="font-bold text-slate-900 dark:text-white text-base group-hover:text-amber-600 dark:group-hover:text-amber-400 transition-colors">Destinasi Wisata</h3>
-                            <p className="text-xs leading-relaxed text-slate-555 dark:text-slate-400">
-                                Cek rute pemandian air panas, air terjun, homestay, serta koordinat peta interaktif desa.
+                            <h3 className="text-base font-bold text-slate-900 transition-colors group-hover:text-amber-600 dark:text-white dark:group-hover:text-amber-400">
+                                Destinasi Wisata
+                            </h3>
+                            <p className="text-xs leading-relaxed text-slate-500 dark:text-slate-400">
+                                Cek rute pemandian air panas, air terjun,
+                                homestay, serta koordinat peta interaktif desa.
                             </p>
                         </Link>
 
                         {/* Card 4: Pengaduan */}
-                        <Link href="#" className="p-6 bg-white hover:bg-rose-50/10 border border-slate-200 dark:bg-slate-900/35 dark:hover:bg-rose-955/15 dark:border-slate-850 dark:hover:border-rose-500/40 rounded-2xl space-y-4 group transition-all duration-300 shadow-sm shadow-slate-100/50 dark:shadow-md">
-                            <div className="w-10 h-10 rounded-xl bg-rose-500/10 text-rose-600 dark:text-rose-400 flex items-center justify-center font-bold text-lg border border-rose-200 dark:border-rose-500/20 group-hover:bg-rose-500 group-hover:text-white transition-colors duration-300">
+                        <Link
+                            href="#"
+                            className="group space-y-4 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm shadow-slate-100/50 transition-all duration-300 hover:bg-rose-50/10 dark:border-slate-800 dark:bg-slate-900/35 dark:shadow-md dark:hover:border-rose-500/40 dark:hover:bg-rose-950/15"
+                        >
+                            <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-rose-200 bg-rose-500/10 text-lg font-bold text-rose-600 transition-colors duration-300 group-hover:bg-rose-500 group-hover:text-white dark:border-rose-500/20 dark:text-rose-400">
                                 📣
                             </div>
-                            <h3 className="font-bold text-slate-900 dark:text-white text-base group-hover:text-rose-600 dark:group-hover:text-rose-400 transition-colors">Layanan Pengaduan</h3>
-                            <p className="text-xs leading-relaxed text-slate-555 dark:text-slate-400">
-                                Sampaikan kritik, saran, maupun keluhan secara tertulis (bisa anonim) demi transparansi.
+                            <h3 className="text-base font-bold text-slate-900 transition-colors group-hover:text-rose-600 dark:text-white dark:group-hover:text-rose-400">
+                                Layanan Pengaduan
+                            </h3>
+                            <p className="text-xs leading-relaxed text-slate-500 dark:text-slate-400">
+                                Sampaikan kritik, saran, maupun keluhan secara
+                                tertulis (bisa anonim) demi transparansi.
                             </p>
                         </Link>
                     </div>
@@ -590,40 +912,56 @@ export default function Welcome({ stats, demografi }: Props) {
 
                 {/* Latest News (Kabar Desa) */}
                 <section className="space-y-8">
-                    <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+                    <div className="flex flex-col items-center justify-between gap-4 sm:flex-row">
                         <div className="space-y-2 text-center sm:text-left">
-                            <h2 className="text-2xl md:text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight">Kabar Desa Terkini</h2>
-                            <p className="text-sm text-slate-500 dark:text-slate-400">Ikuti perkembangan berita dan kegiatan warga Desa Batu Belerang.</p>
+                            <h2 className="text-2xl font-extrabold tracking-tight text-slate-900 md:text-3xl dark:text-white">
+                                Kabar Desa Terkini
+                            </h2>
+                            <p className="text-sm text-slate-500 dark:text-slate-400">
+                                Ikuti perkembangan berita dan kegiatan warga
+                                Desa Batu Belerang.
+                            </p>
                         </div>
-                        <Link href="#" className="text-sm font-semibold text-indigo-600 dark:text-indigo-400 hover:text-indigo-500 dark:hover:text-indigo-300 flex items-center gap-1.5 transition-colors">
+                        <Link
+                            href="#"
+                            className="flex items-center gap-1.5 text-sm font-semibold text-indigo-600 transition-colors hover:text-indigo-500 dark:text-indigo-400 dark:hover:text-indigo-300"
+                        >
                             Lihat Semua Berita <span>→</span>
                         </Link>
                     </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
                         {beritaList.map((berita) => (
-                            <div key={berita.id} className="bg-white border border-slate-200 dark:bg-slate-900/30 dark:border-slate-850 rounded-2xl overflow-hidden shadow-sm shadow-slate-100/50 dark:shadow-none hover:-translate-y-1.5 transition-transform duration-300 flex flex-col h-full group">
-                                <div className="h-44 overflow-hidden relative">
-                                    <img 
-                                        src={berita.foto} 
+                            <div
+                                key={berita.id}
+                                className="group flex h-full flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm shadow-slate-100/50 transition-transform duration-300 hover:-translate-y-1.5 dark:border-slate-800 dark:bg-slate-900/30 dark:shadow-none"
+                            >
+                                <div className="relative h-44 overflow-hidden">
+                                    <img
+                                        src={berita.foto}
                                         alt={berita.judul}
-                                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" 
+                                        className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
                                     />
-                                    <span className="absolute top-4 left-4 px-2.5 py-0.5 bg-white/90 dark:bg-slate-955/80 backdrop-blur-md text-[10px] font-bold text-indigo-750 dark:text-indigo-300 rounded border border-slate-200 dark:border-slate-805">
+                                    <span className="absolute top-4 left-4 rounded border border-slate-200 bg-white/90 px-2.5 py-0.5 text-[10px] font-bold text-indigo-700 backdrop-blur-md dark:border-slate-800 dark:bg-slate-950/80 dark:text-indigo-300">
                                         {berita.kategori}
                                     </span>
                                 </div>
-                                <div className="p-6 flex-1 flex flex-col justify-between space-y-4">
+                                <div className="flex flex-1 flex-col justify-between space-y-4 p-6">
                                     <div className="space-y-2">
-                                        <div className="text-[10px] text-slate-400 dark:text-slate-550 font-semibold">{berita.tanggal}</div>
-                                        <h3 className="font-bold text-slate-900 dark:text-white text-base leading-snug group-hover:text-indigo-650 dark:group-hover:text-indigo-400 transition-colors">
+                                        <div className="text-[10px] font-semibold text-slate-500 dark:text-slate-400">
+                                            {berita.tanggal}
+                                        </div>
+                                        <h3 className="text-base leading-snug font-bold text-slate-900 transition-colors group-hover:text-indigo-600 dark:text-white dark:group-hover:text-indigo-400">
                                             {berita.judul}
                                         </h3>
-                                        <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed line-clamp-3">
+                                        <p className="line-clamp-3 text-xs leading-relaxed text-slate-500 dark:text-slate-400">
                                             {berita.ringkasan}
                                         </p>
                                     </div>
-                                    <Link href="#" className="text-xs font-semibold text-indigo-600 dark:text-indigo-400 group-hover:text-indigo-500 dark:group-hover:text-indigo-300 transition-colors pt-2 block">
+                                    <Link
+                                        href="#"
+                                        className="block pt-2 text-xs font-semibold text-indigo-600 transition-colors group-hover:text-indigo-500 dark:text-indigo-400 dark:group-hover:text-indigo-300"
+                                    >
                                         Baca Selengkapnya
                                     </Link>
                                 </div>
@@ -634,47 +972,99 @@ export default function Welcome({ stats, demografi }: Props) {
             </div>
 
             {/* Footer */}
-            <footer className="bg-white border-t border-slate-200 dark:bg-slate-955 dark:border-slate-900 text-slate-655 dark:text-slate-400 transition-colors">
-                <div className="max-w-7xl mx-auto px-6 py-16 grid grid-cols-1 md:grid-cols-4 gap-12 text-sm">
-                    <div className="space-y-4 col-span-1 md:col-span-2">
+            <footer className="border-t border-slate-200 bg-white text-slate-600 transition-colors dark:border-slate-900 dark:bg-slate-950 dark:text-slate-400">
+                <div className="mx-auto grid max-w-7xl grid-cols-1 gap-12 px-6 py-16 text-sm md:grid-cols-4">
+                    <div className="col-span-1 space-y-4 md:col-span-2">
                         <div className="flex items-center gap-3">
-                            <div className="w-8 h-8 rounded-lg bg-indigo-600 flex items-center justify-center font-bold text-white shadow-lg shadow-indigo-500/20">
+                            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-indigo-600 font-bold text-white shadow-lg shadow-indigo-500/20">
                                 BB
                             </div>
-                            <span className="text-base font-bold text-slate-900 dark:text-white tracking-tight">Desa Batu Belerang</span>
+                            <span className="text-base font-bold tracking-tight text-slate-900 dark:text-white">
+                                Desa Batu Belerang
+                            </span>
                         </div>
-                        <p className="max-w-sm leading-relaxed text-xs">
-                            Pusat pelayanan digital terpadu untuk efisiensi urusan administrasi warga dan publikasi keindahan wisata alam pemandian air panas serta air terjun Desa Batu Belerang.
+                        <p className="max-w-sm text-xs leading-relaxed">
+                            Pusat pelayanan digital terpadu untuk efisiensi
+                            urusan administrasi warga dan publikasi keindahan
+                            wisata alam pemandian air panas serta air terjun
+                            Desa Batu Belerang.
                         </p>
-                        <div className="text-xs font-semibold text-slate-400 dark:text-slate-505">
-                            © {new Date().getFullYear()} Pemerintah Desa Batu Belerang. All Rights Reserved.
+                        <div className="text-xs font-semibold text-slate-500 dark:text-slate-400">
+                            © {new Date().getFullYear()} Pemerintah Desa Batu
+                            Belerang. All Rights Reserved.
                         </div>
                     </div>
 
                     <div className="space-y-4">
-                        <h4 className="font-bold text-slate-900 dark:text-white text-sm tracking-wide">Peta Navigasi</h4>
+                        <h4 className="text-sm font-bold tracking-wide text-slate-900 dark:text-white">
+                            Peta Navigasi
+                        </h4>
                         <ul className="space-y-2 text-xs">
-                            <li><Link href="/" className="hover:text-indigo-650 dark:hover:text-white transition-colors">Beranda</Link></li>
-                            <li><Link href="#" className="hover:text-indigo-655 dark:hover:text-white transition-colors">Profil Geografis</Link></li>
-                            <li><Link href="#" className="hover:text-indigo-655 dark:hover:text-white transition-colors">Kelembagaan Desa</Link></li>
-                            <li><Link href="#" className="hover:text-indigo-655 dark:hover:text-white transition-colors">Etalase UMKM</Link></li>
-                            <li><Link href="#" className="hover:text-indigo-655 dark:hover:text-white transition-colors">Informasi Wisata</Link></li>
+                            <li>
+                                <Link
+                                    href="/"
+                                    className="transition-colors hover:text-indigo-600 dark:hover:text-white"
+                                >
+                                    Beranda
+                                </Link>
+                            </li>
+                            <li>
+                                <Link
+                                    href="#"
+                                    className="transition-colors hover:text-indigo-600 dark:hover:text-white"
+                                >
+                                    Profil Geografis
+                                </Link>
+                            </li>
+                            <li>
+                                <Link
+                                    href="#"
+                                    className="transition-colors hover:text-indigo-600 dark:hover:text-white"
+                                >
+                                    Kelembagaan Desa
+                                </Link>
+                            </li>
+                            <li>
+                                <Link
+                                    href="#"
+                                    className="transition-colors hover:text-indigo-600 dark:hover:text-white"
+                                >
+                                    Etalase UMKM
+                                </Link>
+                            </li>
+                            <li>
+                                <Link
+                                    href="#"
+                                    className="transition-colors hover:text-indigo-600 dark:hover:text-white"
+                                >
+                                    Informasi Wisata
+                                </Link>
+                            </li>
                         </ul>
                     </div>
 
                     <div className="space-y-4">
-                        <h4 className="font-bold text-slate-900 dark:text-white text-sm tracking-wide">Hubungi Kami</h4>
+                        <h4 className="text-sm font-bold tracking-wide text-slate-900 dark:text-white">
+                            Hubungi Kami
+                        </h4>
                         <ul className="space-y-3 text-xs">
                             <li className="leading-relaxed">
-                                <span className="block font-semibold text-slate-800 dark:text-slate-300">Kantor Kepala Desa:</span>
-                                Jl. Poros Batu Belerang, Sinjai Timur, Kabupaten Sinjai, Sulawesi Selatan.
+                                <span className="block font-semibold text-slate-800 dark:text-slate-300">
+                                    Kantor Kepala Desa:
+                                </span>
+                                Jl. Poros Batu Belerang, Sinjai Timur, Kabupaten
+                                Sinjai, Sulawesi Selatan.
                             </li>
                             <li>
-                                <span className="block font-semibold text-slate-800 dark:text-slate-300">Email Hubungan:</span>
+                                <span className="block font-semibold text-slate-800 dark:text-slate-300">
+                                    Email Hubungan:
+                                </span>
                                 info@batubelerang.desa.id
                             </li>
                             <li>
-                                <span className="block font-semibold text-slate-800 dark:text-slate-300">Telepon Hubungan:</span>
+                                <span className="block font-semibold text-slate-800 dark:text-slate-300">
+                                    Telepon Hubungan:
+                                </span>
                                 +62 812-3456-7890
                             </li>
                         </ul>
