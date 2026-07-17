@@ -255,7 +255,7 @@ export default function Welcome({
     };
 
     return (
-        <div className="min-h-screen overflow-x-hidden bg-slate-50 font-sans text-slate-800 transition-colors duration-300 selection:bg-indigo-500 selection:text-white dark:bg-slate-950 dark:text-slate-100">
+        <div className="min-h-screen overflow-x-hidden bg-slate-50 font-sans text-slate-800 transition-colors duration-300 selection:bg-emerald-500 selection:text-white dark:bg-slate-950 dark:text-slate-100">
             <Head title="Website Resmi Desa Batu Belerang" />
 
             {/* Navigation Header */}
@@ -263,7 +263,7 @@ export default function Welcome({
                 <div className="mx-auto flex h-18 max-w-7xl items-center justify-between px-6">
                     {/* Logo */}
                     <Link href="/" className="flex items-center gap-3">
-                        <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-tr from-indigo-600 to-emerald-500 font-bold text-white shadow-lg shadow-indigo-500/20">
+                        <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-tr from-emerald-600 to-emerald-500 font-bold text-white shadow-lg shadow-emerald-500/20">
                             BB
                         </div>
                         <div>
@@ -280,39 +280,39 @@ export default function Welcome({
                     <nav className="hidden items-center gap-8 text-sm font-medium text-slate-600 md:flex dark:text-slate-300">
                         <Link
                             href="/"
-                            className="font-semibold text-slate-900 transition-colors hover:text-indigo-600 dark:text-white dark:hover:text-indigo-400"
+                            className="font-semibold text-slate-900 transition-colors hover:text-emerald-600 dark:text-white dark:hover:text-emerald-400"
                         >
                             Beranda
                         </Link>
                         <Link
                             href="#"
-                            className="transition-colors hover:text-indigo-600 dark:hover:text-indigo-400"
+                            className="transition-colors hover:text-emerald-600 dark:hover:text-emerald-400"
                         >
                             Profil
                         </Link>
                         <Link
                             href="#"
-                            className="transition-colors hover:text-indigo-600 dark:hover:text-indigo-400"
+                            className="transition-colors hover:text-emerald-600 dark:hover:text-emerald-400"
                         >
                             Lembaga
                         </Link>
                         <Link
                             href="#"
-                            className="transition-colors hover:text-indigo-600 dark:hover:text-indigo-400"
+                            className="transition-colors hover:text-emerald-600 dark:hover:text-emerald-400"
                             prefetch
                         >
                             UMKM
                         </Link>
                         <Link
                             href="#"
-                            className="transition-colors hover:text-indigo-600 dark:hover:text-indigo-400"
+                            className="transition-colors hover:text-emerald-600 dark:hover:text-emerald-400"
                             prefetch
                         >
                             Wisata
                         </Link>
                         <Link
                             href="/debug/database"
-                            className="transition-colors hover:text-indigo-600 dark:hover:text-indigo-400"
+                            className="transition-colors hover:text-emerald-600 dark:hover:text-emerald-400"
                             prefetch
                         >
                             DB Inspector
@@ -337,7 +337,7 @@ export default function Welcome({
                         {auth.user ? (
                             <Link
                                 href="/dashboard"
-                                className="rounded-xl bg-indigo-600 px-4.5 py-2 text-xs font-semibold text-white shadow-md shadow-indigo-500/10 transition-all hover:bg-indigo-500"
+                                className="rounded-xl bg-emerald-600 px-4.5 py-2 text-xs font-semibold text-white shadow-md shadow-emerald-500/10 transition-all hover:bg-emerald-500"
                             >
                                 Dashboard
                             </Link>
@@ -427,7 +427,7 @@ export default function Welcome({
                             {auth.user ? (
                                 <Link
                                     href="/dashboard"
-                                    className="flex-1 rounded-xl bg-indigo-600 py-2.5 text-center text-xs font-semibold text-white"
+                                    className="flex-1 rounded-xl bg-emerald-600 py-2.5 text-center text-xs font-semibold text-white"
                                 >
                                     Dashboard
                                 </Link>
@@ -441,7 +441,7 @@ export default function Welcome({
                                     </Link>
                                     <Link
                                         href="/register"
-                                        className="flex-1 rounded-xl bg-indigo-600 py-2.5 text-center text-xs font-semibold text-white"
+                                        className="flex-1 rounded-xl bg-emerald-600 py-2.5 text-center text-xs font-semibold text-white"
                                     >
                                         Layanan Mandiri
                                     </Link>
@@ -453,12 +453,12 @@ export default function Welcome({
             </header>
 
             {/* Hero Section */}
-            <section className="relative flex items-center justify-center bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-indigo-50/50 via-slate-50 to-slate-50 pt-32 pb-24 transition-colors md:pt-40 md:pb-36 dark:from-indigo-900/10 dark:via-slate-950 dark:to-slate-950">
+            <section className="relative flex items-center justify-center bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-emerald-50/50 via-slate-50 to-slate-50 pt-32 pb-24 transition-colors md:pt-40 md:pb-36 dark:from-emerald-900/10 dark:via-slate-950 dark:to-slate-950">
                 {/* Background Grid Pattern */}
                 <div className="absolute inset-0 bg-[linear-gradient(to_right,#e2e8f0_1px,transparent_1px),linear-gradient(to_bottom,#e2e8f0_1px,transparent_1px)] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_40%,#000_70%,transparent_100%)] bg-[size:4rem_4rem] dark:bg-[linear-gradient(to_right,#0f172a_1px,transparent_1px),linear-gradient(to_bottom,#0f172a_1px,transparent_1px)]"></div>
 
                 <div className="relative z-10 mx-auto max-w-5xl space-y-8 px-6 text-center">
-                    <span className="inline-flex rounded-full border border-indigo-500/20 bg-indigo-500/10 px-3.5 py-1 text-xs font-semibold tracking-wider text-indigo-600 uppercase dark:text-indigo-400">
+                    <span className="inline-flex rounded-full border border-emerald-500/20 bg-emerald-500/10 px-3.5 py-1 text-xs font-semibold tracking-wider text-emerald-600 uppercase dark:text-emerald-400">
                         Portal Resmi Desa Batu Belerang
                     </span>
                     <h1 className="mx-auto max-w-4xl bg-gradient-to-b from-slate-950 via-slate-800 to-slate-600 bg-clip-text text-4xl leading-tight font-extrabold tracking-tight text-slate-900 text-transparent md:text-6xl dark:from-white dark:via-white dark:to-slate-400 dark:text-white">
@@ -473,7 +473,7 @@ export default function Welcome({
                     <div className="flex flex-col justify-center gap-4 pt-4 sm:flex-row">
                         <Link
                             href="/register"
-                            className="rounded-xl bg-gradient-to-tr from-indigo-600 to-indigo-500 px-6 py-3.5 text-sm font-semibold text-white shadow-md shadow-indigo-600/15 transition-all hover:from-indigo-500 hover:to-indigo-400"
+                            className="rounded-xl bg-gradient-to-tr from-emerald-600 to-emerald-500 px-6 py-3.5 text-sm font-semibold text-white shadow-md shadow-emerald-600/15 transition-all hover:from-emerald-500 hover:to-emerald-400"
                         >
                             Layanan Mandiri Warga
                         </Link>
@@ -678,7 +678,7 @@ export default function Welcome({
                                 </div>
                                 <div className="mt-4 flex justify-center gap-6 text-xs text-slate-500 dark:text-slate-400">
                                     <span className="flex items-center gap-1.5">
-                                        <span className="h-3 w-3 rounded-full bg-indigo-600"></span>
+                                        <span className="h-3 w-3 rounded-full bg-emerald-600"></span>
                                         Laki-laki ({genderData[0]?.value || 612}
                                         )
                                     </span>
@@ -788,7 +788,7 @@ export default function Welcome({
                                                     </div>
                                                     {/* Bar rect */}
                                                     <div
-                                                        className="w-8 cursor-pointer rounded-t-lg shadow-lg shadow-indigo-600/5 transition-all duration-300"
+                                                        className="w-8 cursor-pointer rounded-t-lg shadow-lg shadow-emerald-600/5 transition-all duration-300"
                                                         style={{
                                                             height: `${barH}px`,
                                                             backgroundColor:
@@ -827,7 +827,7 @@ export default function Welcome({
                     <div className="space-y-6 rounded-3xl border border-slate-200 bg-white p-6 shadow-sm shadow-slate-100/50 transition-colors dark:border-slate-800 dark:bg-slate-900/20 dark:shadow-none md:p-8">
                         <div className="flex items-center justify-between border-b border-slate-100 pb-4 dark:border-slate-800">
                             <div className="flex items-center gap-3">
-                                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-indigo-50 text-indigo-600 dark:bg-indigo-950/40 dark:text-indigo-400">
+                                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-50 text-emerald-600 dark:bg-emerald-950/40 dark:text-emerald-400">
                                     <Calendar className="h-5 w-5" />
                                 </div>
                                 <div>
@@ -859,7 +859,7 @@ export default function Welcome({
                                         key={item.id}
                                         className="group relative rounded-2xl border border-slate-100 bg-slate-50/50 p-4 transition-all duration-305 hover:-translate-y-0.5 hover:border-slate-200 hover:bg-slate-50 dark:border-slate-850 dark:bg-slate-900/10 dark:hover:border-slate-805 dark:hover:bg-slate-900/30"
                                     >
-                                        <h4 className="font-semibold text-slate-900 group-hover:text-indigo-600 dark:text-white dark:group-hover:text-indigo-400">
+                                        <h4 className="font-semibold text-slate-900 group-hover:text-emerald-600 dark:text-white dark:group-hover:text-emerald-400">
                                             {item.judul}
                                         </h4>
                                         {item.deskripsi && (
@@ -869,7 +869,7 @@ export default function Welcome({
                                         )}
                                         <div className="mt-3 flex flex-wrap gap-x-4 gap-y-1 text-xs text-slate-500 dark:text-slate-405">
                                             <div className="flex items-center gap-1">
-                                                <Clock className="h-3.5 w-3.5 text-indigo-500" />
+                                                <Clock className="h-3.5 w-3.5 text-emerald-500" />
                                                 <span>{dateFormatted} - {timeFormatted} WIB</span>
                                             </div>
                                             <div className="flex items-center gap-1">
@@ -947,7 +947,7 @@ export default function Welcome({
                                         </div>
                                         <a
                                             href={item.file_path || '#'}
-                                            className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-white border border-slate-200 text-slate-600 shadow-sm transition-all hover:bg-slate-50 hover:text-indigo-600 dark:bg-slate-900 dark:border-slate-800 dark:text-slate-400 dark:hover:bg-slate-805 dark:hover:text-indigo-400"
+                                            className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-white border border-slate-200 text-slate-600 shadow-sm transition-all hover:bg-slate-50 hover:text-emerald-600 dark:bg-slate-900 dark:border-slate-800 dark:text-slate-400 dark:hover:bg-slate-805 dark:hover:text-emerald-400"
                                             title="Unduh Berkas"
                                             download
                                         >
@@ -963,7 +963,7 @@ export default function Welcome({
                 {/* APBDes Transparancy Widget */}
                 <section className="grid grid-cols-1 items-center gap-12 rounded-3xl border border-slate-200 bg-white p-8 shadow-sm shadow-slate-100/50 transition-colors md:grid-cols-2 md:p-12 dark:border-slate-800 dark:bg-slate-900/20 dark:shadow-none">
                     <div className="space-y-6">
-                        <span className="block text-xs font-semibold tracking-widest text-indigo-600 uppercase dark:text-indigo-400">
+                        <span className="block text-xs font-semibold tracking-widest text-emerald-600 uppercase dark:text-emerald-400">
                             Akuntabilitas Keuangan
                         </span>
                         <h2 className="text-3xl leading-tight font-extrabold tracking-tight text-slate-900 dark:text-white">
@@ -978,7 +978,7 @@ export default function Welcome({
                         <div className="pt-2">
                             <Link
                                 href="#"
-                                className="inline-flex items-center gap-2 text-sm font-semibold text-indigo-600 transition-colors hover:text-indigo-500 dark:text-indigo-400 dark:hover:text-indigo-300"
+                                className="inline-flex items-center gap-2 text-sm font-semibold text-emerald-600 transition-colors hover:text-emerald-500 dark:text-emerald-400 dark:hover:text-emerald-300"
                             >
                                 Lihat Laporan Keuangan Lengkap →
                             </Link>
@@ -1005,7 +1005,7 @@ export default function Welcome({
                             </div>
                             <div className="h-3 w-full rounded-full border border-slate-200 bg-slate-100 dark:border-slate-800/40 dark:bg-slate-900">
                                 <div
-                                    className="h-2.5 rounded-full bg-indigo-500"
+                                    className="h-2.5 rounded-full bg-emerald-500"
                                     style={{
                                         width: `${hitungPersentase(apbdes.pendapatan.realisasi, apbdes.pendapatan.anggaran)}%`,
                                     }}
@@ -1102,7 +1102,7 @@ export default function Welcome({
                 <section className="space-y-10 scroll-mt-24">
                     <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4">
                         <div className="space-y-2 text-left">
-                            <span className="block text-xs font-semibold tracking-widest text-indigo-600 uppercase dark:text-indigo-400">
+                            <span className="block text-xs font-semibold tracking-widest text-emerald-600 uppercase dark:text-emerald-400">
                                 Struktur Organisasi
                             </span>
                             <h2 className="text-2xl font-extrabold tracking-tight text-slate-900 md:text-3xl dark:text-white">
@@ -1134,23 +1134,23 @@ export default function Welcome({
                         {/* Kepala Desa - Pinned Left */}
                         <div className="w-full md:w-[240px] shrink-0 z-20 bg-slate-50 dark:bg-slate-950 relative md:pr-4 flex justify-center md:justify-start">
                             <div className="group flex flex-col items-center text-center space-y-3 w-[220px]">
-                                <div className="relative overflow-hidden rounded-2xl border border-indigo-200 bg-indigo-50/50 shadow-md transition-all duration-300 group-hover:-translate-y-1 group-hover:shadow-lg dark:border-indigo-900/50 dark:bg-indigo-950/20 w-full aspect-4/5">
+                                <div className="relative overflow-hidden rounded-2xl border border-emerald-200 bg-emerald-50/50 shadow-md transition-all duration-300 group-hover:-translate-y-1 group-hover:shadow-lg dark:border-emerald-900/50 dark:bg-emerald-950/20 w-full aspect-4/5">
                                     <img
                                         src="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=400&auto=format&fit=crop&q=80"
                                         alt="SIRAJUDDIN, S.I.P"
                                         className="h-full w-full object-cover object-center grayscale group-hover:grayscale-0 transition-all duration-500"
                                     />
-                                    <div className="absolute inset-0 bg-gradient-to-t from-indigo-950/95 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-3">
-                                        <span className="text-[10px] font-bold text-indigo-300 tracking-wider uppercase">
+                                    <div className="absolute inset-0 bg-gradient-to-t from-emerald-950/95 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-3">
+                                        <span className="text-[10px] font-bold text-emerald-300 tracking-wider uppercase">
                                             Pemimpin Desa
                                         </span>
                                     </div>
                                 </div>
                                 <div className="w-full">
-                                    <h4 className="text-sm font-bold text-slate-900 dark:text-white line-clamp-1 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
+                                    <h4 className="text-sm font-bold text-slate-900 dark:text-white line-clamp-1 group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors">
                                         SIRAJUDDIN, S.I.P
                                     </h4>
-                                    <p className="text-xs font-semibold text-indigo-600 dark:text-indigo-400">
+                                    <p className="text-xs font-semibold text-emerald-600 dark:text-emerald-400">
                                         Kepala Desa
                                     </p>
                                 </div>
@@ -1207,7 +1207,7 @@ export default function Welcome({
                                             </div>
                                         </div>
                                         <div className="w-full">
-                                            <h4 className="text-sm font-bold text-slate-900 dark:text-white line-clamp-1 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
+                                            <h4 className="text-sm font-bold text-slate-900 dark:text-white line-clamp-1 group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors">
                                                 {item.nama}
                                             </h4>
                                             <p className="text-xs font-semibold text-slate-500 dark:text-slate-400">
@@ -1237,12 +1237,12 @@ export default function Welcome({
                         {/* Card 1: Layanan Mandiri */}
                         <Link
                             href="/register"
-                            className="group space-y-4 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm shadow-slate-100/50 transition-all duration-300 hover:bg-indigo-50/10 dark:border-slate-800 dark:bg-slate-900/35 dark:shadow-md dark:hover:border-indigo-500/40 dark:hover:bg-indigo-950/15"
+                            className="group space-y-4 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm shadow-slate-100/50 transition-all duration-300 hover:bg-emerald-50/10 dark:border-slate-800 dark:bg-slate-900/35 dark:shadow-md dark:hover:border-emerald-500/40 dark:hover:bg-emerald-950/15"
                         >
-                            <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-indigo-200 bg-indigo-500/10 text-lg font-bold text-indigo-600 transition-colors duration-300 group-hover:bg-indigo-600 group-hover:text-white dark:border-indigo-500/20 dark:text-indigo-400">
+                            <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-emerald-200 bg-emerald-500/10 text-lg font-bold text-emerald-600 transition-colors duration-300 group-hover:bg-emerald-600 group-hover:text-white dark:border-emerald-500/20 dark:text-emerald-400">
                                 📄
                             </div>
-                            <h3 className="text-base font-bold text-slate-900 transition-colors group-hover:text-indigo-600 dark:text-white dark:group-hover:text-indigo-400">
+                            <h3 className="text-base font-bold text-slate-900 transition-colors group-hover:text-emerald-600 dark:text-white dark:group-hover:text-emerald-400">
                                 Layanan Mandiri
                             </h3>
                             <p className="text-xs leading-relaxed text-slate-500 dark:text-slate-400">
@@ -1319,7 +1319,7 @@ export default function Welcome({
                         </div>
                         <Link
                             href="#"
-                            className="flex items-center gap-1.5 text-sm font-semibold text-indigo-600 transition-colors hover:text-indigo-500 dark:text-indigo-400 dark:hover:text-indigo-300"
+                            className="flex items-center gap-1.5 text-sm font-semibold text-emerald-600 transition-colors hover:text-emerald-500 dark:text-emerald-400 dark:hover:text-emerald-300"
                         >
                             Lihat Semua Berita <span>→</span>
                         </Link>
@@ -1337,7 +1337,7 @@ export default function Welcome({
                                         alt={berita.judul}
                                         className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
                                     />
-                                    <span className="absolute top-4 left-4 rounded border border-slate-200 bg-white/90 px-2.5 py-0.5 text-[10px] font-bold text-indigo-700 backdrop-blur-md dark:border-slate-800 dark:bg-slate-950/80 dark:text-indigo-300">
+                                    <span className="absolute top-4 left-4 rounded border border-slate-200 bg-white/90 px-2.5 py-0.5 text-[10px] font-bold text-emerald-700 backdrop-blur-md dark:border-slate-800 dark:bg-slate-950/80 dark:text-emerald-300">
                                         {berita.kategori}
                                     </span>
                                 </div>
@@ -1346,7 +1346,7 @@ export default function Welcome({
                                         <div className="text-[10px] font-semibold text-slate-500 dark:text-slate-400">
                                             {berita.tanggal}
                                         </div>
-                                        <h3 className="text-base leading-snug font-bold text-slate-900 transition-colors group-hover:text-indigo-600 dark:text-white dark:group-hover:text-indigo-400">
+                                        <h3 className="text-base leading-snug font-bold text-slate-900 transition-colors group-hover:text-emerald-600 dark:text-white dark:group-hover:text-emerald-400">
                                             {berita.judul}
                                         </h3>
                                         <p className="line-clamp-3 text-xs leading-relaxed text-slate-500 dark:text-slate-400">
@@ -1355,7 +1355,7 @@ export default function Welcome({
                                     </div>
                                     <Link
                                         href="#"
-                                        className="block pt-2 text-xs font-semibold text-indigo-600 transition-colors group-hover:text-indigo-500 dark:text-indigo-400 dark:group-hover:text-indigo-300"
+                                        className="block pt-2 text-xs font-semibold text-emerald-600 transition-colors group-hover:text-emerald-500 dark:text-emerald-400 dark:group-hover:text-emerald-300"
                                     >
                                         Baca Selengkapnya
                                     </Link>
@@ -1371,7 +1371,7 @@ export default function Welcome({
                 <div className="mx-auto grid max-w-7xl grid-cols-1 gap-12 px-6 py-16 text-sm md:grid-cols-4">
                     <div className="col-span-1 space-y-4 md:col-span-2">
                         <div className="flex items-center gap-3">
-                            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-indigo-600 font-bold text-white shadow-lg shadow-indigo-500/20">
+                            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-emerald-600 font-bold text-white shadow-lg shadow-emerald-500/20">
                                 BB
                             </div>
                             <span className="text-base font-bold tracking-tight text-slate-900 dark:text-white">
@@ -1398,7 +1398,7 @@ export default function Welcome({
                             <li>
                                 <Link
                                     href="/"
-                                    className="transition-colors hover:text-indigo-600 dark:hover:text-white"
+                                    className="transition-colors hover:text-emerald-600 dark:hover:text-white"
                                 >
                                     Beranda
                                 </Link>
@@ -1406,7 +1406,7 @@ export default function Welcome({
                             <li>
                                 <Link
                                     href="#"
-                                    className="transition-colors hover:text-indigo-600 dark:hover:text-white"
+                                    className="transition-colors hover:text-emerald-600 dark:hover:text-white"
                                 >
                                     Profil Geografis
                                 </Link>
@@ -1414,7 +1414,7 @@ export default function Welcome({
                             <li>
                                 <Link
                                     href="#"
-                                    className="transition-colors hover:text-indigo-600 dark:hover:text-white"
+                                    className="transition-colors hover:text-emerald-600 dark:hover:text-white"
                                 >
                                     Kelembagaan Desa
                                 </Link>
@@ -1422,7 +1422,7 @@ export default function Welcome({
                             <li>
                                 <Link
                                     href="#"
-                                    className="transition-colors hover:text-indigo-600 dark:hover:text-white"
+                                    className="transition-colors hover:text-emerald-600 dark:hover:text-white"
                                 >
                                     Etalase UMKM
                                 </Link>
@@ -1430,7 +1430,7 @@ export default function Welcome({
                             <li>
                                 <Link
                                     href="#"
-                                    className="transition-colors hover:text-indigo-600 dark:hover:text-white"
+                                    className="transition-colors hover:text-emerald-600 dark:hover:text-white"
                                 >
                                     Informasi Wisata
                                 </Link>

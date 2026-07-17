@@ -35,7 +35,7 @@ export default function DatabaseExplorer({ tables }: Props) {
             {/* Header */}
             <header className="sticky top-0 z-10 flex items-center justify-between border-b border-slate-800 bg-slate-900/50 px-6 py-4 backdrop-blur-md">
                 <div className="flex items-center gap-3">
-                    <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-indigo-600 font-bold text-white shadow-lg shadow-indigo-500/30">
+                    <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-emerald-600 font-bold text-white shadow-lg shadow-emerald-500/30">
                         DB
                     </div>
                     <div>
@@ -64,7 +64,7 @@ export default function DatabaseExplorer({ tables }: Props) {
                                 placeholder="Cari nama tabel..."
                                 value={searchTerm}
                                 onChange={(e) => setSearchTerm(e.target.value)}
-                                className="w-full rounded-lg border border-slate-800 bg-slate-900 px-4 py-2 text-sm text-slate-200 placeholder-slate-500 transition-colors focus:border-indigo-500 focus:outline-none"
+                                className="w-full rounded-lg border border-slate-800 bg-slate-900 px-4 py-2 text-sm text-slate-200 placeholder-slate-500 transition-colors focus:border-emerald-500 focus:outline-none"
                             />
                             {searchTerm && (
                                 <button
@@ -96,7 +96,7 @@ export default function DatabaseExplorer({ tables }: Props) {
                                         onClick={() => setSelectedTable(table)}
                                         className={`group flex w-full items-center justify-between rounded-xl border p-3.5 text-left transition-all duration-200 ${
                                             isSelected
-                                                ? 'border-indigo-500 bg-indigo-600/10 text-white'
+                                                ? 'border-emerald-500 bg-emerald-600/10 text-white'
                                                 : 'border-slate-850 bg-slate-900/40 text-slate-300 hover:border-slate-700 hover:bg-slate-900/80'
                                         }`}
                                     >
@@ -111,7 +111,7 @@ export default function DatabaseExplorer({ tables }: Props) {
                                         <div
                                             className={`rounded-md border px-2 py-1 text-[10px] font-semibold ${
                                                 isSelected
-                                                    ? 'border-indigo-500/30 bg-indigo-500/20 text-indigo-300'
+                                                    ? 'border-emerald-500/30 bg-emerald-500/20 text-emerald-300'
                                                     : 'border-slate-700 bg-slate-800/80 text-slate-400'
                                             }`}
                                         >
@@ -136,7 +136,7 @@ export default function DatabaseExplorer({ tables }: Props) {
                             <div className="flex items-center justify-between rounded-2xl border border-slate-800 bg-slate-900/40 p-6 shadow-xl shadow-slate-950/20">
                                 <div className="space-y-2">
                                     <div className="flex items-center gap-3">
-                                        <span className="rounded-md border border-indigo-500/20 bg-indigo-500/15 px-2.5 py-0.5 text-xs font-semibold tracking-wider text-indigo-400">
+                                        <span className="rounded-md border border-emerald-500/20 bg-emerald-500/15 px-2.5 py-0.5 text-xs font-semibold tracking-wider text-emerald-400">
                                             TABEL
                                         </span>
                                         <h2 className="text-2xl font-bold tracking-tight text-white">

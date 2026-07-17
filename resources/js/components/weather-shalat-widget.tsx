@@ -408,7 +408,7 @@ export default function WeatherShalatWidget() {
 
                     <div className="ml-auto flex items-center gap-3 md:ml-0">
                         {nextPrayer && (
-                            <div className="hidden items-center gap-2 rounded-full border border-indigo-100/60 bg-indigo-50 px-3.5 py-1.5 text-xs font-semibold text-indigo-700 sm:flex dark:border-indigo-900/50 dark:bg-indigo-950/40 dark:text-indigo-300">
+                            <div className="hidden items-center gap-2 rounded-full border border-emerald-100/60 bg-emerald-50 px-3.5 py-1.5 text-xs font-semibold text-emerald-700 sm:flex dark:border-emerald-900/50 dark:bg-emerald-950/40 dark:text-emerald-300">
                                 <Clock
                                     className="h-3.5 w-3.5 animate-spin"
                                     style={{ animationDuration: '4s' }}
@@ -433,7 +433,7 @@ export default function WeatherShalatWidget() {
 
                         <button
                             onClick={() => setIsExpanded(!isExpanded)}
-                            className="flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-bold text-indigo-600 transition-colors hover:bg-slate-50 hover:text-indigo-500 dark:text-indigo-400 dark:hover:bg-slate-800 dark:hover:text-indigo-300"
+                            className="flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-bold text-emerald-600 transition-colors hover:bg-slate-50 hover:text-emerald-500 dark:text-emerald-400 dark:hover:bg-slate-800 dark:hover:text-emerald-300"
                         >
                             <span>
                                 {isExpanded ? 'Sembunyikan' : 'Selengkapnya'}
@@ -459,7 +459,7 @@ export default function WeatherShalatWidget() {
                         <div
                             className={`group overflow-hidden rounded-xl border bg-white transition-all duration-300 hover:shadow-md dark:bg-slate-950 ${
                                 nextPrayer?.name === 'Imsak'
-                                    ? 'scale-[1.02] border-transparent ring-2 shadow-indigo-100 ring-indigo-500 dark:shadow-none'
+                                    ? 'scale-[1.02] border-transparent ring-2 shadow-emerald-100 ring-emerald-500 dark:shadow-none'
                                     : 'border-slate-200 dark:border-slate-800'
                             }`}
                         >
@@ -488,7 +488,7 @@ export default function WeatherShalatWidget() {
                         <div
                             className={`group overflow-hidden rounded-xl border bg-white transition-all duration-300 hover:shadow-md dark:bg-slate-950 ${
                                 nextPrayer?.name === 'Subuh'
-                                    ? 'scale-[1.02] border-transparent ring-2 shadow-indigo-100 ring-indigo-500 dark:shadow-none'
+                                    ? 'scale-[1.02] border-transparent ring-2 shadow-emerald-100 ring-emerald-500 dark:shadow-none'
                                     : 'border-slate-200 dark:border-slate-800'
                             }`}
                         >
@@ -514,7 +514,7 @@ export default function WeatherShalatWidget() {
                         <div
                             className={`group overflow-hidden rounded-xl border bg-white transition-all duration-300 hover:shadow-md dark:bg-slate-950 ${
                                 nextPrayer?.name === 'Dzuhur'
-                                    ? 'scale-[1.02] border-transparent ring-2 shadow-indigo-100 ring-indigo-500 dark:shadow-none'
+                                    ? 'scale-[1.02] border-transparent ring-2 shadow-emerald-100 ring-emerald-500 dark:shadow-none'
                                     : 'border-slate-200 dark:border-slate-800'
                             }`}
                         >
@@ -540,7 +540,7 @@ export default function WeatherShalatWidget() {
                         <div
                             className={`group overflow-hidden rounded-xl border bg-white transition-all duration-300 hover:shadow-md dark:bg-slate-950 ${
                                 nextPrayer?.name === 'Ashar'
-                                    ? 'scale-[1.02] border-transparent ring-2 shadow-indigo-100 ring-indigo-500 dark:shadow-none'
+                                    ? 'scale-[1.02] border-transparent ring-2 shadow-emerald-100 ring-emerald-500 dark:shadow-none'
                                     : 'border-slate-200 dark:border-slate-800'
                             }`}
                         >
@@ -566,7 +566,7 @@ export default function WeatherShalatWidget() {
                         <div
                             className={`group overflow-hidden rounded-xl border bg-white transition-all duration-300 hover:shadow-md dark:bg-slate-950 ${
                                 nextPrayer?.name === 'Magrib'
-                                    ? 'scale-[1.02] border-transparent ring-2 shadow-indigo-100 ring-indigo-500 dark:shadow-none'
+                                    ? 'scale-[1.02] border-transparent ring-2 shadow-emerald-100 ring-emerald-500 dark:shadow-none'
                                     : 'border-slate-200 dark:border-slate-800'
                             }`}
                         >
@@ -592,7 +592,7 @@ export default function WeatherShalatWidget() {
                         <div
                             className={`group overflow-hidden rounded-xl border bg-white transition-all duration-300 hover:shadow-md dark:bg-slate-950 ${
                                 nextPrayer?.name === 'Isya'
-                                    ? 'scale-[1.02] border-transparent ring-2 shadow-indigo-100 ring-indigo-500 dark:shadow-none'
+                                    ? 'scale-[1.02] border-transparent ring-2 shadow-emerald-100 ring-emerald-500 dark:shadow-none'
                                     : 'border-slate-200 dark:border-slate-800'
                             }`}
                         >

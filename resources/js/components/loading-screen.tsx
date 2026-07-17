@@ -67,9 +67,9 @@ export function LoadingScreen() {
                     />
 
                     {/* Shimmer Bar Indicator at Top */}
-                    <div className="fixed top-0 right-0 left-0 z-[10000] h-1 overflow-hidden bg-indigo-100 dark:bg-indigo-950/50">
+                    <div className="fixed top-0 right-0 left-0 z-[10000] h-1 overflow-hidden bg-emerald-100 dark:bg-emerald-950/50">
                         <div
-                            className="h-full w-1/3 rounded-full bg-gradient-to-r from-indigo-500 via-violet-500 to-indigo-500"
+                            className="h-full w-1/3 rounded-full bg-gradient-to-r from-emerald-500 via-teal-500 to-emerald-500"
                             style={{
                                 animation: 'shimmer-move 1.5s infinite linear',
                             }}
@@ -197,7 +197,7 @@ export function LoadingScreen() {
                             </header>
 
                             {/* Hero Banner Area Skeleton */}
-                            <section className="flex flex-col items-center bg-gradient-to-b from-indigo-50/50 via-slate-50 to-slate-50 px-6 pt-32 pb-24 text-center dark:from-indigo-900/10 dark:via-slate-950 dark:to-slate-950">
+                            <section className="flex flex-col items-center bg-gradient-to-b from-emerald-50/50 via-slate-50 to-slate-50 px-6 pt-32 pb-24 text-center dark:from-emerald-900/10 dark:via-slate-950 dark:to-slate-950">
                                 <div className="mb-6 h-6 w-36 animate-pulse rounded-full bg-slate-200 dark:bg-slate-800" />
                                 <div className="mb-3 h-12 w-3/4 max-w-2xl animate-pulse rounded-xl bg-slate-200 dark:bg-slate-800" />
                                 <div className="mb-6 h-12 w-1/2 max-w-md animate-pulse rounded-xl bg-slate-200 dark:bg-slate-800" />
