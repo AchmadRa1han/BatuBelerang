@@ -62,6 +62,7 @@ export default function Welcome({
     const { auth } = usePage().props as any;
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
     const [mobileProfilOpen, setMobileProfilOpen] = useState(false);
+    const [mobilePemerintahanOpen, setMobilePemerintahanOpen] = useState(false);
     const [activeGenderIndex, setActiveGenderIndex] = useState<number | null>(
         null,
     );
@@ -319,6 +320,33 @@ return;
                                 </div>
                             </div>
                         </div>
+                        <div className="relative group/pemerintahan py-2">
+                            <button
+                                className="flex items-center gap-1 cursor-pointer transition-colors hover:text-emerald-600 dark:hover:text-emerald-400"
+                            >
+                                <span>Pemerintahan</span>
+                                <ChevronDown className="h-4 w-4 transition-transform duration-200 group-hover/pemerintahan:rotate-180" />
+                            </button>
+                            <div className="absolute top-full left-1/2 -translate-x-1/2 pt-2.5 w-52 opacity-0 scale-95 translate-y-2 pointer-events-none group-hover/pemerintahan:opacity-100 group-hover/pemerintahan:scale-100 group-hover/pemerintahan:translate-y-0 group-hover/pemerintahan:pointer-events-auto transition-all duration-200 ease-out z-50">
+                                <div className="rounded-2xl border border-slate-200/80 bg-white p-2 shadow-xl ring-1 ring-black/5 dark:border-slate-800 dark:bg-slate-950">
+                                    {[
+                                        { title: 'Visi dan Misi', href: '#' },
+                                        { title: 'Data Perangkat', href: '#' },
+                                        { title: 'Struktur Organisasi', href: '#' },
+                                        { title: 'RPJMDes', href: '#' },
+                                        { title: 'Pemerintahan', href: '#' }
+                                    ].map((subItem) => (
+                                        <Link
+                                            key={subItem.title}
+                                            href={subItem.href}
+                                            className="block rounded-xl px-4 py-2 text-left text-slate-600 hover:text-emerald-600 hover:bg-slate-50 transition-all duration-150 dark:text-slate-400 dark:hover:text-emerald-400 dark:hover:bg-slate-900/60 font-medium"
+                                        >
+                                            {subItem.title}
+                                        </Link>
+                                    ))}
+                                </div>
+                            </div>
+                        </div>
                         <Link
                             href="#"
                             className="transition-colors hover:text-emerald-600 dark:hover:text-emerald-400"
@@ -447,6 +475,40 @@ return;
                                         href={subItem.href}
                                         onClick={() => {
                                             setMobileProfilOpen(false);
+                                            setMobileMenuOpen(false);
+                                        }}
+                                        className="block py-1.5 text-xs text-left text-slate-500 hover:text-emerald-600 dark:text-slate-400 dark:hover:text-emerald-400"
+                                    >
+                                        {subItem.title}
+                                    </Link>
+                                ))}
+                            </div>
+                        </div>
+                        <div>
+                            <button
+                                onClick={() => setMobilePemerintahanOpen(!mobilePemerintahanOpen)}
+                                className="flex w-full items-center justify-between text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white cursor-pointer"
+                            >
+                                <span>Pemerintahan</span>
+                                <ChevronDown className={`h-4 w-4 transition-transform duration-200 ${mobilePemerintahanOpen ? 'rotate-180' : ''}`} />
+                            </button>
+                            <div
+                                className={`mt-2 ml-4 space-y-2 border-l border-slate-200 pl-4 transition-all duration-300 dark:border-slate-800 ${
+                                    mobilePemerintahanOpen ? 'max-h-60 opacity-100' : 'max-h-0 opacity-0 overflow-hidden'
+                                }`}
+                            >
+                                {[
+                                    { title: 'Visi dan Misi', href: '#' },
+                                    { title: 'Data Perangkat', href: '#' },
+                                    { title: 'Struktur Organisasi', href: '#' },
+                                    { title: 'RPJMDes', href: '#' },
+                                    { title: 'Pemerintahan', href: '#' }
+                                ].map((subItem) => (
+                                    <Link
+                                        key={subItem.title}
+                                        href={subItem.href}
+                                        onClick={() => {
+                                            setMobilePemerintahanOpen(false);
                                             setMobileMenuOpen(false);
                                         }}
                                         className="block py-1.5 text-xs text-left text-slate-500 hover:text-emerald-600 dark:text-slate-400 dark:hover:text-emerald-400"
