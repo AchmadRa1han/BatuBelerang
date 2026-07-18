@@ -82,7 +82,10 @@ export function initializeTheme(): void {
         localStorage.setItem('theme_migrated_to_light', 'true');
     }
 
-    if (!localStorage.getItem('appearance') || localStorage.getItem('appearance') === 'system') {
+    if (
+        !localStorage.getItem('appearance') ||
+        localStorage.getItem('appearance') === 'system'
+    ) {
         localStorage.setItem('appearance', 'light');
         setCookie('appearance', 'light');
     }

@@ -1,5 +1,17 @@
 import { Head, Link, usePage } from '@inertiajs/react';
-import { Sun, Moon, Calendar, MapPin, User, FileText, Download, Clock, ChevronLeft, ChevronRight, ChevronDown } from 'lucide-react';
+import {
+    Sun,
+    Moon,
+    Calendar,
+    MapPin,
+    User,
+    FileText,
+    Download,
+    Clock,
+    ChevronLeft,
+    ChevronRight,
+    ChevronDown,
+} from 'lucide-react';
 import React, { useState, useEffect } from 'react';
 import WeatherShalatWidget from '@/components/weather-shalat-widget';
 import { useAppearance } from '@/hooks/use-appearance';
@@ -63,6 +75,7 @@ export default function Welcome({
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
     const [mobileProfilOpen, setMobileProfilOpen] = useState(false);
     const [mobilePemerintahanOpen, setMobilePemerintahanOpen] = useState(false);
+    const [mobileLembagaOpen, setMobileLembagaOpen] = useState(false);
     const [activeGenderIndex, setActiveGenderIndex] = useState<number | null>(
         null,
     );
@@ -78,16 +91,16 @@ export default function Welcome({
 
     const prevAparatur = () => {
         if (!transitionEnabled) {
-return;
-}
+            return;
+        }
 
         setAparaturIndex((prev) => prev - 1);
     };
 
     const nextAparatur = () => {
         if (!transitionEnabled) {
-return;
-}
+            return;
+        }
 
         setAparaturIndex((prev) => prev + 1);
     };
@@ -152,7 +165,8 @@ return;
         {
             id: 1,
             judul: 'Musyawarah Dusun (Musdus) Rencana Kerja 2027',
-            deskripsi: 'Pertemuan warga dusun untuk merumuskan usulan pembangunan prioritas.',
+            deskripsi:
+                'Pertemuan warga dusun untuk merumuskan usulan pembangunan prioritas.',
             lokasi: 'Aula Pertemuan Dusun Cempae',
             waktu_mulai: '2026-07-20 09:00:00',
             waktu_selesai: '2026-07-20 12:00:00',
@@ -161,7 +175,8 @@ return;
         {
             id: 2,
             judul: 'Penyaluran BLT-Dana Desa Tahap III',
-            deskripsi: 'Pembagian bantuan langsung tunai tahap ketiga bagi KPM yang terdata.',
+            deskripsi:
+                'Pembagian bantuan langsung tunai tahap ketiga bagi KPM yang terdata.',
             lokasi: 'Aula Kantor Desa Batu Belerang',
             waktu_mulai: '2026-07-22 08:30:00',
             waktu_selesai: '2026-07-22 14:00:00',
@@ -170,7 +185,8 @@ return;
         {
             id: 3,
             judul: 'Sosialisasi Pencegahan Stunting Anak',
-            deskripsi: 'Kegiatan edukasi pemenuhan gizi balita bersama kader Posyandu dan Puskesmas.',
+            deskripsi:
+                'Kegiatan edukasi pemenuhan gizi balita bersama kader Posyandu dan Puskesmas.',
             lokasi: 'Posyandu Terpadu Dusun Babana',
             waktu_mulai: '2026-07-25 09:00:00',
             waktu_selesai: '2026-07-25 11:30:00',
@@ -185,7 +201,8 @@ return;
             jenis: 'perdes',
             tahun: 2026,
             nomor: 'Nomor 02 Tahun 2026',
-            deskripsi: 'Dokumen perencanaan jangka menengah desa mengenai arah kebijakan pembangunan.',
+            deskripsi:
+                'Dokumen perencanaan jangka menengah desa mengenai arah kebijakan pembangunan.',
             file_path: '#',
             status: true,
         },
@@ -195,7 +212,8 @@ return;
             jenis: 'perkades',
             tahun: 2025,
             nomor: 'Nomor 04 Tahun 2025',
-            deskripsi: 'Peraturan Kepala Desa mengenai alokasi anggaran dan aksi penanganan stunting.',
+            deskripsi:
+                'Peraturan Kepala Desa mengenai alokasi anggaran dan aksi penanganan stunting.',
             file_path: '#',
             status: true,
         },
@@ -205,7 +223,8 @@ return;
             jenis: 'sk_kades',
             tahun: 2025,
             nomor: 'SK Nomor 18 Tahun 2025',
-            deskripsi: 'Surat Keputusan Kepala Desa untuk penetapan pengurus PKK, LKD, dan Posyandu.',
+            deskripsi:
+                'Surat Keputusan Kepala Desa untuk penetapan pengurus PKK, LKD, dan Posyandu.',
             file_path: '#',
             status: true,
         },
@@ -293,26 +312,24 @@ return;
                         >
                             Beranda
                         </Link>
-                        <div className="relative group/profil py-2">
-                            <button
-                                className="flex items-center gap-1 cursor-pointer transition-colors hover:text-emerald-600 dark:hover:text-emerald-400"
-                            >
+                        <div className="group/profil relative py-2">
+                            <button className="flex cursor-pointer items-center gap-1 transition-colors hover:text-emerald-600 dark:hover:text-emerald-400">
                                 <span>Profil</span>
                                 <ChevronDown className="h-4 w-4 transition-transform duration-200 group-hover/profil:rotate-180" />
                             </button>
-                            <div className="absolute top-full left-1/2 -translate-x-1/2 pt-2.5 w-52 opacity-0 scale-95 translate-y-2 pointer-events-none group-hover/profil:opacity-100 group-hover/profil:scale-100 group-hover/profil:translate-y-0 group-hover/profil:pointer-events-auto transition-all duration-200 ease-out z-50">
+                            <div className="pointer-events-none absolute top-full left-1/2 z-50 w-52 -translate-x-1/2 translate-y-2 scale-95 pt-2.5 opacity-0 transition-all duration-200 ease-out group-hover/profil:pointer-events-auto group-hover/profil:translate-y-0 group-hover/profil:scale-100 group-hover/profil:opacity-100">
                                 <div className="rounded-2xl border border-slate-200/80 bg-white p-2 shadow-xl ring-1 ring-black/5 dark:border-slate-800 dark:bg-slate-950">
                                     {[
                                         { title: 'Tentang Kami', href: '#' },
                                         { title: 'Visi & Misi', href: '#' },
                                         { title: 'Sejarah Desa', href: '#' },
                                         { title: 'Geografis Desa', href: '#' },
-                                        { title: 'Demografi Desa', href: '#' }
+                                        { title: 'Demografi Desa', href: '#' },
                                     ].map((subItem) => (
                                         <Link
                                             key={subItem.title}
                                             href={subItem.href}
-                                            className="block rounded-xl px-4 py-2 text-left text-slate-600 hover:text-emerald-600 hover:bg-slate-50 transition-all duration-150 dark:text-slate-400 dark:hover:text-emerald-400 dark:hover:bg-slate-900/60 font-medium"
+                                            className="block rounded-xl px-4 py-2 text-left font-medium text-slate-600 transition-all duration-150 hover:bg-slate-50 hover:text-emerald-600 dark:text-slate-400 dark:hover:bg-slate-900/60 dark:hover:text-emerald-400"
                                         >
                                             {subItem.title}
                                         </Link>
@@ -320,26 +337,27 @@ return;
                                 </div>
                             </div>
                         </div>
-                        <div className="relative group/pemerintahan py-2">
-                            <button
-                                className="flex items-center gap-1 cursor-pointer transition-colors hover:text-emerald-600 dark:hover:text-emerald-400"
-                            >
+                        <div className="group/pemerintahan relative py-2">
+                            <button className="flex cursor-pointer items-center gap-1 transition-colors hover:text-emerald-600 dark:hover:text-emerald-400">
                                 <span>Pemerintahan</span>
                                 <ChevronDown className="h-4 w-4 transition-transform duration-200 group-hover/pemerintahan:rotate-180" />
                             </button>
-                            <div className="absolute top-full left-1/2 -translate-x-1/2 pt-2.5 w-52 opacity-0 scale-95 translate-y-2 pointer-events-none group-hover/pemerintahan:opacity-100 group-hover/pemerintahan:scale-100 group-hover/pemerintahan:translate-y-0 group-hover/pemerintahan:pointer-events-auto transition-all duration-200 ease-out z-50">
+                            <div className="pointer-events-none absolute top-full left-1/2 z-50 w-52 -translate-x-1/2 translate-y-2 scale-95 pt-2.5 opacity-0 transition-all duration-200 ease-out group-hover/pemerintahan:pointer-events-auto group-hover/pemerintahan:translate-y-0 group-hover/pemerintahan:scale-100 group-hover/pemerintahan:opacity-100">
                                 <div className="rounded-2xl border border-slate-200/80 bg-white p-2 shadow-xl ring-1 ring-black/5 dark:border-slate-800 dark:bg-slate-950">
                                     {[
                                         { title: 'Visi dan Misi', href: '#' },
                                         { title: 'Data Perangkat', href: '#' },
-                                        { title: 'Struktur Organisasi', href: '#' },
+                                        {
+                                            title: 'Struktur Organisasi',
+                                            href: '#',
+                                        },
                                         { title: 'RPJMDes', href: '#' },
-                                        { title: 'Pemerintahan', href: '#' }
+                                        { title: 'Pemerintahan', href: '#' },
                                     ].map((subItem) => (
                                         <Link
                                             key={subItem.title}
                                             href={subItem.href}
-                                            className="block rounded-xl px-4 py-2 text-left text-slate-600 hover:text-emerald-600 hover:bg-slate-50 transition-all duration-150 dark:text-slate-400 dark:hover:text-emerald-400 dark:hover:bg-slate-900/60 font-medium"
+                                            className="block rounded-xl px-4 py-2 text-left font-medium text-slate-600 transition-all duration-150 hover:bg-slate-50 hover:text-emerald-600 dark:text-slate-400 dark:hover:bg-slate-900/60 dark:hover:text-emerald-400"
                                         >
                                             {subItem.title}
                                         </Link>
@@ -347,12 +365,38 @@ return;
                                 </div>
                             </div>
                         </div>
-                        <Link
-                            href="#"
-                            className="transition-colors hover:text-emerald-600 dark:hover:text-emerald-400"
-                        >
-                            Lembaga
-                        </Link>
+                        <div className="group/lembaga relative py-2">
+                            <button className="flex cursor-pointer items-center gap-1 transition-colors hover:text-emerald-600 dark:hover:text-emerald-400">
+                                <span>Lembaga</span>
+                                <ChevronDown className="h-4 w-4 transition-transform duration-200 group-hover/lembaga:rotate-180" />
+                            </button>
+                            <div className="pointer-events-none absolute top-full left-1/2 z-50 w-64 -translate-x-1/2 translate-y-2 scale-95 pt-2.5 opacity-0 transition-all duration-200 ease-out group-hover/lembaga:pointer-events-auto group-hover/lembaga:translate-y-0 group-hover/lembaga:scale-100 group-hover/lembaga:opacity-100">
+                                <div className="rounded-2xl border border-slate-200/80 bg-white p-2 shadow-xl ring-1 ring-black/5 dark:border-slate-800 dark:bg-slate-950">
+                                    {[
+                                        {
+                                            title: 'Badan Permusyawaratan Desa',
+                                            href: '#',
+                                        },
+                                        {
+                                            title: 'Tim Penggerak PKK',
+                                            href: '#',
+                                        },
+                                        { title: 'Karang Taruna', href: '#' },
+                                        { title: 'Rt dan Rw', href: '#' },
+                                        { title: 'Posyandu', href: '#' },
+                                        { title: 'Bumdes', href: '#' },
+                                    ].map((subItem) => (
+                                        <Link
+                                            key={subItem.title}
+                                            href={subItem.href}
+                                            className="block rounded-xl px-4 py-2 text-left font-medium text-slate-600 transition-all duration-150 hover:bg-slate-50 hover:text-emerald-600 dark:text-slate-400 dark:hover:bg-slate-900/60 dark:hover:text-emerald-400"
+                                        >
+                                            {subItem.title}
+                                        </Link>
+                                    ))}
+                                </div>
+                            </div>
+                        </div>
                         <Link
                             href="#"
                             className="transition-colors hover:text-emerald-600 dark:hover:text-emerald-400"
@@ -452,15 +496,21 @@ return;
                         </Link>
                         <div>
                             <button
-                                onClick={() => setMobileProfilOpen(!mobileProfilOpen)}
-                                className="flex w-full items-center justify-between text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white cursor-pointer"
+                                onClick={() =>
+                                    setMobileProfilOpen(!mobileProfilOpen)
+                                }
+                                className="flex w-full cursor-pointer items-center justify-between text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white"
                             >
                                 <span>Profil</span>
-                                <ChevronDown className={`h-4 w-4 transition-transform duration-200 ${mobileProfilOpen ? 'rotate-180' : ''}`} />
+                                <ChevronDown
+                                    className={`h-4 w-4 transition-transform duration-200 ${mobileProfilOpen ? 'rotate-180' : ''}`}
+                                />
                             </button>
                             <div
                                 className={`mt-2 ml-4 space-y-2 border-l border-slate-200 pl-4 transition-all duration-300 dark:border-slate-800 ${
-                                    mobileProfilOpen ? 'max-h-60 opacity-100' : 'max-h-0 opacity-0 overflow-hidden'
+                                    mobileProfilOpen
+                                        ? 'max-h-60 opacity-100'
+                                        : 'max-h-0 overflow-hidden opacity-0'
                                 }`}
                             >
                                 {[
@@ -468,7 +518,7 @@ return;
                                     { title: 'Visi & Misi', href: '#' },
                                     { title: 'Sejarah Desa', href: '#' },
                                     { title: 'Geografis Desa', href: '#' },
-                                    { title: 'Demografi Desa', href: '#' }
+                                    { title: 'Demografi Desa', href: '#' },
                                 ].map((subItem) => (
                                     <Link
                                         key={subItem.title}
@@ -477,7 +527,7 @@ return;
                                             setMobileProfilOpen(false);
                                             setMobileMenuOpen(false);
                                         }}
-                                        className="block py-1.5 text-xs text-left text-slate-500 hover:text-emerald-600 dark:text-slate-400 dark:hover:text-emerald-400"
+                                        className="block py-1.5 text-left text-xs text-slate-500 hover:text-emerald-600 dark:text-slate-400 dark:hover:text-emerald-400"
                                     >
                                         {subItem.title}
                                     </Link>
@@ -486,15 +536,23 @@ return;
                         </div>
                         <div>
                             <button
-                                onClick={() => setMobilePemerintahanOpen(!mobilePemerintahanOpen)}
-                                className="flex w-full items-center justify-between text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white cursor-pointer"
+                                onClick={() =>
+                                    setMobilePemerintahanOpen(
+                                        !mobilePemerintahanOpen,
+                                    )
+                                }
+                                className="flex w-full cursor-pointer items-center justify-between text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white"
                             >
                                 <span>Pemerintahan</span>
-                                <ChevronDown className={`h-4 w-4 transition-transform duration-200 ${mobilePemerintahanOpen ? 'rotate-180' : ''}`} />
+                                <ChevronDown
+                                    className={`h-4 w-4 transition-transform duration-200 ${mobilePemerintahanOpen ? 'rotate-180' : ''}`}
+                                />
                             </button>
                             <div
                                 className={`mt-2 ml-4 space-y-2 border-l border-slate-200 pl-4 transition-all duration-300 dark:border-slate-800 ${
-                                    mobilePemerintahanOpen ? 'max-h-60 opacity-100' : 'max-h-0 opacity-0 overflow-hidden'
+                                    mobilePemerintahanOpen
+                                        ? 'max-h-60 opacity-100'
+                                        : 'max-h-0 overflow-hidden opacity-0'
                                 }`}
                             >
                                 {[
@@ -502,7 +560,7 @@ return;
                                     { title: 'Data Perangkat', href: '#' },
                                     { title: 'Struktur Organisasi', href: '#' },
                                     { title: 'RPJMDes', href: '#' },
-                                    { title: 'Pemerintahan', href: '#' }
+                                    { title: 'Pemerintahan', href: '#' },
                                 ].map((subItem) => (
                                     <Link
                                         key={subItem.title}
@@ -511,19 +569,57 @@ return;
                                             setMobilePemerintahanOpen(false);
                                             setMobileMenuOpen(false);
                                         }}
-                                        className="block py-1.5 text-xs text-left text-slate-500 hover:text-emerald-600 dark:text-slate-400 dark:hover:text-emerald-400"
+                                        className="block py-1.5 text-left text-xs text-slate-500 hover:text-emerald-600 dark:text-slate-400 dark:hover:text-emerald-400"
                                     >
                                         {subItem.title}
                                     </Link>
                                 ))}
                             </div>
                         </div>
-                        <Link
-                            href="#"
-                            className="block text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white"
-                        >
-                            Lembaga
-                        </Link>
+                        <div>
+                            <button
+                                onClick={() =>
+                                    setMobileLembagaOpen(!mobileLembagaOpen)
+                                }
+                                className="flex w-full cursor-pointer items-center justify-between text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white"
+                            >
+                                <span>Lembaga</span>
+                                <ChevronDown
+                                    className={`h-4 w-4 transition-transform duration-200 ${mobileLembagaOpen ? 'rotate-180' : ''}`}
+                                />
+                            </button>
+                            <div
+                                className={`mt-2 ml-4 space-y-2 border-l border-slate-200 pl-4 transition-all duration-300 dark:border-slate-800 ${
+                                    mobileLembagaOpen
+                                        ? 'max-h-72 opacity-100'
+                                        : 'max-h-0 overflow-hidden opacity-0'
+                                }`}
+                            >
+                                {[
+                                    {
+                                        title: 'Badan Permusyawaratan Desa',
+                                        href: '#',
+                                    },
+                                    { title: 'Tim Penggerak PKK', href: '#' },
+                                    { title: 'Karang Taruna', href: '#' },
+                                    { title: 'Rt dan Rw', href: '#' },
+                                    { title: 'Posyandu', href: '#' },
+                                    { title: 'Bumdes', href: '#' },
+                                ].map((subItem) => (
+                                    <Link
+                                        key={subItem.title}
+                                        href={subItem.href}
+                                        onClick={() => {
+                                            setMobileLembagaOpen(false);
+                                            setMobileMenuOpen(false);
+                                        }}
+                                        className="block py-1.5 text-left text-xs text-slate-500 hover:text-emerald-600 dark:text-slate-400 dark:hover:text-emerald-400"
+                                    >
+                                        {subItem.title}
+                                    </Link>
+                                ))}
+                            </div>
+                        </div>
                         <Link
                             href="#"
                             className="block text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white"
@@ -943,7 +1039,7 @@ return;
                 {/* Agenda Kegiatan & Regulasi Desa */}
                 <section className="grid grid-cols-1 gap-10 md:grid-cols-2">
                     {/* Agenda Kegiatan */}
-                    <div className="space-y-6 rounded-3xl border border-slate-200 bg-white p-6 shadow-sm shadow-slate-100/50 transition-colors dark:border-slate-800 dark:bg-slate-900/20 dark:shadow-none md:p-8">
+                    <div className="space-y-6 rounded-3xl border border-slate-200 bg-white p-6 shadow-sm shadow-slate-100/50 transition-colors md:p-8 dark:border-slate-800 dark:bg-slate-900/20 dark:shadow-none">
                         <div className="flex items-center justify-between border-b border-slate-100 pb-4 dark:border-slate-800">
                             <div className="flex items-center gap-3">
                                 <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-50 text-emerald-600 dark:bg-emerald-950/40 dark:text-emerald-400">
@@ -963,33 +1059,38 @@ return;
                         <div className="space-y-4">
                             {agendaData.map((item) => {
                                 const eventDate = new Date(item.waktu_mulai);
-                                const dateFormatted = eventDate.toLocaleDateString('id-ID', {
-                                    day: 'numeric',
-                                    month: 'short',
-                                    year: 'numeric',
-                                });
-                                const timeFormatted = eventDate.toLocaleTimeString('id-ID', {
-                                    hour: '2-digit',
-                                    minute: '2-digit',
-                                });
+                                const dateFormatted =
+                                    eventDate.toLocaleDateString('id-ID', {
+                                        day: 'numeric',
+                                        month: 'short',
+                                        year: 'numeric',
+                                    });
+                                const timeFormatted =
+                                    eventDate.toLocaleTimeString('id-ID', {
+                                        hour: '2-digit',
+                                        minute: '2-digit',
+                                    });
 
                                 return (
                                     <div
                                         key={item.id}
-                                        className="group relative rounded-2xl border border-slate-100 bg-slate-50/50 p-4 transition-all duration-305 hover:-translate-y-0.5 hover:border-slate-200 hover:bg-slate-50 dark:border-slate-850 dark:bg-slate-900/10 dark:hover:border-slate-805 dark:hover:bg-slate-900/30"
+                                        className="group dark:border-slate-850 dark:hover:border-slate-805 relative rounded-2xl border border-slate-100 bg-slate-50/50 p-4 transition-all duration-305 hover:-translate-y-0.5 hover:border-slate-200 hover:bg-slate-50 dark:bg-slate-900/10 dark:hover:bg-slate-900/30"
                                     >
                                         <h4 className="font-semibold text-slate-900 group-hover:text-emerald-600 dark:text-white dark:group-hover:text-emerald-400">
                                             {item.judul}
                                         </h4>
                                         {item.deskripsi && (
-                                            <p className="mt-1 text-xs text-slate-500 dark:text-slate-400 line-clamp-2">
+                                            <p className="mt-1 line-clamp-2 text-xs text-slate-500 dark:text-slate-400">
                                                 {item.deskripsi}
                                             </p>
                                         )}
-                                        <div className="mt-3 flex flex-wrap gap-x-4 gap-y-1 text-xs text-slate-500 dark:text-slate-405">
+                                        <div className="dark:text-slate-405 mt-3 flex flex-wrap gap-x-4 gap-y-1 text-xs text-slate-500">
                                             <div className="flex items-center gap-1">
                                                 <Clock className="h-3.5 w-3.5 text-emerald-500" />
-                                                <span>{dateFormatted} - {timeFormatted} WIB</span>
+                                                <span>
+                                                    {dateFormatted} -{' '}
+                                                    {timeFormatted} WIB
+                                                </span>
                                             </div>
                                             <div className="flex items-center gap-1">
                                                 <MapPin className="h-3.5 w-3.5 text-emerald-500" />
@@ -999,7 +1100,10 @@ return;
                                         {item.koordinator && (
                                             <div className="mt-2 flex items-center gap-1 border-t border-slate-100 pt-2 text-[10px] text-slate-400 dark:border-slate-800/40">
                                                 <User className="h-3 w-3" />
-                                                <span>Koordinator: {item.koordinator}</span>
+                                                <span>
+                                                    Koordinator:{' '}
+                                                    {item.koordinator}
+                                                </span>
                                             </div>
                                         )}
                                     </div>
@@ -1009,7 +1113,7 @@ return;
                     </div>
 
                     {/* Regulasi & Produk Hukum */}
-                    <div className="space-y-6 rounded-3xl border border-slate-200 bg-white p-6 shadow-sm shadow-slate-100/50 transition-colors dark:border-slate-800 dark:bg-slate-900/20 dark:shadow-none md:p-8">
+                    <div className="space-y-6 rounded-3xl border border-slate-200 bg-white p-6 shadow-sm shadow-slate-100/50 transition-colors md:p-8 dark:border-slate-800 dark:bg-slate-900/20 dark:shadow-none">
                         <div className="flex items-center justify-between border-b border-slate-100 pb-4 dark:border-slate-800">
                             <div className="flex items-center gap-3">
                                 <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-50 text-emerald-600 dark:bg-emerald-950/40 dark:text-emerald-400">
@@ -1036,19 +1140,24 @@ return;
                                 };
                                 const badgeColors = {
                                     perdes: 'bg-blue-50 text-blue-700 dark:bg-blue-950/30 dark:text-blue-400 border-blue-100 dark:border-blue-900/30',
-                                    perkades: 'bg-purple-50 text-purple-700 dark:bg-purple-950/30 dark:text-purple-400 border-purple-100 dark:border-purple-900/30',
-                                    sk_kades: 'bg-amber-50 text-amber-700 dark:bg-amber-950/30 dark:text-amber-400 border-amber-100 dark:border-amber-900/30',
-                                    instruksi: 'bg-rose-50 text-rose-700 dark:bg-rose-950/30 dark:text-rose-400 border-rose-100 dark:border-rose-900/30',
+                                    perkades:
+                                        'bg-purple-50 text-purple-700 dark:bg-purple-950/30 dark:text-purple-400 border-purple-100 dark:border-purple-900/30',
+                                    sk_kades:
+                                        'bg-amber-50 text-amber-700 dark:bg-amber-950/30 dark:text-amber-400 border-amber-100 dark:border-amber-900/30',
+                                    instruksi:
+                                        'bg-rose-50 text-rose-700 dark:bg-rose-950/30 dark:text-rose-400 border-rose-100 dark:border-rose-900/30',
                                 };
 
                                 return (
                                     <div
                                         key={item.id}
-                                        className="group flex items-start justify-between gap-4 rounded-2xl border border-slate-100 bg-slate-50/50 p-4 transition-all duration-300 hover:-translate-y-0.5 hover:border-slate-200 hover:bg-slate-50 dark:border-slate-850 dark:bg-slate-900/10 dark:hover:border-slate-800 dark:hover:bg-slate-900/30"
+                                        className="group dark:border-slate-850 flex items-start justify-between gap-4 rounded-2xl border border-slate-100 bg-slate-50/50 p-4 transition-all duration-300 hover:-translate-y-0.5 hover:border-slate-200 hover:bg-slate-50 dark:bg-slate-900/10 dark:hover:border-slate-800 dark:hover:bg-slate-900/30"
                                     >
                                         <div className="space-y-1.5">
                                             <div className="flex items-center gap-2">
-                                                <span className={`rounded-md border px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider ${badgeColors[item.jenis]}`}>
+                                                <span
+                                                    className={`rounded-md border px-2 py-0.5 text-[10px] font-bold tracking-wider uppercase ${badgeColors[item.jenis]}`}
+                                                >
                                                     {typeNames[item.jenis]}
                                                 </span>
                                                 <span className="text-xs font-semibold text-slate-500 dark:text-slate-400">
@@ -1059,14 +1168,14 @@ return;
                                                 {item.judul}
                                             </h4>
                                             {item.deskripsi && (
-                                                <p className="text-xs text-slate-500 dark:text-slate-400 line-clamp-1">
+                                                <p className="line-clamp-1 text-xs text-slate-500 dark:text-slate-400">
                                                     {item.deskripsi}
                                                 </p>
                                             )}
                                         </div>
                                         <a
                                             href={item.file_path || '#'}
-                                            className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-white border border-slate-200 text-slate-600 shadow-sm transition-all hover:bg-slate-50 hover:text-emerald-600 dark:bg-slate-900 dark:border-slate-800 dark:text-slate-400 dark:hover:bg-slate-805 dark:hover:text-emerald-400"
+                                            className="dark:hover:bg-slate-805 flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border border-slate-200 bg-white text-slate-600 shadow-sm transition-all hover:bg-slate-50 hover:text-emerald-600 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-400 dark:hover:text-emerald-400"
                                             title="Unduh Berkas"
                                             download
                                         >
@@ -1218,8 +1327,8 @@ return;
                     </div>
                 </section>
                 {/* Aparatur Pemerintah Desa */}
-                <section className="space-y-10 scroll-mt-24">
-                    <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4">
+                <section className="scroll-mt-24 space-y-10">
+                    <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
                         <div className="space-y-2 text-left">
                             <span className="block text-xs font-semibold tracking-widest text-emerald-600 uppercase dark:text-emerald-400">
                                 Struktur Organisasi
@@ -1228,20 +1337,21 @@ return;
                                 Aparatur Pemerintah Desa
                             </h2>
                             <p className="max-w-lg text-sm text-slate-500 dark:text-slate-400">
-                                Perangkat Desa Batu Belerang yang siap melayani kebutuhan administrasi dan kemajuan warga.
+                                Perangkat Desa Batu Belerang yang siap melayani
+                                kebutuhan administrasi dan kemajuan warga.
                             </p>
                         </div>
                         <div className="flex items-center gap-2 self-start md:self-end">
                             <button
                                 onClick={prevAparatur}
-                                className="flex h-10 w-10 items-center justify-center rounded-xl border border-slate-200 bg-white text-slate-600 transition-all hover:bg-slate-50 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-400 dark:hover:bg-slate-800 shadow-sm"
+                                className="flex h-10 w-10 items-center justify-center rounded-xl border border-slate-200 bg-white text-slate-600 shadow-sm transition-all hover:bg-slate-50 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-400 dark:hover:bg-slate-800"
                                 aria-label="Aparatur Sebelumnya"
                             >
                                 <ChevronLeft className="h-5 w-5" />
                             </button>
                             <button
                                 onClick={nextAparatur}
-                                className="flex h-10 w-10 items-center justify-center rounded-xl border border-slate-200 bg-white text-slate-600 transition-all hover:bg-slate-50 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-400 dark:hover:bg-slate-800 shadow-sm"
+                                className="flex h-10 w-10 items-center justify-center rounded-xl border border-slate-200 bg-white text-slate-600 shadow-sm transition-all hover:bg-slate-50 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-400 dark:hover:bg-slate-800"
                                 aria-label="Aparatur Selanjutnya"
                             >
                                 <ChevronRight className="h-5 w-5" />
@@ -1249,24 +1359,24 @@ return;
                         </div>
                     </div>
 
-                    <div className="flex flex-col md:flex-row gap-8 items-stretch relative">
+                    <div className="relative flex flex-col items-stretch gap-8 md:flex-row">
                         {/* Kepala Desa - Pinned Left */}
-                        <div className="w-full md:w-[240px] shrink-0 z-20 bg-slate-50 dark:bg-slate-950 relative md:pr-4 flex justify-center md:justify-start">
-                            <div className="group flex flex-col items-center text-center space-y-3 w-[220px]">
-                                <div className="relative overflow-hidden rounded-2xl border border-emerald-200 bg-emerald-50/50 shadow-md transition-all duration-300 group-hover:-translate-y-1 group-hover:shadow-lg dark:border-emerald-900/50 dark:bg-emerald-950/20 w-full aspect-4/5">
+                        <div className="relative z-20 flex w-full shrink-0 justify-center bg-slate-50 md:w-[240px] md:justify-start md:pr-4 dark:bg-slate-950">
+                            <div className="group flex w-[220px] flex-col items-center space-y-3 text-center">
+                                <div className="relative aspect-4/5 w-full overflow-hidden rounded-2xl border border-emerald-200 bg-emerald-50/50 shadow-md transition-all duration-300 group-hover:-translate-y-1 group-hover:shadow-lg dark:border-emerald-900/50 dark:bg-emerald-950/20">
                                     <img
                                         src="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=400&auto=format&fit=crop&q=80"
                                         alt="SIRAJUDDIN, S.I.P"
-                                        className="h-full w-full object-cover object-center grayscale group-hover:grayscale-0 transition-all duration-500"
+                                        className="h-full w-full object-cover object-center grayscale transition-all duration-500 group-hover:grayscale-0"
                                     />
-                                    <div className="absolute inset-0 bg-gradient-to-t from-emerald-950/95 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-3">
-                                        <span className="text-[10px] font-bold text-emerald-300 tracking-wider uppercase">
+                                    <div className="absolute inset-0 flex flex-col justify-end bg-gradient-to-t from-emerald-950/95 via-transparent to-transparent p-3 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                                        <span className="text-[10px] font-bold tracking-wider text-emerald-300 uppercase">
                                             Pemimpin Desa
                                         </span>
                                     </div>
                                 </div>
                                 <div className="w-full">
-                                    <h4 className="text-sm font-bold text-slate-900 dark:text-white line-clamp-1 group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors">
+                                    <h4 className="line-clamp-1 text-sm font-bold text-slate-900 transition-colors group-hover:text-emerald-600 dark:text-white dark:group-hover:text-emerald-400">
                                         SIRAJUDDIN, S.I.P
                                     </h4>
                                     <p className="text-xs font-semibold text-emerald-600 dark:text-emerald-400">
@@ -1277,56 +1387,118 @@ return;
                         </div>
 
                         {/* Carousel Wrapper with Slide/Fade-out Effect */}
-                        <div className="flex-1 relative overflow-hidden">
+                        <div className="relative flex-1 overflow-hidden">
                             {/* Left Fade-out Mask Overlay (Visible on md and up) */}
-                            <div className="absolute top-0 bottom-0 left-0 w-16 bg-gradient-to-r from-slate-50 via-slate-50/40 to-transparent pointer-events-none z-10 dark:from-slate-950 dark:via-slate-950/40 hidden md:block" />
+                            <div className="pointer-events-none absolute top-0 bottom-0 left-0 z-10 hidden w-16 bg-gradient-to-r from-slate-50 via-slate-50/40 to-transparent md:block dark:from-slate-950 dark:via-slate-950/40" />
 
                             {/* Sliding Track */}
                             <div
                                 className={`flex gap-6 py-2 ${transitionEnabled ? 'transition-transform duration-500 ease-out' : 'transition-none'}`}
-                                style={{ transform: `translateX(-${aparaturIndex * (220 + 24)}px)` }}
+                                style={{
+                                    transform: `translateX(-${aparaturIndex * (220 + 24)}px)`,
+                                }}
                                 onTransitionEnd={handleTransitionEnd}
                             >
                                 {[
                                     // Set 1 (Klon Pertama)
-                                    { nama: 'AKBAR HIJRI, S.IP', jabatan: 'Sekretaris Desa', foto: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=400&auto=format&fit=crop&q=80' },
-                                    { nama: 'IRSAN RAMLI, S.A.P', jabatan: 'Kaur Keuangan', foto: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&auto=format&fit=crop&q=80' },
-                                    { nama: 'RAFIKA, S.Pd.I, Gr', jabatan: 'Kasi Pemerintahan', foto: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=400&auto=format&fit=crop&q=80' },
-                                    { nama: 'SAINAB, S.Pd', jabatan: 'Kasi Pelayanan', foto: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?w=400&auto=format&fit=crop&q=80' },
-                                    { nama: 'ANWAR SADAT, S.Pd', jabatan: 'Kadus Babana', foto: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&auto=format&fit=crop&q=80' },
-                                    
+                                    {
+                                        nama: 'AKBAR HIJRI, S.IP',
+                                        jabatan: 'Sekretaris Desa',
+                                        foto: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=400&auto=format&fit=crop&q=80',
+                                    },
+                                    {
+                                        nama: 'IRSAN RAMLI, S.A.P',
+                                        jabatan: 'Kaur Keuangan',
+                                        foto: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&auto=format&fit=crop&q=80',
+                                    },
+                                    {
+                                        nama: 'RAFIKA, S.Pd.I, Gr',
+                                        jabatan: 'Kasi Pemerintahan',
+                                        foto: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=400&auto=format&fit=crop&q=80',
+                                    },
+                                    {
+                                        nama: 'SAINAB, S.Pd',
+                                        jabatan: 'Kasi Pelayanan',
+                                        foto: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?w=400&auto=format&fit=crop&q=80',
+                                    },
+                                    {
+                                        nama: 'ANWAR SADAT, S.Pd',
+                                        jabatan: 'Kadus Babana',
+                                        foto: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&auto=format&fit=crop&q=80',
+                                    },
+
                                     // Set 2 (Klon Utama / Tengah)
-                                    { nama: 'AKBAR HIJRI, S.IP', jabatan: 'Sekretaris Desa', foto: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=400&auto=format&fit=crop&q=80' },
-                                    { nama: 'IRSAN RAMLI, S.A.P', jabatan: 'Kaur Keuangan', foto: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&auto=format&fit=crop&q=80' },
-                                    { nama: 'RAFIKA, S.Pd.I, Gr', jabatan: 'Kasi Pemerintahan', foto: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=400&auto=format&fit=crop&q=80' },
-                                    { nama: 'SAINAB, S.Pd', jabatan: 'Kasi Pelayanan', foto: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?w=400&auto=format&fit=crop&q=80' },
-                                    { nama: 'ANWAR SADAT, S.Pd', jabatan: 'Kadus Babana', foto: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&auto=format&fit=crop&q=80' },
-                                    
+                                    {
+                                        nama: 'AKBAR HIJRI, S.IP',
+                                        jabatan: 'Sekretaris Desa',
+                                        foto: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=400&auto=format&fit=crop&q=80',
+                                    },
+                                    {
+                                        nama: 'IRSAN RAMLI, S.A.P',
+                                        jabatan: 'Kaur Keuangan',
+                                        foto: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&auto=format&fit=crop&q=80',
+                                    },
+                                    {
+                                        nama: 'RAFIKA, S.Pd.I, Gr',
+                                        jabatan: 'Kasi Pemerintahan',
+                                        foto: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=400&auto=format&fit=crop&q=80',
+                                    },
+                                    {
+                                        nama: 'SAINAB, S.Pd',
+                                        jabatan: 'Kasi Pelayanan',
+                                        foto: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?w=400&auto=format&fit=crop&q=80',
+                                    },
+                                    {
+                                        nama: 'ANWAR SADAT, S.Pd',
+                                        jabatan: 'Kadus Babana',
+                                        foto: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&auto=format&fit=crop&q=80',
+                                    },
+
                                     // Set 3 (Klon Akhir)
-                                    { nama: 'AKBAR HIJRI, S.IP', jabatan: 'Sekretaris Desa', foto: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=400&auto=format&fit=crop&q=80' },
-                                    { nama: 'IRSAN RAMLI, S.A.P', jabatan: 'Kaur Keuangan', foto: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&auto=format&fit=crop&q=80' },
-                                    { nama: 'RAFIKA, S.Pd.I, Gr', jabatan: 'Kasi Pemerintahan', foto: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=400&auto=format&fit=crop&q=80' },
-                                    { nama: 'SAINAB, S.Pd', jabatan: 'Kasi Pelayanan', foto: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?w=400&auto=format&fit=crop&q=80' },
-                                    { nama: 'ANWAR SADAT, S.Pd', jabatan: 'Kadus Babana', foto: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&auto=format&fit=crop&q=80' },
+                                    {
+                                        nama: 'AKBAR HIJRI, S.IP',
+                                        jabatan: 'Sekretaris Desa',
+                                        foto: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=400&auto=format&fit=crop&q=80',
+                                    },
+                                    {
+                                        nama: 'IRSAN RAMLI, S.A.P',
+                                        jabatan: 'Kaur Keuangan',
+                                        foto: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&auto=format&fit=crop&q=80',
+                                    },
+                                    {
+                                        nama: 'RAFIKA, S.Pd.I, Gr',
+                                        jabatan: 'Kasi Pemerintahan',
+                                        foto: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=400&auto=format&fit=crop&q=80',
+                                    },
+                                    {
+                                        nama: 'SAINAB, S.Pd',
+                                        jabatan: 'Kasi Pelayanan',
+                                        foto: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?w=400&auto=format&fit=crop&q=80',
+                                    },
+                                    {
+                                        nama: 'ANWAR SADAT, S.Pd',
+                                        jabatan: 'Kadus Babana',
+                                        foto: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&auto=format&fit=crop&q=80',
+                                    },
                                 ].map((item, idx) => (
                                     <div
                                         key={idx}
-                                        className="group flex flex-col items-center text-center space-y-3 flex-none w-[220px]"
+                                        className="group flex w-[220px] flex-none flex-col items-center space-y-3 text-center"
                                     >
-                                        <div className="relative overflow-hidden rounded-2xl border border-slate-200 bg-slate-100 shadow-sm transition-all duration-300 group-hover:-translate-y-1 group-hover:shadow-md dark:border-slate-800 dark:bg-slate-900 w-full aspect-4/5">
+                                        <div className="relative aspect-4/5 w-full overflow-hidden rounded-2xl border border-slate-200 bg-slate-100 shadow-sm transition-all duration-300 group-hover:-translate-y-1 group-hover:shadow-md dark:border-slate-800 dark:bg-slate-900">
                                             <img
                                                 src={item.foto}
                                                 alt={item.nama}
-                                                className="h-full w-full object-cover object-center grayscale group-hover:grayscale-0 transition-all duration-500"
+                                                className="h-full w-full object-cover object-center grayscale transition-all duration-500 group-hover:grayscale-0"
                                             />
-                                            <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end justify-center p-3">
-                                                <span className="text-[10px] font-semibold text-slate-200 tracking-wide uppercase">
+                                            <div className="absolute inset-0 flex items-end justify-center bg-gradient-to-t from-slate-950/80 via-transparent to-transparent p-3 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                                                <span className="text-[10px] font-semibold tracking-wide text-slate-200 uppercase">
                                                     Batu Belerang
                                                 </span>
                                             </div>
                                         </div>
                                         <div className="w-full">
-                                            <h4 className="text-sm font-bold text-slate-900 dark:text-white line-clamp-1 group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors">
+                                            <h4 className="line-clamp-1 text-sm font-bold text-slate-900 transition-colors group-hover:text-emerald-600 dark:text-white dark:group-hover:text-emerald-400">
                                                 {item.nama}
                                             </h4>
                                             <p className="text-xs font-semibold text-slate-500 dark:text-slate-400">
