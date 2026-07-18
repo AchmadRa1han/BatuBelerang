@@ -62,6 +62,64 @@ const COLORS = [
     '#3b82f6',
 ];
 
+const aparaturList = [
+    {
+        nama: 'Sulaeman',
+        jabatan: 'Sekretaris Desa',
+        foto: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=400&auto=format&fit=crop&q=80',
+    },
+    {
+        nama: 'Sadar Syam, S.Pd',
+        jabatan: 'Kepala Seksi Pemerintahan',
+        foto: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&auto=format&fit=crop&q=80',
+    },
+    {
+        nama: 'Hartati',
+        jabatan: 'Kepala Seksi Pelayanan',
+        foto: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?w=400&auto=format&fit=crop&q=80',
+    },
+    {
+        nama: 'Lukman, S.Pd',
+        jabatan: 'Kepala Seksi Kesejahteraan',
+        foto: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&auto=format&fit=crop&q=80',
+    },
+    {
+        nama: 'Kartini, S.Pd',
+        jabatan: 'Kepala Urusan Tata Usaha dan Umum',
+        foto: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=400&auto=format&fit=crop&q=80',
+    },
+    {
+        nama: 'Fitriani',
+        jabatan: 'Kepala Urusan Keuangan',
+        foto: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400&auto=format&fit=crop&q=80',
+    },
+    {
+        nama: 'Nirmawati, SP',
+        jabatan: 'Kepala Urusan Perencanaan',
+        foto: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=400&auto=format&fit=crop&q=80',
+    },
+    {
+        nama: 'Muh. Darwis',
+        jabatan: 'Kepala Dusun Jeppara',
+        foto: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&auto=format&fit=crop&q=80',
+    },
+    {
+        nama: 'Aditya Saputra',
+        jabatan: 'Kepala Dusun Bontoe',
+        foto: 'https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=400&auto=format&fit=crop&q=80',
+    },
+    {
+        nama: 'Muh. Tahir',
+        jabatan: 'Kepala Dusun Kalimbu',
+        foto: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=400&auto=format&fit=crop&q=80',
+    },
+    {
+        nama: 'Ahmad',
+        jabatan: 'Kepala Dusun Mattirotasi',
+        foto: 'https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?w=400&auto=format&fit=crop&q=80',
+    },
+];
+
 export default function Welcome({
     stats,
     demografi,
@@ -73,7 +131,7 @@ export default function Welcome({
     );
     const [hoveredBarIndex, setHoveredBarIndex] = useState<number | null>(null);
 
-    const [aparaturIndex, setAparaturIndex] = useState(5); // Mulai dari klon tengah (index 5)
+    const [aparaturIndex, setAparaturIndex] = useState(aparaturList.length); // Mulai dari klon tengah (index N)
     const [transitionEnabled, setTransitionEnabled] = useState(true);
 
     const prevAparatur = () => {
@@ -93,12 +151,14 @@ export default function Welcome({
     };
 
     const handleTransitionEnd = () => {
-        if (aparaturIndex >= 10) {
+        const N = aparaturList.length;
+
+        if (aparaturIndex >= 2 * N) {
             setTransitionEnabled(false);
-            setAparaturIndex((prev) => prev - 5);
-        } else if (aparaturIndex < 5) {
+            setAparaturIndex((prev) => prev - N);
+        } else if (aparaturIndex < N) {
             setTransitionEnabled(false);
-            setAparaturIndex((prev) => prev + 5);
+            setAparaturIndex((prev) => prev + N);
         }
     };
 
@@ -975,7 +1035,7 @@ export default function Welcome({
                                 <div className="relative aspect-4/5 w-full overflow-hidden rounded-2xl border border-emerald-200 bg-emerald-50/50 shadow-md transition-all duration-300 group-hover:-translate-y-1 group-hover:shadow-lg dark:border-emerald-900/50 dark:bg-emerald-950/20">
                                     <img
                                         src="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=400&auto=format&fit=crop&q=80"
-                                        alt="SIRAJUDDIN, S.I.P"
+                                        alt="Ahmad P"
                                         className="h-full w-full object-cover object-center grayscale transition-all duration-500 group-hover:grayscale-0"
                                     />
                                     <div className="absolute inset-0 flex flex-col justify-end bg-gradient-to-t from-emerald-950/95 via-transparent to-transparent p-3 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
@@ -986,7 +1046,7 @@ export default function Welcome({
                                 </div>
                                 <div className="w-full">
                                     <h4 className="line-clamp-1 text-sm font-bold text-slate-900 transition-colors group-hover:text-emerald-600 dark:text-white dark:group-hover:text-emerald-400">
-                                        SIRAJUDDIN, S.I.P
+                                        Ahmad P
                                     </h4>
                                     <p className="text-xs font-semibold text-emerald-600 dark:text-emerald-400">
                                         Kepala Desa
@@ -1009,86 +1069,9 @@ export default function Welcome({
                                 onTransitionEnd={handleTransitionEnd}
                             >
                                 {[
-                                    // Set 1 (Klon Pertama)
-                                    {
-                                        nama: 'AKBAR HIJRI, S.IP',
-                                        jabatan: 'Sekretaris Desa',
-                                        foto: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=400&auto=format&fit=crop&q=80',
-                                    },
-                                    {
-                                        nama: 'IRSAN RAMLI, S.A.P',
-                                        jabatan: 'Kaur Keuangan',
-                                        foto: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&auto=format&fit=crop&q=80',
-                                    },
-                                    {
-                                        nama: 'RAFIKA, S.Pd.I, Gr',
-                                        jabatan: 'Kasi Pemerintahan',
-                                        foto: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=400&auto=format&fit=crop&q=80',
-                                    },
-                                    {
-                                        nama: 'SAINAB, S.Pd',
-                                        jabatan: 'Kasi Pelayanan',
-                                        foto: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?w=400&auto=format&fit=crop&q=80',
-                                    },
-                                    {
-                                        nama: 'ANWAR SADAT, S.Pd',
-                                        jabatan: 'Kadus Babana',
-                                        foto: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&auto=format&fit=crop&q=80',
-                                    },
-
-                                    // Set 2 (Klon Utama / Tengah)
-                                    {
-                                        nama: 'AKBAR HIJRI, S.IP',
-                                        jabatan: 'Sekretaris Desa',
-                                        foto: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=400&auto=format&fit=crop&q=80',
-                                    },
-                                    {
-                                        nama: 'IRSAN RAMLI, S.A.P',
-                                        jabatan: 'Kaur Keuangan',
-                                        foto: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&auto=format&fit=crop&q=80',
-                                    },
-                                    {
-                                        nama: 'RAFIKA, S.Pd.I, Gr',
-                                        jabatan: 'Kasi Pemerintahan',
-                                        foto: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=400&auto=format&fit=crop&q=80',
-                                    },
-                                    {
-                                        nama: 'SAINAB, S.Pd',
-                                        jabatan: 'Kasi Pelayanan',
-                                        foto: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?w=400&auto=format&fit=crop&q=80',
-                                    },
-                                    {
-                                        nama: 'ANWAR SADAT, S.Pd',
-                                        jabatan: 'Kadus Babana',
-                                        foto: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&auto=format&fit=crop&q=80',
-                                    },
-
-                                    // Set 3 (Klon Akhir)
-                                    {
-                                        nama: 'AKBAR HIJRI, S.IP',
-                                        jabatan: 'Sekretaris Desa',
-                                        foto: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=400&auto=format&fit=crop&q=80',
-                                    },
-                                    {
-                                        nama: 'IRSAN RAMLI, S.A.P',
-                                        jabatan: 'Kaur Keuangan',
-                                        foto: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&auto=format&fit=crop&q=80',
-                                    },
-                                    {
-                                        nama: 'RAFIKA, S.Pd.I, Gr',
-                                        jabatan: 'Kasi Pemerintahan',
-                                        foto: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=400&auto=format&fit=crop&q=80',
-                                    },
-                                    {
-                                        nama: 'SAINAB, S.Pd',
-                                        jabatan: 'Kasi Pelayanan',
-                                        foto: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?w=400&auto=format&fit=crop&q=80',
-                                    },
-                                    {
-                                        nama: 'ANWAR SADAT, S.Pd',
-                                        jabatan: 'Kadus Babana',
-                                        foto: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&auto=format&fit=crop&q=80',
-                                    },
+                                    ...aparaturList,
+                                    ...aparaturList,
+                                    ...aparaturList,
                                 ].map((item, idx) => (
                                     <div
                                         key={idx}
