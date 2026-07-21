@@ -461,32 +461,39 @@ export default function Welcome({
             <PublicNavbar />
 
             {/* Hero Section */}
-            <section className="relative flex items-center justify-center bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-emerald-50/50 via-slate-50 to-slate-50 pt-32 pb-24 transition-colors md:pt-40 md:pb-36 dark:from-emerald-900/10 dark:via-slate-950 dark:to-slate-950">
-                {/* Background Grid Pattern */}
-                <div className="absolute inset-0 bg-[linear-gradient(to_right,#e2e8f0_1px,transparent_1px),linear-gradient(to_bottom,#e2e8f0_1px,transparent_1px)] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_40%,#000_70%,transparent_100%)] bg-[size:4rem_4rem] dark:bg-[linear-gradient(to_right,#0f172a_1px,transparent_1px),linear-gradient(to_bottom,#0f172a_1px,transparent_1px)]"></div>
+            <section className="relative flex items-center justify-center pt-28 pb-20 md:pt-36 md:pb-28 text-white overflow-hidden bg-slate-950">
+                {/* Hero Background Image & Dark Overlay */}
+                <div className="absolute inset-0 z-0">
+                    <img
+                        src={profilDesa?.hero_bg_path || 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=1920&auto=format&fit=crop&q=80'}
+                        alt="Hero Background Desa"
+                        className="h-full w-full object-cover transition-transform duration-1000 scale-105"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-b from-slate-950/80 via-slate-950/75 to-slate-950/90 backdrop-blur-[1px]" />
+                </div>
 
-                <div className="relative z-10 mx-auto max-w-5xl space-y-8 px-6 text-center">
-                    <span className="inline-flex rounded-full border border-emerald-500/20 bg-emerald-500/10 px-3.5 py-1 text-xs font-semibold tracking-wider text-emerald-600 uppercase dark:text-emerald-400">
+                <div className="relative z-10 mx-auto max-w-4xl space-y-5 px-6 text-center">
+                    <span className="inline-flex rounded-full border border-emerald-400/30 bg-emerald-500/20 px-3.5 py-1 text-xs font-semibold tracking-wider text-emerald-300 uppercase backdrop-blur-md shadow-sm">
                         Portal Resmi Desa Batu Belerang
                     </span>
-                    <h1 className="mx-auto max-w-4xl text-4xl leading-tight font-extrabold tracking-tight text-slate-900 md:text-6xl dark:text-white">
+                    <h1 className="mx-auto max-w-3xl text-2xl md:text-4xl font-extrabold tracking-tight text-white drop-shadow-md leading-snug">
                         {profilDesa?.hero_title || 'Desa Batu Belerang'}
                     </h1>
-                    <p className="mx-auto max-w-2xl text-base font-semibold text-slate-600 md:text-xl dark:text-slate-300">
+                    <p className="mx-auto max-w-xl text-xs md:text-sm font-medium text-slate-200 drop-shadow-sm leading-relaxed">
                         {profilDesa?.hero_subtitle || 'Kecamatan Sinjai Borong, Kabupaten Sinjai, Provinsi Sulawesi Selatan'}
                     </p>
-                    <div className="flex flex-col justify-center gap-4 pt-4 sm:flex-row">
+                    <div className="flex flex-col justify-center gap-3 pt-2 sm:flex-row">
                         <Link
                             href="/register"
-                            className="rounded-xl bg-gradient-to-tr from-emerald-600 to-emerald-500 px-6 py-3.5 text-sm font-semibold text-white shadow-md shadow-emerald-600/15 transition-all hover:from-emerald-500 hover:to-emerald-400"
+                            className="rounded-xl bg-emerald-600 px-5 py-2.5 text-xs font-semibold text-white shadow-md shadow-emerald-600/30 transition-all hover:bg-emerald-500"
                         >
                             Layanan Mandiri Warga
                         </Link>
                         <Link
-                            href="#"
-                            className="rounded-xl border border-slate-200 bg-white px-6 py-3.5 text-sm font-semibold text-slate-700 transition-all hover:border-slate-300 hover:bg-slate-50 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-200 dark:hover:border-slate-700 dark:hover:bg-slate-800"
+                            href="/berita"
+                            className="rounded-xl border border-white/20 bg-white/10 px-5 py-2.5 text-xs font-semibold text-white backdrop-blur-md transition-all hover:bg-white/20"
                         >
-                            Jelajahi Pariwisata Desa
+                            Jelajahi Berita Desa
                         </Link>
                     </div>
                 </div>

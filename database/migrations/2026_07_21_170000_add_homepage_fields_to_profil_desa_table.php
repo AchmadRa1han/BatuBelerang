@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('foto_kades')->nullable()->after('sambutan_kades');
             $table->string('hero_title')->nullable()->after('foto_kades');
             $table->text('hero_subtitle')->nullable()->after('hero_title');
+            $table->string('hero_bg_path')->nullable()->after('hero_subtitle');
         });
     }
 

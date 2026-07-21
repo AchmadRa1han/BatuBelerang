@@ -211,6 +211,8 @@ export default function Dashboard({
         nama_provinsi: profilDesa?.nama_provinsi || 'Sulawesi Selatan',
         hero_title: profilDesa?.hero_title || 'Desa Batu Belerang',
         hero_subtitle: profilDesa?.hero_subtitle || 'Kecamatan Sinjai Borong, Kabupaten Sinjai, Provinsi Sulawesi Selatan',
+        hero_bg_path: profilDesa?.hero_bg_path || 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=1920&auto=format&fit=crop&q=80',
+        hero_bg_file: null as File | null,
         nama_kades: profilDesa?.nama_kades || 'H. Ahmad Supardi, S.Sos',
         jabatan_kades: profilDesa?.jabatan_kades || 'Kepala Desa Batu Belerang',
         sambutan_kades: profilDesa?.sambutan_kades || 'Selamat datang di website resmi Desa Batu Belerang.',
@@ -508,10 +510,42 @@ export default function Dashboard({
                                 <Label className="text-xs font-semibold">Subjudul Banner Utama (Hero Subtitle)</Label>
                                 <textarea
                                     className="w-full rounded-md border border-slate-300 dark:border-slate-700 bg-transparent p-2.5 text-xs focus:ring-2 focus:ring-emerald-500"
-                                    rows={3}
+                                    rows={2}
                                     value={profilForm.data.hero_subtitle}
                                     onChange={(e) => profilForm.setData('hero_subtitle', e.target.value)}
                                 />
+                            </div>
+
+                            <div className="space-y-1.5 sm:col-span-2">
+                                <Label className="text-xs font-semibold">Foto Background Banner Utama (Hero Background Image)</Label>
+                                <div className="flex flex-col sm:flex-row items-center gap-4 p-3 rounded-lg border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/50">
+                                    <img
+                                        src={profilForm.data.hero_bg_path}
+                                        alt="Hero Background Preview"
+                                        className="h-20 w-36 rounded-md object-cover border border-slate-300 dark:border-slate-700 shrink-0 shadow-sm"
+                                    />
+                                    <div className="space-y-2 w-full">
+                                        <Input
+                                            type="file"
+                                            accept="image/*"
+                                            onChange={(e) => {
+                                                const file = e.target.files?.[0];
+                                                if (file) {
+                                                    profilForm.setData('hero_bg_file', file);
+                                                    profilForm.setData('hero_bg_path', URL.createObjectURL(file));
+                                                }
+                                            }}
+                                            className="text-xs bg-white dark:bg-slate-950"
+                                        />
+                                        <Input
+                                            type="text"
+                                            value={profilForm.data.hero_bg_path}
+                                            onChange={(e) => profilForm.setData('hero_bg_path', e.target.value)}
+                                            placeholder="Atau masukkan URL foto background..."
+                                            className="text-xs"
+                                        />
+                                    </div>
+                                </div>
                             </div>
 
                             <div className="space-y-1.5">

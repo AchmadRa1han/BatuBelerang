@@ -39,6 +39,8 @@ class AdminContentController extends Controller
             'foto_kades_base64' => 'nullable|string',
             'hero_title' => 'nullable|string|max:255',
             'hero_subtitle' => 'nullable|string',
+            'hero_bg_path' => 'nullable|string',
+            'hero_bg_file' => 'nullable|image|max:5120',
         ]);
 
         if ($request->hasFile('foto_kades_file')) {
@@ -55,12 +57,17 @@ class AdminContentController extends Controller
             }
         }
 
-        unset($validated['foto_kades_file'], $validated['foto_kades_base64']);
+        if ($request->hasFile('hero_bg_file')) {
+            $path = $request->file('hero_bg_file')->store('hero', 'public');
+            $validated['hero_bg_path'] = '/storage/'.$path;
+        }
+
+        unset($validated['foto_kades_file'], $validated['foto_kades_base64'], $validated['hero_bg_file']);
 
         $profil = ProfilDesa::firstOrCreate(['id' => 1]);
         $profil->update(array_filter($validated, fn ($val) => ! is_null($val)));
 
-        return back()->with('success', 'Profil desa & data Kepala Desa berhasil diperbarui.');
+        return back()->with('success', 'Profil desa & hero background berhasil diperbarui.');
     }
 
     /**

@@ -25,6 +25,7 @@ use Illuminate\Database\Eloquent\Model;
     'foto_kades',
     'hero_title',
     'hero_subtitle',
+    'hero_bg_path',
 ])]
 class ProfilDesa extends Model
 {

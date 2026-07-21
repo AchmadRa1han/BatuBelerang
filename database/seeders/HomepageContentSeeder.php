@@ -40,6 +40,7 @@ class HomepageContentSeeder extends Seeder
                 'foto_kades' => 'https://images.unsplash.com/photo-1560250097-0b93528c311a?w=400&auto=format&fit=crop&q=80',
                 'hero_title' => 'Desa Batu Belerang',
                 'hero_subtitle' => 'Kecamatan Sinjai Borong, Kabupaten Sinjai, Provinsi Sulawesi Selatan',
+                'hero_bg_path' => 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=1920&auto=format&fit=crop&q=80',
             ]
         );
 
