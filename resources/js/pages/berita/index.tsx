@@ -85,18 +85,19 @@ export default function BeritaIndex({
             <PublicNavbar />
 
             {/* Hero Header Banner */}
-            <section className="relative bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-emerald-900/20 via-slate-950 to-slate-950 pt-32 pb-16 md:pt-40 md:pb-20 text-white border-b border-slate-800">
-                <div className="mx-auto max-w-7xl px-6 text-center space-y-4">
+            <section className="relative bg-slate-900 pt-32 pb-16 md:pt-40 md:pb-20 text-white border-b border-slate-800 dark:bg-slate-950 overflow-hidden">
+                <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-emerald-900/40 via-slate-900 to-slate-900 dark:from-emerald-950/60 dark:via-slate-950 dark:to-slate-950" />
+                <div className="relative z-10 mx-auto max-w-7xl px-6 text-center space-y-4">
                     <Link
                         href="/"
                         className="inline-flex items-center gap-1.5 text-xs font-semibold text-emerald-400 hover:text-emerald-300 transition-colors mb-2"
                     >
                         <ArrowLeft className="size-3.5" /> Kembali ke Beranda
                     </Link>
-                    <h1 className="text-3xl md:text-5xl font-extrabold tracking-tight bg-gradient-to-b from-white via-slate-100 to-slate-400 bg-clip-text text-transparent">
+                    <h1 className="text-3xl md:text-5xl font-extrabold tracking-tight text-white drop-shadow-sm">
                         Arsip Berita & Informasi Desa
                     </h1>
-                    <p className="mx-auto max-w-2xl text-xs md:text-sm text-slate-400 leading-relaxed">
+                    <p className="mx-auto max-w-2xl text-xs md:text-sm text-slate-300 dark:text-slate-400 leading-relaxed">
                         Pusat publikasi kabar terbaru, pengumuman pemerintah desa, kegiatan kemasyarakatan, dan transparansi pembangunan Desa Batu Belerang.
                     </p>
                 </div>
