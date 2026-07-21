@@ -125,6 +125,24 @@ export default function PublicNavbar() {
                     >
                         Berita Desa
                     </Link>
+                    <Link
+                        href="#"
+                        className="transition-colors hover:text-emerald-600 dark:hover:text-emerald-400"
+                    >
+                        UMKM
+                    </Link>
+                    <Link
+                        href="#"
+                        className="transition-colors hover:text-emerald-600 dark:hover:text-emerald-400"
+                    >
+                        Wisata
+                    </Link>
+                    <Link
+                        href="/debug/database"
+                        className="transition-colors hover:text-emerald-600 dark:hover:text-emerald-400"
+                    >
+                        DB Inspector
+                    </Link>
                 </nav>
 
                 {/* Auth Actions */}
@@ -321,6 +339,24 @@ export default function PublicNavbar() {
                         className="block text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white"
                     >
                         Berita Desa
+                    </Link>
+                    <Link
+                        href="#"
+                        className="block text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white"
+                    >
+                        UMKM
+                    </Link>
+                    <Link
+                        href="#"
+                        className="block text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white"
+                    >
+                        Wisata
+                    </Link>
+                    <Link
+                        href="/debug/database"
+                        className="block text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white"
+                    >
+                        DB Inspector
                     </Link>
                     <div className="flex gap-4 border-t border-slate-100 pt-4 dark:border-slate-900">
                         {auth.user ? (
