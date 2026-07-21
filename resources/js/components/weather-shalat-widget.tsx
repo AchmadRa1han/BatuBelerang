@@ -307,315 +307,111 @@ export default function WeatherShalatWidget() {
     };
 
     return (
-        <div className="w-full animate-in space-y-4 duration-500 fade-in slide-in-from-bottom-4">
-            {/* --- Weather Widget --- */}
-            <div className="relative overflow-hidden rounded-2xl border border-slate-500/20 bg-gradient-to-r from-slate-600 via-slate-700 to-slate-800 text-white shadow-lg transition-all duration-300 dark:border-slate-800 dark:from-slate-900 dark:via-slate-950 dark:to-zinc-950">
-                <div className="pointer-events-none absolute inset-0 opacity-10">
-                    <svg
-                        className="absolute -bottom-10 -left-10 h-64 w-64 text-white"
-                        fill="currentColor"
-                        viewBox="0 0 100 100"
-                    >
-                        <path d="M70,40 C70,30 60,20 48,20 C38,20 30,28 30,38 C20,38 10,48 10,60 C10,72 20,80 32,80 L72,80 C80,80 88,72 88,62 C88,52 80,42 70,40 Z" />
-                    </svg>
-                    <svg
-                        className="absolute -top-10 -right-10 h-80 w-80 text-white"
-                        fill="currentColor"
-                        viewBox="0 0 100 100"
-                    >
-                        <path d="M70,40 C70,30 60,20 48,20 C38,20 30,28 30,38 C20,38 10,48 10,60 C10,72 20,80 32,80 L72,80 C80,80 88,72 88,62 C88,52 80,42 70,40 Z" />
-                    </svg>
+        <section className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch w-full">
+            {/* ☀️ Left Side: Cuaca Desa Batu Belerang (Col 5) */}
+            <div className="lg:col-span-5 flex flex-col justify-between overflow-hidden rounded-2xl bg-gradient-to-br from-slate-900 via-slate-900 to-emerald-950 p-5 text-white shadow-sm border border-slate-800 space-y-4">
+                {/* Header Cuaca */}
+                <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-1.5 text-xs font-semibold text-emerald-400">
+                        <MapPin className="size-4 text-emerald-400 shrink-0" />
+                        <span>Desa Batu Belerang</span>
+                    </div>
+                    <span className="rounded-full bg-emerald-500/20 px-2.5 py-0.5 text-[10px] font-bold text-emerald-300 border border-emerald-500/30">
+                        {weather.condition}
+                    </span>
                 </div>
 
-                <div className="relative z-10 flex flex-col justify-between gap-6 p-6 md:p-8 lg:flex-row lg:items-center">
-                    <div className="flex items-center gap-6">
-                        <div className="flex flex-col">
-                            <span className="flex items-center gap-1.5 text-[10px] font-bold tracking-widest text-slate-200 uppercase md:text-xs">
-                                <MapPin className="h-3.5 w-3.5 fill-rose-400 text-rose-400" />
-                                Cuaca Desa Batu Belerang
-                            </span>
-                            <div className="mt-2 flex items-center gap-4">
-                                <WeatherIcon
-                                    className="h-16 w-16 animate-pulse text-blue-100 drop-shadow-md md:h-20 md:w-20"
-                                    strokeWidth={1.5}
-                                />
-                                <div className="flex flex-col">
-                                    <span className="flex items-start text-4xl font-extrabold tracking-tight md:text-5xl">
-                                        {weather.temp}
-                                        <span className="mt-1 text-xl font-medium">
-                                            °C
-                                        </span>
-                                    </span>
-                                    <span className="mt-0.5 text-xs font-semibold text-slate-200 capitalize md:text-sm">
-                                        {weather.condition}
-                                    </span>
-                                </div>
+                {/* Main Temp & Weather Icon */}
+                <div className="my-2 flex items-center justify-between">
+                    <div className="flex items-center gap-3">
+                        <WeatherIcon className="size-11 text-amber-400 drop-shadow-md shrink-0" />
+                        <div>
+                            <div className="text-3xl font-extrabold tracking-tight">
+                                {weather.temp}°C
+                            </div>
+                            <div className="text-[11px] text-slate-300 capitalize">
+                                Cuaca Hari Ini
                             </div>
                         </div>
                     </div>
-
-                    <div className="h-px w-full bg-white/10 lg:hidden" />
-
-                    <div className="-mb-2 scrollbar-none overflow-x-auto pb-2 lg:mb-0 lg:pb-0">
-                        <div className="flex min-w-[450px] items-center justify-between gap-5 md:gap-7 lg:min-w-0 lg:justify-end">
-                            {weather.forecast.map((f, idx) => {
-                                const ForecastDayIcon = f.icon;
-
-                                return (
-                                    <div
-                                        key={idx}
-                                        className="group flex flex-1 flex-col items-center space-y-2 text-center"
-                                    >
-                                        <span className="text-[10px] font-semibold text-slate-300 transition-colors group-hover:text-white md:text-xs dark:text-slate-400">
-                                            {f.day}
-                                        </span>
-                                        <div className="rounded-xl border border-white/5 bg-white/5 p-2 transition-all duration-300 group-hover:scale-105 group-hover:bg-white/10">
-                                            <ForecastDayIcon
-                                                className="h-6 w-6 text-blue-200 md:h-7 md:w-7"
-                                                strokeWidth={1.8}
-                                            />
-                                        </div>
-                                        <div className="flex flex-col font-mono text-[10px] leading-tight md:text-[11px]">
-                                            <span className="font-bold text-white">
-                                                {f.tempMax}°
-                                            </span>
-                                            <span className="text-slate-350 dark:text-slate-400">
-                                                {f.tempMin}°
-                                            </span>
-                                        </div>
-                                    </div>
-                                );
-                            })}
-                        </div>
+                    <div className="text-right text-[11px] text-slate-400 leading-tight">
+                        <div className="font-semibold text-slate-300">Kec. Sinjai Borong</div>
+                        <div className="text-[10px]">Kab. Sinjai</div>
                     </div>
+                </div>
+
+                {/* Horizontal 7-Day Forecast */}
+                <div className="pt-3 border-t border-slate-800/80 grid grid-cols-7 gap-1 text-center">
+                    {weather.forecast.map((f, idx) => {
+                        const Icon = f.icon;
+                        return (
+                            <div key={idx} className="flex flex-col items-center space-y-1">
+                                <span className="text-[10px] font-medium text-slate-400">{f.day}</span>
+                                <Icon className="size-4 text-blue-300" />
+                                <span className="text-[10px] font-bold text-white">{f.tempMax}°</span>
+                            </div>
+                        );
+                    })}
                 </div>
             </div>
 
-            {/* --- Prayer Time Widget --- */}
-            <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition-all duration-300 dark:border-slate-800 dark:bg-slate-900">
-                <div className="flex flex-wrap items-center justify-between gap-4 border-b border-slate-100 p-4 md:p-6 dark:border-slate-800">
-                    <div className="flex items-center gap-4">
+            {/* 🕌 Right Side: Jadwal Shalat Desa (Col 7) */}
+            <div className="lg:col-span-7 flex flex-col justify-between overflow-hidden rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-800 dark:bg-slate-900/60 space-y-4">
+                {/* Header Shalat */}
+                <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-100 dark:border-slate-800 pb-3">
+                    <div className="flex items-center gap-3">
                         <SinjaiLogo />
                         <div>
-                            <h2 className="text-xs font-bold tracking-tight text-slate-900 md:text-sm dark:text-white">
-                                Jadwal Imsak & Shalat Desa Batu Belerang
-                            </h2>
-                            <p className="mt-0.5 text-[10px] font-medium text-slate-500 md:text-xs dark:text-slate-400">
+                            <h3 className="text-xs md:text-sm font-extrabold text-slate-900 dark:text-white">
+                                Jadwal Imsak & Shalat Desa
+                            </h3>
+                            <p className="text-[10px] text-slate-500 dark:text-slate-400">
                                 {getIndonesianDate()}
                             </p>
                         </div>
                     </div>
 
-                    <div className="ml-auto flex items-center gap-3 md:ml-0">
-                        {nextPrayer && (
-                            <div className="hidden items-center gap-2 rounded-full border border-emerald-100/60 bg-emerald-50 px-3.5 py-1.5 text-xs font-semibold text-emerald-700 sm:flex dark:border-emerald-900/50 dark:bg-emerald-950/40 dark:text-emerald-300">
-                                <Clock
-                                    className="h-3.5 w-3.5 animate-spin"
-                                    style={{ animationDuration: '4s' }}
-                                />
-                                <span>
-                                    {nextPrayer.name} {nextPrayer.time}
-                                </span>
-                                <span className="opacity-60">•</span>
-                                <span className="font-mono text-[10px]">
-                                    {formatTimeRemaining(
-                                        nextPrayer.minutesLeft,
-                                    )}
-                                </span>
-                            </div>
-                        )}
-
-                        {nextPrayer && (
-                            <div className="text-xs font-bold text-slate-800 sm:hidden dark:text-slate-200">
-                                {nextPrayer.name} {nextPrayer.time}
-                            </div>
-                        )}
-
-                        <button
-                            onClick={() => setIsExpanded(!isExpanded)}
-                            className="flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-bold text-emerald-600 transition-colors hover:bg-slate-50 hover:text-emerald-500 dark:text-emerald-400 dark:hover:bg-slate-800 dark:hover:text-emerald-300"
-                        >
-                            <span>
-                                {isExpanded ? 'Sembunyikan' : 'Selengkapnya'}
-                            </span>
-                            {isExpanded ? (
-                                <ChevronUp className="h-4 w-4" />
-                            ) : (
-                                <ChevronDown className="h-4 w-4" />
-                            )}
-                        </button>
-                    </div>
+                    {nextPrayer && (
+                        <div className="flex items-center gap-1.5 rounded-full border border-emerald-500/20 bg-emerald-50 dark:bg-emerald-950/40 px-3 py-1 text-xs font-semibold text-emerald-700 dark:text-emerald-300">
+                            <Clock className="size-3.5 animate-spin text-emerald-600 dark:text-emerald-400" style={{ animationDuration: '4s' }} />
+                            <span>{nextPrayer.name} {nextPrayer.time}</span>
+                            <span className="opacity-50">•</span>
+                            <span className="font-mono text-[10px]">{formatTimeRemaining(nextPrayer.minutesLeft)}</span>
+                        </div>
+                    )}
                 </div>
 
-                <div
-                    className={`overflow-hidden transition-all duration-500 ease-in-out ${
-                        isExpanded
-                            ? 'max-h-[500px] opacity-100'
-                            : 'max-h-0 opacity-0'
-                    }`}
-                >
-                    <div className="grid grid-cols-2 gap-4 p-4 sm:grid-cols-3 md:p-6 lg:grid-cols-6">
-                        {/* 1. Imsak */}
-                        <div
-                            className={`group overflow-hidden rounded-xl border bg-white transition-all duration-300 hover:shadow-md dark:bg-slate-950 ${
-                                nextPrayer?.name === 'Imsak'
-                                    ? 'scale-[1.02] border-transparent ring-2 shadow-emerald-100 ring-emerald-500 dark:shadow-none'
-                                    : 'border-slate-200 dark:border-slate-800'
-                            }`}
-                        >
-                            <div className="relative flex flex-col items-center justify-center bg-[#0e7490] p-4 text-white">
-                                <CloudRain
-                                    className="h-7 w-7"
-                                    strokeWidth={2}
-                                />
-                                {nextPrayer?.name === 'Imsak' && (
-                                    <span className="absolute top-1 right-2 animate-pulse rounded bg-white/20 px-1 text-[8px] font-bold tracking-widest uppercase">
-                                        Berikutnya
-                                    </span>
-                                )}
-                            </div>
-                            <div className="p-3.5 text-center">
-                                <div className="text-[10px] font-bold tracking-wide text-slate-600 uppercase dark:text-slate-400">
-                                    Imsak
+                {/* 6 Prayer Pills Grid (Compact Row) */}
+                <div className="grid grid-cols-3 sm:grid-cols-6 gap-2 pt-1">
+                    {[
+                        { label: 'Imsak', time: prayerTimes.imsak, icon: CloudRain, bg: 'bg-cyan-600' },
+                        { label: 'Subuh', time: prayerTimes.subuh, icon: Sunrise, bg: 'bg-cyan-700' },
+                        { label: 'Dzuhur', time: prayerTimes.dzuhur, icon: Sun, bg: 'bg-amber-500' },
+                        { label: 'Ashar', time: prayerTimes.ashar, icon: CloudSun, bg: 'bg-orange-600' },
+                        { label: 'Magrib', time: prayerTimes.magrib, icon: Sunset, bg: 'bg-rose-600' },
+                        { label: 'Isya', time: prayerTimes.isya, icon: Moon, bg: 'bg-indigo-700' },
+                    ].map((p) => {
+                        const Icon = p.icon;
+                        const isNext = nextPrayer?.name.toLowerCase() === p.label.toLowerCase();
+                        return (
+                            <div
+                                key={p.label}
+                                className={`flex flex-col items-center justify-between rounded-xl border p-2.5 text-center transition-all ${
+                                    isNext
+                                        ? 'border-emerald-500 bg-emerald-50/60 dark:bg-emerald-950/30 ring-2 ring-emerald-500/40'
+                                        : 'border-slate-100 bg-slate-50/50 dark:border-slate-800 dark:bg-slate-900/40'
+                                }`}
+                            >
+                                <div className={`flex size-7 items-center justify-center rounded-lg ${p.bg} text-white shadow-sm mb-1`}>
+                                    <Icon className="size-4" />
                                 </div>
-                                <div className="mt-1 font-mono text-lg font-extrabold text-slate-800 dark:text-slate-200">
-                                    {prayerTimes.imsak}
-                                </div>
+                                <span className="text-[10px] font-bold uppercase text-slate-500 dark:text-slate-400">{p.label}</span>
+                                <span className="text-xs font-extrabold font-mono text-slate-900 dark:text-white mt-0.5">{p.time}</span>
                             </div>
-                        </div>
-
-                        {/* 2. Subuh */}
-                        <div
-                            className={`group overflow-hidden rounded-xl border bg-white transition-all duration-300 hover:shadow-md dark:bg-slate-950 ${
-                                nextPrayer?.name === 'Subuh'
-                                    ? 'scale-[1.02] border-transparent ring-2 shadow-emerald-100 ring-emerald-500 dark:shadow-none'
-                                    : 'border-slate-200 dark:border-slate-800'
-                            }`}
-                        >
-                            <div className="relative flex flex-col items-center justify-center bg-[#0891b2] p-4 text-white">
-                                <Sunrise className="h-7 w-7" strokeWidth={2} />
-                                {nextPrayer?.name === 'Subuh' && (
-                                    <span className="absolute top-1 right-2 animate-pulse rounded bg-white/20 px-1 text-[8px] font-bold tracking-widest uppercase">
-                                        Berikutnya
-                                    </span>
-                                )}
-                            </div>
-                            <div className="p-3.5 text-center">
-                                <div className="text-[10px] font-bold tracking-wide text-slate-600 uppercase dark:text-slate-400">
-                                    Subuh
-                                </div>
-                                <div className="mt-1 font-mono text-lg font-extrabold text-slate-800 dark:text-slate-200">
-                                    {prayerTimes.subuh}
-                                </div>
-                            </div>
-                        </div>
-
-                        {/* 3. Dzuhur */}
-                        <div
-                            className={`group overflow-hidden rounded-xl border bg-white transition-all duration-300 hover:shadow-md dark:bg-slate-950 ${
-                                nextPrayer?.name === 'Dzuhur'
-                                    ? 'scale-[1.02] border-transparent ring-2 shadow-emerald-100 ring-emerald-500 dark:shadow-none'
-                                    : 'border-slate-200 dark:border-slate-800'
-                            }`}
-                        >
-                            <div className="relative flex flex-col items-center justify-center bg-[#eab308] p-4 text-white">
-                                <Sun className="h-7 w-7" strokeWidth={2} />
-                                {nextPrayer?.name === 'Dzuhur' && (
-                                    <span className="absolute top-1 right-2 animate-pulse rounded bg-white/20 px-1 text-[8px] font-bold tracking-widest uppercase">
-                                        Berikutnya
-                                    </span>
-                                )}
-                            </div>
-                            <div className="p-3.5 text-center">
-                                <div className="text-[10px] font-bold tracking-wide text-slate-600 uppercase dark:text-slate-400">
-                                    Dzuhur
-                                </div>
-                                <div className="mt-1 font-mono text-lg font-extrabold text-slate-800 dark:text-slate-200">
-                                    {prayerTimes.dzuhur}
-                                </div>
-                            </div>
-                        </div>
-
-                        {/* 4. Ashar */}
-                        <div
-                            className={`group overflow-hidden rounded-xl border bg-white transition-all duration-300 hover:shadow-md dark:bg-slate-950 ${
-                                nextPrayer?.name === 'Ashar'
-                                    ? 'scale-[1.02] border-transparent ring-2 shadow-emerald-100 ring-emerald-500 dark:shadow-none'
-                                    : 'border-slate-200 dark:border-slate-800'
-                            }`}
-                        >
-                            <div className="relative flex flex-col items-center justify-center bg-[#ea580c] p-4 text-white">
-                                <CloudSun className="h-7 w-7" strokeWidth={2} />
-                                {nextPrayer?.name === 'Ashar' && (
-                                    <span className="absolute top-1 right-2 animate-pulse rounded bg-white/20 px-1 text-[8px] font-bold tracking-widest uppercase">
-                                        Berikutnya
-                                    </span>
-                                )}
-                            </div>
-                            <div className="p-3.5 text-center">
-                                <div className="text-[10px] font-bold tracking-wide text-slate-600 uppercase dark:text-slate-400">
-                                    Ashar
-                                </div>
-                                <div className="mt-1 font-mono text-lg font-extrabold text-slate-800 dark:text-slate-200">
-                                    {prayerTimes.ashar}
-                                </div>
-                            </div>
-                        </div>
-
-                        {/* 5. Magrib */}
-                        <div
-                            className={`group overflow-hidden rounded-xl border bg-white transition-all duration-300 hover:shadow-md dark:bg-slate-950 ${
-                                nextPrayer?.name === 'Magrib'
-                                    ? 'scale-[1.02] border-transparent ring-2 shadow-emerald-100 ring-emerald-500 dark:shadow-none'
-                                    : 'border-slate-200 dark:border-slate-800'
-                            }`}
-                        >
-                            <div className="relative flex flex-col items-center justify-center bg-[#c2410c] p-4 text-white">
-                                <Sunset className="h-7 w-7" strokeWidth={2} />
-                                {nextPrayer?.name === 'Magrib' && (
-                                    <span className="absolute top-1 right-2 animate-pulse rounded bg-white/20 px-1 text-[8px] font-bold tracking-widest uppercase">
-                                        Berikutnya
-                                    </span>
-                                )}
-                            </div>
-                            <div className="p-3.5 text-center">
-                                <div className="text-[10px] font-bold tracking-wide text-slate-600 uppercase dark:text-slate-400">
-                                    Magrib
-                                </div>
-                                <div className="mt-1 font-mono text-lg font-extrabold text-slate-800 dark:text-slate-200">
-                                    {prayerTimes.magrib}
-                                </div>
-                            </div>
-                        </div>
-
-                        {/* 6. Isya */}
-                        <div
-                            className={`group overflow-hidden rounded-xl border bg-white transition-all duration-300 hover:shadow-md dark:bg-slate-950 ${
-                                nextPrayer?.name === 'Isya'
-                                    ? 'scale-[1.02] border-transparent ring-2 shadow-emerald-100 ring-emerald-500 dark:shadow-none'
-                                    : 'border-slate-200 dark:border-slate-800'
-                            }`}
-                        >
-                            <div className="relative flex flex-col items-center justify-center bg-[#4338ca] p-4 text-white">
-                                <Moon className="h-7 w-7" strokeWidth={2} />
-                                {nextPrayer?.name === 'Isya' && (
-                                    <span className="absolute top-1 right-2 animate-pulse rounded bg-white/20 px-1 text-[8px] font-bold tracking-widest uppercase">
-                                        Berikutnya
-                                    </span>
-                                )}
-                            </div>
-                            <div className="p-3.5 text-center">
-                                <div className="text-[10px] font-bold tracking-wide text-slate-600 uppercase dark:text-slate-400">
-                                    Isya
-                                </div>
-                                <div className="mt-1 font-mono text-lg font-extrabold text-slate-800 dark:text-slate-200">
-                                    {prayerTimes.isya}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                        );
+                    })}
                 </div>
             </div>
-        </div>
+        </section>
     );
 }
