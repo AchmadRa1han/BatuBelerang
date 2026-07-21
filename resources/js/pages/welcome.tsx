@@ -210,6 +210,22 @@ export default function Welcome({
         }
     };
 
+    // Auto scroll perangkat desa slider
+    useEffect(() => {
+        const interval = setInterval(() => {
+            if (aparaturScrollRef.current) {
+                const { scrollLeft, scrollWidth, clientWidth } = aparaturScrollRef.current;
+                if (scrollLeft + clientWidth >= scrollWidth - 10) {
+                    aparaturScrollRef.current.scrollTo({ left: 0, behavior: 'smooth' });
+                } else {
+                    aparaturScrollRef.current.scrollBy({ left: 220, behavior: 'smooth' });
+                }
+            }
+        }, 3500);
+
+        return () => clearInterval(interval);
+    }, []);
+
     const nextAparatur = () => {
         if (!transitionEnabled) {
             return;
@@ -1210,7 +1226,7 @@ export default function Welcome({
                     </div>
                 </section>
 
-                {/* 6. STRUKTUR APARATUR DESA (PINNED KADES + CAROUSEL SLIDER) */}
+                {/* 6. STRUKTUR APARATUR DESA (PINNED KADES + AUTO-SCROLLING CAROUSEL) */}
                 <section className="space-y-5">
                     <div className="flex flex-col items-center justify-between gap-4 sm:flex-row">
                         <div className="space-y-1 text-center sm:text-left">
@@ -1244,33 +1260,36 @@ export default function Welcome({
                         </div>
                     </div>
 
-                    {/* Full Carousel Track (Pinned Kades + Perangkat Desa) */}
-                    <div className="relative w-full overflow-hidden">
+                    {/* Layout: Pinned Kades (Fixed) + Auto-Scrolling Carousel Track (Right) */}
+                    <div className="flex gap-4 items-center overflow-hidden w-full relative">
+                        {/* 📌 PINNED: KEPALA DESA CARD (Fixed on left, never scrolls away) */}
+                        <div className="group flex w-44 sm:w-48 shrink-0 flex-col items-center overflow-hidden rounded-2xl border-2 border-emerald-500/60 bg-gradient-to-b from-emerald-50/90 via-white to-white p-3.5 text-center shadow-md shadow-emerald-500/10 transition-all duration-300 hover:-translate-y-0.5 dark:from-emerald-950/40 dark:via-slate-900 dark:to-slate-900 dark:border-emerald-500/50 z-10">
+                            <div className="relative mb-2.5 aspect-4/5 w-full overflow-hidden rounded-xl bg-slate-100 dark:bg-slate-800 border border-emerald-500/30">
+                                <img
+                                    src={profilDesa?.foto_kades || 'https://images.unsplash.com/photo-1560250097-0b93528c311a?w=400&auto=format&fit=crop&q=80'}
+                                    alt={profilDesa?.nama_kades || 'Kepala Desa'}
+                                    className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                                />
+                                <span className="absolute top-2 left-2 flex items-center gap-1 rounded bg-emerald-600 px-1.5 py-0.5 text-[8px] font-extrabold text-white shadow-md">
+                                    📌 KADES
+                                </span>
+                            </div>
+                            <h3 className="text-xs font-extrabold text-slate-900 dark:text-white line-clamp-1">
+                                {profilDesa?.nama_kades || 'H. Ahmad Supardi, S.Sos'}
+                            </h3>
+                            <p className="mt-0.5 text-[10px] font-bold text-emerald-700 dark:text-emerald-400 line-clamp-1">
+                                {profilDesa?.jabatan_kades || 'Kepala Desa'}
+                            </p>
+                        </div>
+
+                        {/* Divider Line */}
+                        <div className="w-px h-36 bg-slate-200 dark:bg-slate-800 shrink-0 hidden sm:block" />
+
+                        {/* 🎠 CAROUSEL SLIDER: PERANGKAT DESA (Auto-scrolls & manual scroll right behind Kades) */}
                         <div
                             ref={aparaturScrollRef}
-                            className="scrollbar-none flex gap-4 overflow-x-auto scroll-smooth py-2 px-1 w-full"
+                            className="scrollbar-none flex flex-1 gap-4 overflow-x-auto scroll-smooth py-2 px-1 w-full"
                         >
-                            {/* 👑 1. PINNED: KEPALA DESA CARD (Same size w-44 sm:w-48 as others) */}
-                            <div className="group flex w-44 sm:w-48 shrink-0 flex-col items-center overflow-hidden rounded-2xl border-2 border-emerald-500/60 bg-gradient-to-b from-emerald-50/80 via-white to-white p-3.5 text-center shadow-md shadow-emerald-500/10 transition-all duration-300 hover:-translate-y-1 dark:from-emerald-950/40 dark:via-slate-900 dark:to-slate-900 dark:border-emerald-500/50">
-                                <div className="relative mb-2.5 aspect-4/5 w-full overflow-hidden rounded-xl bg-slate-100 dark:bg-slate-800 border border-emerald-500/30">
-                                    <img
-                                        src={profilDesa?.foto_kades || 'https://images.unsplash.com/photo-1560250097-0b93528c311a?w=400&auto=format&fit=crop&q=80'}
-                                        alt={profilDesa?.nama_kades || 'Kepala Desa'}
-                                        className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
-                                    />
-                                    <span className="absolute top-2 left-2 flex items-center gap-1 rounded bg-emerald-600 px-1.5 py-0.5 text-[8px] font-extrabold text-white shadow-md">
-                                        👑 KADES
-                                    </span>
-                                </div>
-                                <h3 className="text-xs font-extrabold text-slate-900 dark:text-white line-clamp-1">
-                                    {profilDesa?.nama_kades || 'H. Ahmad Supardi, S.Sos'}
-                                </h3>
-                                <p className="mt-0.5 text-[10px] font-bold text-emerald-700 dark:text-emerald-400 line-clamp-1">
-                                    {profilDesa?.jabatan_kades || 'Kepala Desa'}
-                                </p>
-                            </div>
-
-                            {/* 2. PERANGKAT DESA CARDS */}
                             {activeAparaturList.map((aparatur, index) => (
                                 <div
                                     key={index}
