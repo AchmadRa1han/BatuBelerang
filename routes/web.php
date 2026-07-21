@@ -108,6 +108,27 @@ Route::get('/berita/{slug}', function ($slug) {
     ]);
 })->name('berita.show');
 
+// Public Menu Routes (Profil)
+Route::get('/profil/tentang-kami', fn () => Inertia::render('profil/tentang-kami'))->name('profil.tentang-kami');
+Route::get('/profil/visi-misi', fn () => Inertia::render('profil/visi-misi'))->name('profil.visi-misi');
+Route::get('/profil/sejarah-desa', fn () => Inertia::render('profil/sejarah-desa'))->name('profil.sejarah-desa');
+Route::get('/profil/geografis-desa', fn () => Inertia::render('profil/geografis-desa'))->name('profil.geografis-desa');
+Route::get('/profil/demografi-desa', fn () => Inertia::render('profil/demografi-desa'))->name('profil.demografi-desa');
+
+// Public Menu Routes (Pemerintahan)
+Route::get('/pemerintahan/data-perangkat', fn () => Inertia::render('pemerintahan/data-perangkat'))->name('pemerintahan.data-perangkat');
+Route::get('/pemerintahan/struktur-organisasi', fn () => Inertia::render('pemerintahan/struktur-organisasi'))->name('pemerintahan.struktur-organisasi');
+Route::get('/pemerintahan/rpjmdes', fn () => Inertia::render('pemerintahan/rpjmdes'))->name('pemerintahan.rpjmdes');
+Route::get('/pemerintahan/tata-kelola', fn () => Inertia::render('pemerintahan/tata-kelola'))->name('pemerintahan.tata-kelola');
+
+// Public Menu Routes (Lembaga)
+Route::get('/lembaga/bpd', fn () => Inertia::render('lembaga/bpd'))->name('lembaga.bpd');
+Route::get('/lembaga/pkk', fn () => Inertia::render('lembaga/pkk'))->name('lembaga.pkk');
+Route::get('/lembaga/karang-taruna', fn () => Inertia::render('lembaga/karang-taruna'))->name('lembaga.karang-taruna');
+Route::get('/lembaga/rt-rw', fn () => Inertia::render('lembaga/rt-rw'))->name('lembaga.rt-rw');
+Route::get('/lembaga/posyandu', fn () => Inertia::render('lembaga/posyandu'))->name('lembaga.posyandu');
+Route::get('/lembaga/bumdes', fn () => Inertia::render('lembaga/bumdes'))->name('lembaga.bumdes');
+
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 

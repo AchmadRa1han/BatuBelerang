@@ -500,10 +500,10 @@ export default function Welcome({
                     </p>
                     <div className="flex flex-col justify-center gap-3 pt-2 sm:flex-row">
                         <Link
-                            href="/register"
+                            href="/profil/tentang-kami"
                             className="rounded-xl bg-emerald-600 px-5 py-2.5 text-xs font-semibold text-white shadow-md shadow-emerald-600/30 transition-all hover:bg-emerald-500"
                         >
-                            Layanan Mandiri Warga
+                            Profil Desa Batu Belerang
                         </Link>
                         <Link
                             href="/berita"
@@ -1256,8 +1256,8 @@ export default function Welcome({
                                     alt={profilDesa?.nama_kades || 'Kepala Desa'}
                                     className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
                                 />
-                                <span className="absolute top-2 left-2 flex items-center gap-1 rounded bg-emerald-600 px-1.5 py-0.5 text-[8px] font-extrabold text-white shadow-md">
-                                    📌 KADES
+                                <span className="absolute top-2 left-2 flex items-center gap-1 rounded bg-emerald-600 px-1.5 py-0.5 text-[8px] font-extrabold tracking-wider uppercase text-white shadow-md">
+                                    KEPALA DESA
                                 </span>
                             </div>
                             <h3 className="text-xs font-extrabold text-slate-900 dark:text-white line-clamp-1">
@@ -1331,67 +1331,67 @@ export default function Welcome({
                     </div>
 
                     <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
-                        {/* Card 1: Pelayanan Mandiri */}
+                        {/* Card 1: Profil Desa */}
                         <Link
-                            href="/register"
+                            href="/profil/tentang-kami"
                             className="group space-y-3.5 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm shadow-slate-100/50 transition-all duration-300 hover:bg-emerald-50/10 dark:border-slate-800 dark:bg-slate-900/35 dark:shadow-md dark:hover:border-emerald-500/40 dark:hover:bg-emerald-950/15"
                         >
-                            <div className="flex h-9 w-9 items-center justify-center rounded-xl border border-emerald-200 bg-emerald-500/10 text-base font-bold text-emerald-600 transition-colors duration-300 group-hover:bg-emerald-600 group-hover:text-white dark:border-emerald-500/20 dark:text-emerald-400">
-                                📝
+                            <div className="flex h-9 w-9 items-center justify-center rounded-xl border border-emerald-200 bg-emerald-500/10 text-emerald-600 transition-colors duration-300 group-hover:bg-emerald-600 group-hover:text-white dark:border-emerald-500/20 dark:text-emerald-400">
+                                <FileText className="h-4 w-4" />
                             </div>
                             <h3 className="text-sm font-bold text-slate-900 transition-colors group-hover:text-emerald-600 dark:text-white dark:group-hover:text-emerald-400">
-                                Layanan Mandiri
+                                Profil & Sejarah Desa
                             </h3>
                             <p className="text-xs leading-relaxed text-slate-500 dark:text-slate-400">
-                                Pengajuan berbagai surat keterangan secara online tanpa antri.
+                                Informasi lengkap gambaran umum, visi misi, serta demografi desa.
                             </p>
                         </Link>
 
-                        {/* Card 2: Katalog UMKM */}
+                        {/* Card 2: Berita & Pengumuman */}
                         <Link
-                            href="#"
+                            href="/berita"
                             className="group space-y-3.5 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm shadow-slate-100/50 transition-all duration-300 hover:bg-emerald-50/10 dark:border-slate-800 dark:bg-slate-900/35 dark:shadow-md dark:hover:border-emerald-500/40 dark:hover:bg-emerald-950/15"
                         >
-                            <div className="flex h-9 w-9 items-center justify-center rounded-xl border border-amber-200 bg-amber-500/10 text-base font-bold text-amber-600 transition-colors duration-300 group-hover:bg-amber-500 group-hover:text-white dark:border-amber-500/20 dark:text-amber-400">
-                                🛍️
+                            <div className="flex h-9 w-9 items-center justify-center rounded-xl border border-amber-200 bg-amber-500/10 text-amber-600 transition-colors duration-300 group-hover:bg-amber-500 group-hover:text-white dark:border-amber-500/20 dark:text-amber-400">
+                                <Calendar className="h-4 w-4" />
                             </div>
                             <h3 className="text-sm font-bold text-slate-900 transition-colors group-hover:text-amber-600 dark:text-white dark:group-hover:text-amber-400">
-                                Produk UMKM Warga
+                                Kabar & Agenda Desa
                             </h3>
                             <p className="text-xs leading-relaxed text-slate-500 dark:text-slate-400">
-                                Dukung perekonomian lokal dengan belanja produk unggulan desa.
+                                Berita pembangunan terkini dan kalender kegiatan desa.
                             </p>
                         </Link>
 
-                        {/* Card 3: Pariwisata */}
+                        {/* Card 3: Struktur Pemerintahan */}
                         <Link
-                            href="#"
+                            href="/pemerintahan/struktur-organisasi"
                             className="group space-y-3.5 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm shadow-slate-100/50 transition-all duration-300 hover:bg-emerald-50/10 dark:border-slate-800 dark:bg-slate-900/35 dark:shadow-md dark:hover:border-emerald-500/40 dark:hover:bg-emerald-950/15"
                         >
-                            <div className="flex h-9 w-9 items-center justify-center rounded-xl border border-cyan-200 bg-cyan-500/10 text-base font-bold text-cyan-600 transition-colors duration-300 group-hover:bg-cyan-500 group-hover:text-white dark:border-cyan-500/20 dark:text-cyan-400">
-                                ♨️
+                            <div className="flex h-9 w-9 items-center justify-center rounded-xl border border-cyan-200 bg-cyan-500/10 text-cyan-600 transition-colors duration-300 group-hover:bg-cyan-500 group-hover:text-white dark:border-cyan-500/20 dark:text-cyan-400">
+                                <User className="h-4 w-4" />
                             </div>
                             <h3 className="text-sm font-bold text-slate-900 transition-colors group-hover:text-cyan-600 dark:text-white dark:group-hover:text-cyan-400">
-                                Wisata Air Panas Belerang
+                                Perangkat & Aparatur
                             </h3>
                             <p className="text-xs leading-relaxed text-slate-500 dark:text-slate-400">
-                                Informasi lengkap destinasi pemandian air panas dan fasilitasnya.
+                                Jajaran aparat pemerintah desa yang melayani masyarakat.
                             </p>
                         </Link>
 
-                        {/* Card 4: Pengaduan */}
+                        {/* Card 4: Lembaga Desa */}
                         <Link
-                            href="#"
+                            href="/lembaga/bpd"
                             className="group space-y-3.5 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm shadow-slate-100/50 transition-all duration-300 hover:bg-rose-50/10 dark:border-slate-800 dark:bg-slate-900/35 dark:shadow-md dark:hover:border-rose-500/40 dark:hover:bg-rose-950/15"
                         >
-                            <div className="flex h-9 w-9 items-center justify-center rounded-xl border border-rose-200 bg-rose-500/10 text-base font-bold text-rose-600 transition-colors duration-300 group-hover:bg-rose-500 group-hover:text-white dark:border-rose-500/20 dark:text-rose-400">
-                                📣
+                            <div className="flex h-9 w-9 items-center justify-center rounded-xl border border-rose-200 bg-rose-500/10 text-rose-600 transition-colors duration-300 group-hover:bg-rose-500 group-hover:text-white dark:border-rose-500/20 dark:text-rose-400">
+                                <MapPin className="h-4 w-4" />
                             </div>
                             <h3 className="text-sm font-bold text-slate-900 transition-colors group-hover:text-rose-600 dark:text-white dark:group-hover:text-rose-400">
-                                Layanan Pengaduan
+                                Lembaga Kemasyarakatan
                             </h3>
                             <p className="text-xs leading-relaxed text-slate-500 dark:text-slate-400">
-                                Sampaikan kritik, saran, maupun keluhan secara tertulis (bisa anonim).
+                                BPD, PKK, Karang Taruna, Posyandu, dan BUMDes.
                             </p>
                         </Link>
                     </div>
@@ -1403,9 +1403,11 @@ export default function Welcome({
                 <div className="mx-auto grid max-w-7xl grid-cols-1 gap-12 px-6 py-16 text-sm md:grid-cols-4">
                     <div className="col-span-1 space-y-4 md:col-span-2">
                         <div className="flex items-center gap-3">
-                            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-emerald-600 font-bold text-white shadow-lg shadow-emerald-500/20">
-                                BB
-                            </div>
+                            <img
+                                src="/images/lambang_kabupaten_sinjai.png"
+                                alt="Lambang Kabupaten Sinjai"
+                                className="h-9 w-auto object-contain"
+                            />
                             <span className="text-base font-bold tracking-tight text-slate-900 dark:text-white">
                                 Desa Batu Belerang
                             </span>

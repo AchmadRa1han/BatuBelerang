@@ -51,11 +51,11 @@ export default function PublicNavbar() {
                         <div className="pointer-events-none absolute top-full left-1/2 z-50 w-52 -translate-x-1/2 translate-y-2 scale-95 pt-2.5 opacity-0 transition-all duration-200 ease-out group-hover/profil:pointer-events-auto group-hover/profil:translate-y-0 group-hover/profil:scale-100 group-hover/profil:opacity-100">
                             <div className="rounded-2xl border border-slate-200/80 bg-white p-2 shadow-xl ring-1 ring-black/5 dark:border-slate-800 dark:bg-slate-950">
                                 {[
-                                    { title: 'Tentang Kami', href: '#' },
-                                    { title: 'Visi & Misi', href: '#' },
-                                    { title: 'Sejarah Desa', href: '#' },
-                                    { title: 'Geografis Desa', href: '#' },
-                                    { title: 'Demografi Desa', href: '#' },
+                                    { title: 'Tentang Kami', href: '/profil/tentang-kami' },
+                                    { title: 'Visi & Misi', href: '/profil/visi-misi' },
+                                    { title: 'Sejarah Desa', href: '/profil/sejarah-desa' },
+                                    { title: 'Geografis Desa', href: '/profil/geografis-desa' },
+                                    { title: 'Demografi Desa', href: '/profil/demografi-desa' },
                                 ].map((subItem) => (
                                     <Link
                                         key={subItem.title}
@@ -76,14 +76,11 @@ export default function PublicNavbar() {
                         <div className="pointer-events-none absolute top-full left-1/2 z-50 w-52 -translate-x-1/2 translate-y-2 scale-95 pt-2.5 opacity-0 transition-all duration-200 ease-out group-hover/pemerintahan:pointer-events-auto group-hover/pemerintahan:translate-y-0 group-hover/pemerintahan:scale-100 group-hover/pemerintahan:opacity-100">
                             <div className="rounded-2xl border border-slate-200/80 bg-white p-2 shadow-xl ring-1 ring-black/5 dark:border-slate-800 dark:bg-slate-950">
                                 {[
-                                    { title: 'Visi dan Misi', href: '#' },
-                                    { title: 'Data Perangkat', href: '#' },
-                                    {
-                                        title: 'Struktur Organisasi',
-                                        href: '#',
-                                    },
-                                    { title: 'RPJMDes', href: '#' },
-                                    { title: 'Pemerintahan', href: '#' },
+                                    { title: 'Visi dan Misi', href: '/profil/visi-misi' },
+                                    { title: 'Data Perangkat', href: '/pemerintahan/data-perangkat' },
+                                    { title: 'Struktur Organisasi', href: '/pemerintahan/struktur-organisasi' },
+                                    { title: 'RPJMDes', href: '/pemerintahan/rpjmdes' },
+                                    { title: 'Tata Kelola', href: '/pemerintahan/tata-kelola' },
                                 ].map((subItem) => (
                                     <Link
                                         key={subItem.title}
@@ -104,18 +101,12 @@ export default function PublicNavbar() {
                         <div className="pointer-events-none absolute top-full left-1/2 z-50 w-64 -translate-x-1/2 translate-y-2 scale-95 pt-2.5 opacity-0 transition-all duration-200 ease-out group-hover/lembaga:pointer-events-auto group-hover/lembaga:translate-y-0 group-hover/lembaga:scale-100 group-hover/lembaga:opacity-100">
                             <div className="rounded-2xl border border-slate-200/80 bg-white p-2 shadow-xl ring-1 ring-black/5 dark:border-slate-800 dark:bg-slate-950">
                                 {[
-                                    {
-                                        title: 'Badan Permusyawaratan Desa',
-                                        href: '#',
-                                    },
-                                    {
-                                        title: 'Tim Penggerak PKK',
-                                        href: '#',
-                                    },
-                                    { title: 'Karang Taruna', href: '#' },
-                                    { title: 'Rt dan Rw', href: '#' },
-                                    { title: 'Posyandu', href: '#' },
-                                    { title: 'Bumdes', href: '#' },
+                                    { title: 'Badan Permusyawaratan Desa', href: '/lembaga/bpd' },
+                                    { title: 'Tim Penggerak PKK', href: '/lembaga/pkk' },
+                                    { title: 'Karang Taruna', href: '/lembaga/karang-taruna' },
+                                    { title: 'RT dan RW', href: '/lembaga/rt-rw' },
+                                    { title: 'Posyandu', href: '/lembaga/posyandu' },
+                                    { title: 'BUMDes', href: '/lembaga/bumdes' },
                                 ].map((subItem) => (
                                     <Link
                                         key={subItem.title}
@@ -129,25 +120,10 @@ export default function PublicNavbar() {
                         </div>
                     </div>
                     <Link
-                        href="#"
+                        href="/berita"
                         className="transition-colors hover:text-emerald-600 dark:hover:text-emerald-400"
-                        prefetch
                     >
-                        UMKM
-                    </Link>
-                    <Link
-                        href="#"
-                        className="transition-colors hover:text-emerald-600 dark:hover:text-emerald-400"
-                        prefetch
-                    >
-                        Wisata
-                    </Link>
-                    <Link
-                        href="/debug/database"
-                        className="transition-colors hover:text-emerald-600 dark:hover:text-emerald-400"
-                        prefetch
-                    >
-                        DB Inspector
+                        Berita Desa
                     </Link>
                 </nav>
 
@@ -174,20 +150,12 @@ export default function PublicNavbar() {
                             Dashboard
                         </Link>
                     ) : (
-                        <>
-                            <Link
-                                href="/login"
-                                className="text-xs font-semibold text-slate-500 transition-colors hover:text-slate-900 dark:text-slate-400 dark:hover:text-white"
-                            >
-                                Login
-                            </Link>
-                            <Link
-                                href="/register"
-                                className="rounded-xl border border-slate-200 bg-white px-4.5 py-2 text-xs font-semibold text-slate-700 transition-all hover:bg-slate-50 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-200 dark:hover:border-slate-700"
-                            >
-                                Layanan Mandiri
-                            </Link>
-                        </>
+                        <Link
+                            href="/login"
+                            className="rounded-xl border border-slate-200 bg-white px-4.5 py-2 text-xs font-semibold text-slate-700 transition-all hover:bg-slate-50 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-200 dark:hover:border-slate-700"
+                        >
+                            Login Staff
+                        </Link>
                     )}
                 </div>
 
@@ -245,11 +213,11 @@ export default function PublicNavbar() {
                             }`}
                         >
                             {[
-                                { title: 'Tentang Kami', href: '#' },
-                                { title: 'Visi & Misi', href: '#' },
-                                { title: 'Sejarah Desa', href: '#' },
-                                { title: 'Geografis Desa', href: '#' },
-                                { title: 'Demografi Desa', href: '#' },
+                                { title: 'Tentang Kami', href: '/profil/tentang-kami' },
+                                { title: 'Visi & Misi', href: '/profil/visi-misi' },
+                                { title: 'Sejarah Desa', href: '/profil/sejarah-desa' },
+                                { title: 'Geografis Desa', href: '/profil/geografis-desa' },
+                                { title: 'Demografi Desa', href: '/profil/demografi-desa' },
                             ].map((subItem) => (
                                 <Link
                                     key={subItem.title}
@@ -287,11 +255,11 @@ export default function PublicNavbar() {
                             }`}
                         >
                             {[
-                                { title: 'Visi dan Misi', href: '#' },
-                                { title: 'Data Perangkat', href: '#' },
-                                { title: 'Struktur Organisasi', href: '#' },
-                                { title: 'RPJMDes', href: '#' },
-                                { title: 'Pemerintahan', href: '#' },
+                                { title: 'Visi dan Misi', href: '/profil/visi-misi' },
+                                { title: 'Data Perangkat', href: '/pemerintahan/data-perangkat' },
+                                { title: 'Struktur Organisasi', href: '/pemerintahan/struktur-organisasi' },
+                                { title: 'RPJMDes', href: '/pemerintahan/rpjmdes' },
+                                { title: 'Tata Kelola', href: '/pemerintahan/tata-kelola' },
                             ].map((subItem) => (
                                 <Link
                                     key={subItem.title}
@@ -327,15 +295,12 @@ export default function PublicNavbar() {
                             }`}
                         >
                             {[
-                                {
-                                    title: 'Badan Permusyawaratan Desa',
-                                    href: '#',
-                                },
-                                { title: 'Tim Penggerak PKK', href: '#' },
-                                { title: 'Karang Taruna', href: '#' },
-                                { title: 'Rt dan Rw', href: '#' },
-                                { title: 'Posyandu', href: '#' },
-                                { title: 'Bumdes', href: '#' },
+                                { title: 'Badan Permusyawaratan Desa', href: '/lembaga/bpd' },
+                                { title: 'Tim Penggerak PKK', href: '/lembaga/pkk' },
+                                { title: 'Karang Taruna', href: '/lembaga/karang-taruna' },
+                                { title: 'RT dan RW', href: '/lembaga/rt-rw' },
+                                { title: 'Posyandu', href: '/lembaga/posyandu' },
+                                { title: 'BUMDes', href: '/lembaga/bumdes' },
                             ].map((subItem) => (
                                 <Link
                                     key={subItem.title}
@@ -352,22 +317,10 @@ export default function PublicNavbar() {
                         </div>
                     </div>
                     <Link
-                        href="#"
+                        href="/berita"
                         className="block text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white"
                     >
-                        UMKM
-                    </Link>
-                    <Link
-                        href="#"
-                        className="block text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white"
-                    >
-                        Wisata
-                    </Link>
-                    <Link
-                        href="/debug/database"
-                        className="block text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white"
-                    >
-                        DB Inspector
+                        Berita Desa
                     </Link>
                     <div className="flex gap-4 border-t border-slate-100 pt-4 dark:border-slate-900">
                         {auth.user ? (
@@ -378,20 +331,12 @@ export default function PublicNavbar() {
                                 Dashboard
                             </Link>
                         ) : (
-                            <>
-                                <Link
-                                    href="/login"
-                                    className="flex-1 rounded-xl border border-slate-200 bg-slate-100 py-2.5 text-center text-xs font-semibold text-slate-700 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-300"
-                                >
-                                    Login
-                                </Link>
-                                <Link
-                                    href="/register"
-                                    className="flex-1 rounded-xl bg-emerald-600 py-2.5 text-center text-xs font-semibold text-white"
-                                >
-                                    Layanan Mandiri
-                                </Link>
-                            </>
+                            <Link
+                                href="/login"
+                                className="flex-1 rounded-xl border border-slate-200 bg-slate-100 py-2.5 text-center text-xs font-semibold text-slate-700 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-300"
+                            >
+                                Login Staff
+                            </Link>
                         )}
                     </div>
                 </div>
