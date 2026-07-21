@@ -9,7 +9,7 @@ import {
     ChevronLeft,
     ChevronRight,
 } from 'lucide-react';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import PublicNavbar from '@/components/public-navbar';
 import WeatherShalatWidget from '@/components/weather-shalat-widget';
 
@@ -194,6 +194,20 @@ export default function Welcome({
         }
 
         setAparaturIndex((prev) => prev - 1);
+    };
+
+    const aparaturScrollRef = useRef<HTMLDivElement>(null);
+
+    const scrollAparaturLeft = () => {
+        if (aparaturScrollRef.current) {
+            aparaturScrollRef.current.scrollBy({ left: -260, behavior: 'smooth' });
+        }
+    };
+
+    const scrollAparaturRight = () => {
+        if (aparaturScrollRef.current) {
+            aparaturScrollRef.current.scrollBy({ left: 260, behavior: 'smooth' });
+        }
     };
 
     const nextAparatur = () => {
@@ -1196,62 +1210,98 @@ export default function Welcome({
                     </div>
                 </section>
 
-                {/* 6. STRUKTUR APARATUR DESA */}
+                {/* 6. STRUKTUR APARATUR DESA (PINNED KADES + CAROUSEL) */}
                 <section className="space-y-6">
-                    <div className="space-y-1 text-center sm:text-left">
-                        <span className="block text-xs font-semibold tracking-widest text-emerald-600 uppercase dark:text-emerald-400">
-                            Struktur Organisasi
-                        </span>
-                        <h2 className="text-2xl font-extrabold tracking-tight text-slate-900 md:text-3xl dark:text-white">
-                            Aparatur Pemerintah Desa
-                        </h2>
-                        <p className="text-xs md:text-sm text-slate-500 dark:text-slate-400">
-                            Pengabdi masyarakat yang siap melayani kebutuhan warga Desa Batu Belerang.
-                        </p>
-                    </div>
-
-                    <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6">
-                        {/* Pemimpin: Kepala Desa */}
-                        <div className="group flex flex-col items-center overflow-hidden rounded-2xl border border-emerald-500/30 bg-emerald-50/40 p-4 text-center transition-all duration-300 hover:-translate-y-1 hover:border-emerald-500 dark:border-emerald-500/20 dark:bg-emerald-950/20">
-                            <div className="relative mb-3 aspect-4/5 w-full overflow-hidden rounded-xl bg-slate-200 dark:bg-slate-800">
-                                <img
-                                    src={profilDesa?.foto_kades || 'https://images.unsplash.com/photo-1560250097-0b93528c311a?w=400&auto=format&fit=crop&q=80'}
-                                    alt={profilDesa?.nama_kades || 'Kepala Desa'}
-                                    className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
-                                />
-                                <span className="absolute top-2 left-2 rounded bg-emerald-600 px-1.5 py-0.5 text-[9px] font-bold text-white shadow-sm">
-                                    👑 Kades
-                                </span>
-                            </div>
-                            <h3 className="text-xs font-bold text-slate-900 dark:text-white">
-                                {profilDesa?.nama_kades || 'H. Ahmad Supardi, S.Sos'}
-                            </h3>
-                            <p className="mt-0.5 text-[10px] font-medium text-emerald-700 dark:text-emerald-400">
-                                {profilDesa?.jabatan_kades || 'Kepala Desa'}
+                    <div className="flex flex-col items-center justify-between gap-4 sm:flex-row">
+                        <div className="space-y-1 text-center sm:text-left">
+                            <span className="block text-xs font-semibold tracking-widest text-emerald-600 uppercase dark:text-emerald-400">
+                                Struktur Organisasi
+                            </span>
+                            <h2 className="text-2xl font-extrabold tracking-tight text-slate-900 md:text-3xl dark:text-white">
+                                Aparatur Pemerintah Desa
+                            </h2>
+                            <p className="text-xs md:text-sm text-slate-500 dark:text-slate-400">
+                                Pengabdi masyarakat yang siap melayani kebutuhan warga Desa Batu Belerang.
                             </p>
                         </div>
 
-                        {/* Staf & Perangkat Desa Lainnya */}
-                        {activeAparaturList.map((aparatur, index) => (
-                            <div
-                                key={index}
-                                className="group flex flex-col items-center overflow-hidden rounded-2xl border border-slate-200 bg-white p-4 text-center shadow-sm shadow-slate-100/50 transition-all duration-300 hover:-translate-y-1 dark:border-slate-800 dark:bg-slate-900/30 dark:shadow-none"
+                        {/* Carousel Prev/Next Buttons */}
+                        <div className="flex items-center gap-2">
+                            <button
+                                onClick={scrollAparaturLeft}
+                                className="flex h-9 w-9 items-center justify-center rounded-xl border border-slate-200 bg-white text-slate-700 shadow-sm transition-all hover:bg-slate-50 hover:text-emerald-600 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-300 dark:hover:bg-slate-800"
+                                aria-label="Aparatur Sebelumnya"
                             >
-                                <div className="relative mb-3 aspect-4/5 w-full overflow-hidden rounded-xl bg-slate-100 dark:bg-slate-800">
+                                <ChevronLeft className="size-4" />
+                            </button>
+                            <button
+                                onClick={scrollAparaturRight}
+                                className="flex h-9 w-9 items-center justify-center rounded-xl border border-slate-200 bg-white text-slate-700 shadow-sm transition-all hover:bg-slate-50 hover:text-emerald-600 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-300 dark:hover:bg-slate-800"
+                                aria-label="Aparatur Selanjutnya"
+                            >
+                                <ChevronRight className="size-4" />
+                            </button>
+                        </div>
+                    </div>
+
+                    <div className="grid grid-cols-1 gap-6 lg:grid-cols-12 items-stretch">
+                        {/* 👑 PINNED: Kepala Desa Featured Card (Col 4) */}
+                        <div className="lg:col-span-4 group relative overflow-hidden rounded-2xl border border-emerald-500/30 bg-gradient-to-br from-slate-900 via-slate-900 to-emerald-950 p-5 text-white shadow-lg dark:border-emerald-500/20 flex flex-col justify-between">
+                            <div className="space-y-3">
+                                <div className="flex items-center justify-between">
+                                    <span className="flex items-center gap-1 rounded-md bg-emerald-600 px-2.5 py-0.5 text-[10px] font-extrabold text-white shadow-md">
+                                        👑 PINNED • PIMPINAN DESA
+                                    </span>
+                                    <span className="text-[10px] text-emerald-400 font-semibold">
+                                        Periode 2021 - 2027
+                                    </span>
+                                </div>
+                                <div className="relative aspect-4/5 w-full overflow-hidden rounded-xl bg-slate-800 border border-emerald-500/20">
                                     <img
-                                        src={aparatur.foto}
-                                        alt={aparatur.nama}
+                                        src={profilDesa?.foto_kades || 'https://images.unsplash.com/photo-1560250097-0b93528c311a?w=400&auto=format&fit=crop&q=80'}
+                                        alt={profilDesa?.nama_kades || 'Kepala Desa'}
                                         className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
                                     />
                                 </div>
-                                <h3 className="text-xs font-bold text-slate-900 dark:text-white">
-                                    {aparatur.nama}
+                            </div>
+                            <div className="pt-4 space-y-1 text-center">
+                                <h3 className="text-sm md:text-base font-extrabold text-white">
+                                    {profilDesa?.nama_kades || 'H. Ahmad Supardi, S.Sos'}
                                 </h3>
-                                <p className="mt-0.5 text-[10px] text-slate-500 dark:text-slate-400">
-                                    {aparatur.jabatan}
+                                <p className="text-xs font-semibold text-emerald-400">
+                                    {profilDesa?.jabatan_kades || 'Kepala Desa Batu Belerang'}
                                 </p>
                             </div>
-                        ))}
+                        </div>
+
+                        {/* 🎠 CAROUSEL: Perangkat Desa Slider (Col 8) */}
+                        <div className="lg:col-span-8 flex items-center">
+                            <div
+                                ref={aparaturScrollRef}
+                                className="scrollbar-none flex gap-4 overflow-x-auto scroll-smooth py-1 px-1 w-full"
+                            >
+                                {activeAparaturList.map((aparatur, index) => (
+                                    <div
+                                        key={index}
+                                        className="group flex w-44 sm:w-48 shrink-0 flex-col items-center overflow-hidden rounded-2xl border border-slate-200 bg-white p-4 text-center shadow-sm shadow-slate-100/50 transition-all duration-300 hover:-translate-y-1 hover:border-emerald-200 dark:border-slate-800 dark:bg-slate-900/40 dark:shadow-none"
+                                    >
+                                        <div className="relative mb-3 aspect-4/5 w-full overflow-hidden rounded-xl bg-slate-100 dark:bg-slate-800">
+                                            <img
+                                                src={aparatur.foto}
+                                                alt={aparatur.nama}
+                                                className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                                            />
+                                        </div>
+                                        <h3 className="text-xs font-bold text-slate-900 dark:text-white line-clamp-1">
+                                            {aparatur.nama}
+                                        </h3>
+                                        <p className="mt-0.5 text-[10px] text-slate-500 dark:text-slate-400 line-clamp-1">
+                                            {aparatur.jabatan}
+                                        </p>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
                     </div>
                 </section>
 
