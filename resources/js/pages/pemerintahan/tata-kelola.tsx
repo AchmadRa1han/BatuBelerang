@@ -1,7 +1,15 @@
 import React from 'react';
 import PublicPageLayout from '@/components/public-page-layout';
 
-export default function TataKelola() {
+interface PageProps {
+    konten?: {
+        judul?: string;
+        subjudul?: string;
+        isi?: string;
+    };
+}
+
+export default function TataKelola({ konten }: PageProps) {
     const sideMenuItems = [
         { title: 'Visi dan Misi', href: '/pemerintahan/visi-misi' },
         { title: 'Data Perangkat', href: '/pemerintahan/data-perangkat' },
@@ -10,10 +18,14 @@ export default function TataKelola() {
         { title: 'Tata Kelola', href: '/pemerintahan/tata-kelola', active: true },
     ];
 
+    const title = konten?.judul || 'Tata Kelola Pemerintahan Desa';
+    const subtitle = konten?.subjudul || 'Prinsip akuntabilitas, keterbukaan informasi, serta standar operasional pelayanan publik Desa Batu Belerang.';
+    const isi = konten?.isi || 'Pemerintah Desa Batu Belerang menerapkan 4 pilar utama tata kelola pemerintahan yang baik: Transparansi, Akuntabilitas, Partisipatif, dan Ketertiban Hukum.';
+
     return (
         <PublicPageLayout
-            title="Tata Kelola Pemerintahan Desa"
-            subtitle="Prinsip akuntabilitas, keterbukaan informasi, serta standar operasional pelayanan publik Desa Batu Belerang."
+            title={title}
+            subtitle={subtitle}
             category="Pemerintahan"
             breadcrumbs={[{ label: 'Tata Kelola' }]}
             sideMenuItems={sideMenuItems}
@@ -23,8 +35,8 @@ export default function TataKelola() {
                     <h2 className="text-xl font-bold tracking-tight text-slate-900 dark:text-white">
                         Prinsip Utama Tata Kelola (Good Village Governance)
                     </h2>
-                    <p className="mt-2 text-slate-600 dark:text-slate-300 leading-relaxed">
-                        Pemerintah Desa Batu Belerang menerapkan 4 pilar utama tata kelola pemerintahan yang baik:
+                    <p className="mt-2 text-slate-600 dark:text-slate-300 leading-relaxed whitespace-pre-line">
+                        {isi}
                     </p>
                 </div>
 

@@ -1,7 +1,15 @@
 import React from 'react';
 import PublicPageLayout from '@/components/public-page-layout';
 
-export default function Rpjmdes() {
+interface PageProps {
+    konten?: {
+        judul?: string;
+        subjudul?: string;
+        isi?: string;
+    };
+}
+
+export default function Rpjmdes({ konten }: PageProps) {
     const sideMenuItems = [
         { title: 'Visi dan Misi', href: '/pemerintahan/visi-misi' },
         { title: 'Data Perangkat', href: '/pemerintahan/data-perangkat' },
@@ -9,6 +17,10 @@ export default function Rpjmdes() {
         { title: 'RPJMDes', href: '/pemerintahan/rpjmdes', active: true },
         { title: 'Tata Kelola', href: '/pemerintahan/tata-kelola' },
     ];
+
+    const title = konten?.judul || 'Dokumen RPJMDes (2026 - 2031)';
+    const subtitle = konten?.subjudul || 'Rencana Pembangunan Jangka Menengah Desa Batu Belerang mengenai arah kebijakan strategis pembangunan.';
+    const isi = konten?.isi || 'RPJMDes merupakan dokumen perencanaan pembangunan desa untuk periode 6 (enam) tahun yang memuat visi, misi, arah kebijakan pembangunan desa, serta rencana kegiatan yang meliputi bidang penyelenggaraan pemerintahan desa, pembangunan desa, pembinaan kemasyarakatan desa, dan pemberdayaan masyarakat desa.';
 
     const programPrioritas = [
         { bidang: 'Penyelenggaraan Pemerintahan', fokus: 'Peningkatan sarana kantor desa, tata kelola data berbasis digital, dan operasional RT/RW.' },
@@ -19,8 +31,8 @@ export default function Rpjmdes() {
 
     return (
         <PublicPageLayout
-            title="Dokumen RPJMDes (2026 - 2031)"
-            subtitle="Rencana Pembangunan Jangka Menengah Desa Batu Belerang mengenai arah kebijakan strategis pembangunan."
+            title={title}
+            subtitle={subtitle}
             category="Pemerintahan"
             breadcrumbs={[{ label: 'RPJMDes' }]}
             sideMenuItems={sideMenuItems}
@@ -30,8 +42,8 @@ export default function Rpjmdes() {
                     <h2 className="text-xl font-bold tracking-tight text-slate-900 dark:text-white">
                         Dokumen Perencanaan 6 Tahun
                     </h2>
-                    <p className="mt-2 text-slate-600 dark:text-slate-300 leading-relaxed">
-                        RPJMDes merupakan dokumen perencanaan pembangunan desa untuk periode 6 (enam) tahun yang memuat visi, misi, arah kebijakan pembangunan desa, serta rencana kegiatan yang meliputi bidang penyelenggaraan pemerintahan desa, pembangunan desa, pembinaan kemasyarakatan desa, dan pemberdayaan masyarakat desa.
+                    <p className="mt-2 text-slate-600 dark:text-slate-300 leading-relaxed whitespace-pre-line">
+                        {isi}
                     </p>
                 </div>
 

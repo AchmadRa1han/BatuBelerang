@@ -8,6 +8,7 @@ import {
     Newspaper,
     Wallet,
     Database,
+    FileText,
 } from 'lucide-react';
 import AppLogo from '@/components/app-logo';
 import { NavMain } from '@/components/nav-main';
@@ -36,7 +37,7 @@ const mainNavItems: NavItem[] = [
         icon: LayoutGrid,
     },
     {
-        title: 'Homepage',
+        title: 'Pengelola Konten Web',
         icon: Globe,
         items: [
             {
@@ -48,6 +49,11 @@ const mainNavItems: NavItem[] = [
                 title: 'Perangkat Desa',
                 href: '/dashboard?tab=aparatur',
                 icon: Users,
+            },
+            {
+                title: 'Kelola Halaman Sub-Menu',
+                href: '/dashboard?tab=halaman',
+                icon: FileText,
             },
             {
                 title: 'Berita & Kabar Desa',

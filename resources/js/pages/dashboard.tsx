@@ -154,16 +154,28 @@ interface ApbdesItem {
     jumlah_realisasi: number;
 }
 
+interface HalamanKontenItem {
+    id: number;
+    slug: string;
+    kategori: string;
+    judul: string;
+    subjudul?: string;
+    isi?: string;
+    meta_json?: any;
+}
+
 interface DashboardProps {
-    stats: DashboardStats;
-    suratTerbaru: SuratItem[];
-    pengaduanTerbaru: PengaduanItem[];
-    kehadiranHariIni: KehadiranItem[];
-    agendaMendatang: AgendaItem[];
-    profilDesa?: ProfilDesaData;
-    aparaturList?: AparaturItem[];
-    beritaList?: BeritaItem[];
-    apbdesList?: ApbdesItem[];
+    stats?: DashboardStats;
+    suratTerbaru?: any[];
+    pengaduanTerbaru?: any[];
+    kehadiranHariIni?: any[];
+    agendaMendatang?: any[];
+    profilDesa?: any;
+    aparaturList?: any[];
+    beritaList?: any[];
+    regulasiList?: any[];
+    apbdesList?: any[];
+    halamanKontenList?: HalamanKontenItem[];
 }
 
 export default function Dashboard({
@@ -175,7 +187,9 @@ export default function Dashboard({
     profilDesa,
     aparaturList = [],
     beritaList = [],
+    regulasiList = [],
     apbdesList = [],
+    halamanKontenList = [],
 }: DashboardProps) {
     const { auth, url } = usePage<{ auth: Auth }>().props;
 
@@ -183,21 +197,21 @@ export default function Dashboard({
         if (typeof window !== 'undefined') {
             const params = new URLSearchParams(window.location.search);
             const tabParam = params.get('tab');
-            if (['overview', 'profil', 'aparatur', 'berita', 'apbdes'].includes(tabParam || '')) {
-                return tabParam as 'overview' | 'profil' | 'aparatur' | 'berita' | 'apbdes';
+            if (['overview', 'profil', 'aparatur', 'halaman', 'berita', 'apbdes'].includes(tabParam || '')) {
+                return tabParam as 'overview' | 'profil' | 'aparatur' | 'halaman' | 'berita' | 'apbdes';
             }
         }
         return 'overview';
     };
 
-    const [mainTab, setMainTab] = useState<'overview' | 'profil' | 'aparatur' | 'berita' | 'apbdes'>(getInitialTab);
+    const [mainTab, setMainTab] = useState<'overview' | 'profil' | 'aparatur' | 'halaman' | 'berita' | 'apbdes'>(getInitialTab);
     const [activityTab, setActivityTab] = useState<'surat' | 'pengaduan' | 'agenda'>('surat');
 
     React.useEffect(() => {
         if (typeof window !== 'undefined') {
             const params = new URLSearchParams(window.location.search);
             const tabParam = params.get('tab');
-            if (tabParam && ['overview', 'profil', 'aparatur', 'berita', 'apbdes'].includes(tabParam)) {
+            if (tabParam && ['overview', 'profil', 'aparatur', 'halaman', 'berita', 'apbdes'].includes(tabParam)) {
                 setMainTab(tabParam as any);
             }
         }
@@ -273,6 +287,31 @@ export default function Dashboard({
         pembiayaan_anggaran: pem?.jumlah_anggaran || 50000000,
         pembiayaan_realisasi: pem?.jumlah_realisasi || 50000000,
     });
+
+    // Halaman Menu Content Editor State
+    const [selectedPageSlug, setSelectedPageSlug] = useState<string>('profil-tentang-kami');
+    const selectedHalaman = halamanKontenList?.find(h => h.slug === selectedPageSlug);
+
+    const halamanForm = useForm({
+        judul: selectedHalaman?.judul || '',
+        subjudul: selectedHalaman?.subjudul || '',
+        isi: selectedHalaman?.isi || '',
+    });
+
+    React.useEffect(() => {
+        if (selectedHalaman) {
+            halamanForm.setData({
+                judul: selectedHalaman.judul || '',
+                subjudul: selectedHalaman.subjudul || '',
+                isi: selectedHalaman.isi || '',
+            });
+        }
+    }, [selectedPageSlug, halamanKontenList]);
+
+    const submitHalamanForm = (e: React.FormEvent) => {
+        e.preventDefault();
+        halamanForm.post(`/admin/halaman/${selectedPageSlug}`, { preserveScroll: true });
+    };
 
     usePoll(15000);
 
@@ -889,6 +928,189 @@ export default function Dashboard({
                                     </div>
                                 </div>
                             ))}
+                        </div>
+                    </div>
+                )}
+
+                {/* TAB 3.5: KELOLA HALAMAN SUB-MENU */}
+                {mainTab === 'halaman' && (
+                    <div className="space-y-6">
+                        <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900 space-y-6">
+                            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-slate-100 dark:border-slate-800">
+                                <div>
+                                    <h3 className="font-bold text-base text-slate-900 dark:text-white flex items-center gap-2">
+                                        <FileText className="size-5 text-emerald-600" /> Pengelola Konten Sub-Menu Halaman Website
+                                    </h3>
+                                    <p className="text-xs text-slate-500">Pilih menu halaman yang ingin diubah judul, subjudul, atau isi konten utamanya.</p>
+                                </div>
+
+                                {selectedPageSlug && (
+                                    <a
+                                        href={`/${selectedPageSlug.replace('-', '/')}`}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="inline-flex items-center gap-1.5 rounded-lg border border-slate-200 bg-slate-50 px-3 py-1.5 text-xs font-semibold text-emerald-700 transition-colors hover:bg-emerald-50 dark:border-slate-800 dark:bg-slate-800 dark:text-emerald-400"
+                                    >
+                                        <Globe className="size-3.5" />
+                                        <span>Pratinjau Halaman Ini</span>
+                                        <ExternalLink className="size-3" />
+                                    </a>
+                                )}
+                            </div>
+
+                            {/* Menu Page Selector Grid / Tabs */}
+                            <div className="space-y-4">
+                                <Label className="text-xs font-bold uppercase tracking-wider text-slate-500">Pilih Halaman yang Ingin Di-Edit:</Label>
+
+                                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                    {/* Group 1: Profil Desa */}
+                                    <div className="space-y-2 rounded-xl border border-slate-200/80 bg-slate-50/60 p-3.5 dark:border-slate-800 dark:bg-slate-900/30">
+                                        <span className="text-[11px] font-extrabold uppercase text-emerald-600 dark:text-emerald-400 block pb-1 border-b border-slate-200/60 dark:border-slate-800">
+                                            Kategori: Profil Desa
+                                        </span>
+                                        <div className="space-y-1">
+                                            {[
+                                                { slug: 'profil-tentang-kami', label: 'Tentang Kami' },
+                                                { slug: 'profil-visi-misi', label: 'Visi & Misi' },
+                                                { slug: 'profil-sejarah-desa', label: 'Sejarah Desa' },
+                                                { slug: 'profil-geografis-desa', label: 'Geografis Desa' },
+                                                { slug: 'profil-demografi-desa', label: 'Demografi Desa' },
+                                            ].map((item) => (
+                                                <button
+                                                    key={item.slug}
+                                                    type="button"
+                                                    onClick={() => setSelectedPageSlug(item.slug)}
+                                                    className={`w-full text-left text-xs font-semibold px-3 py-2 rounded-lg transition-all flex items-center justify-between ${
+                                                        selectedPageSlug === item.slug
+                                                            ? 'bg-emerald-600 text-white shadow-sm'
+                                                            : 'text-slate-700 hover:bg-slate-200/60 dark:text-slate-300 dark:hover:bg-slate-800'
+                                                    }`}
+                                                >
+                                                    <span>{item.label}</span>
+                                                    {selectedPageSlug === item.slug && <Check className="size-3.5" />}
+                                                </button>
+                                            ))}
+                                        </div>
+                                    </div>
+
+                                    {/* Group 2: Pemerintahan */}
+                                    <div className="space-y-2 rounded-xl border border-slate-200/80 bg-slate-50/60 p-3.5 dark:border-slate-800 dark:bg-slate-900/30">
+                                        <span className="text-[11px] font-extrabold uppercase text-emerald-600 dark:text-emerald-400 block pb-1 border-b border-slate-200/60 dark:border-slate-800">
+                                            Kategori: Pemerintahan
+                                        </span>
+                                        <div className="space-y-1">
+                                            {[
+                                                { slug: 'pemerintahan-struktur-organisasi', label: 'Struktur Organisasi' },
+                                                { slug: 'pemerintahan-rpjmdes', label: 'RPJMDes' },
+                                                { slug: 'pemerintahan-tata-kelola', label: 'Tata Kelola' },
+                                            ].map((item) => (
+                                                <button
+                                                    key={item.slug}
+                                                    type="button"
+                                                    onClick={() => setSelectedPageSlug(item.slug)}
+                                                    className={`w-full text-left text-xs font-semibold px-3 py-2 rounded-lg transition-all flex items-center justify-between ${
+                                                        selectedPageSlug === item.slug
+                                                            ? 'bg-emerald-600 text-white shadow-sm'
+                                                            : 'text-slate-700 hover:bg-slate-200/60 dark:text-slate-300 dark:hover:bg-slate-800'
+                                                    }`}
+                                                >
+                                                    <span>{item.label}</span>
+                                                    {selectedPageSlug === item.slug && <Check className="size-3.5" />}
+                                                </button>
+                                            ))}
+                                            <div className="pt-1 text-[11px] text-slate-500 italic px-2">
+                                                *Data Perangkat Desa di-edit via tab "Perangkat Desa".
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    {/* Group 3: Lembaga Desa */}
+                                    <div className="space-y-2 rounded-xl border border-slate-200/80 bg-slate-50/60 p-3.5 dark:border-slate-800 dark:bg-slate-900/30">
+                                        <span className="text-[11px] font-extrabold uppercase text-emerald-600 dark:text-emerald-400 block pb-1 border-b border-slate-200/60 dark:border-slate-800">
+                                            Kategori: Lembaga Desa
+                                        </span>
+                                        <div className="space-y-1">
+                                            {[
+                                                { slug: 'lembaga-bpd', label: 'BPD' },
+                                                { slug: 'lembaga-pkk', label: 'PKK' },
+                                                { slug: 'lembaga-karang-taruna', label: 'Karang Taruna' },
+                                                { slug: 'lembaga-rt-rw', label: 'RT & RW' },
+                                                { slug: 'lembaga-posyandu', label: 'Posyandu' },
+                                                { slug: 'lembaga-bumdes', label: 'BUMDes' },
+                                            ].map((item) => (
+                                                <button
+                                                    key={item.slug}
+                                                    type="button"
+                                                    onClick={() => setSelectedPageSlug(item.slug)}
+                                                    className={`w-full text-left text-xs font-semibold px-3 py-2 rounded-lg transition-all flex items-center justify-between ${
+                                                        selectedPageSlug === item.slug
+                                                            ? 'bg-emerald-600 text-white shadow-sm'
+                                                            : 'text-slate-700 hover:bg-slate-200/60 dark:text-slate-300 dark:hover:bg-slate-800'
+                                                    }`}
+                                                >
+                                                    <span>{item.label}</span>
+                                                    {selectedPageSlug === item.slug && <Check className="size-3.5" />}
+                                                </button>
+                                            ))}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* Form Edit Konten Halaman Terpilih */}
+                            <form onSubmit={submitHalamanForm} className="space-y-4 pt-4 border-t border-slate-100 dark:border-slate-800">
+                                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                                    <div className="flex items-center gap-2">
+                                        <span className="px-2.5 py-0.5 rounded bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300 text-xs font-bold uppercase">
+                                            {selectedHalaman?.kategori || 'Form Edit'}
+                                        </span>
+                                        <h4 className="font-bold text-sm text-slate-900 dark:text-white">
+                                            Form Edit: {selectedHalaman?.judul || selectedPageSlug}
+                                        </h4>
+                                    </div>
+
+                                    <Button
+                                        type="submit"
+                                        disabled={halamanForm.processing}
+                                        className="bg-emerald-600 hover:bg-emerald-700 text-white text-xs gap-2 shrink-0"
+                                    >
+                                        <Save className="size-3.5" />
+                                        <span>Simpan Perubahan Halaman</span>
+                                    </Button>
+                                </div>
+
+                                <div className="space-y-4">
+                                    <div>
+                                        <Label className="text-xs font-semibold">Judul Utama Halaman</Label>
+                                        <Input
+                                            required
+                                            value={halamanForm.data.judul}
+                                            onChange={(e) => halamanForm.setData('judul', e.target.value)}
+                                            placeholder="Judul halaman..."
+                                        />
+                                    </div>
+
+                                    <div>
+                                        <Label className="text-xs font-semibold">Subjudul / Ringkasan Singkat</Label>
+                                        <Input
+                                            value={halamanForm.data.subjudul}
+                                            onChange={(e) => halamanForm.setData('subjudul', e.target.value)}
+                                            placeholder="Subjudul atau penjelasan singkat..."
+                                        />
+                                    </div>
+
+                                    <div>
+                                        <Label className="text-xs font-semibold">Isi Konten Utama / Paragraf Deskripsi</Label>
+                                        <textarea
+                                            className="w-full rounded-md border border-slate-300 dark:border-slate-700 bg-transparent p-3 text-xs leading-relaxed focus:ring-2 focus:ring-emerald-500 min-h-[160px]"
+                                            rows={8}
+                                            value={halamanForm.data.isi}
+                                            onChange={(e) => halamanForm.setData('isi', e.target.value)}
+                                            placeholder="Tuliskan isi konten utama atau informasi lengkap halaman ini..."
+                                        />
+                                    </div>
+                                </div>
+                            </form>
                         </div>
                     </div>
                 )}

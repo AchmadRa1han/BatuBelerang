@@ -1,7 +1,15 @@
 import React from 'react';
 import PublicPageLayout from '@/components/public-page-layout';
 
-export default function DemografiDesa() {
+interface PageProps {
+    konten?: {
+        judul?: string;
+        subjudul?: string;
+        isi?: string;
+    };
+}
+
+export default function DemografiDesa({ konten }: PageProps) {
     const sideMenuItems = [
         { title: 'Tentang Kami', href: '/profil/tentang-kami' },
         { title: 'Visi & Misi', href: '/profil/visi-misi' },
@@ -9,6 +17,10 @@ export default function DemografiDesa() {
         { title: 'Geografis Desa', href: '/profil/geografis-desa' },
         { title: 'Demografi Desa', href: '/profil/demografi-desa', active: true },
     ];
+
+    const title = konten?.judul || 'Demografi & Data Penduduk';
+    const subtitle = konten?.subjudul || 'Ringkasan sebaran statistik kependudukan, kelompok usia, dan profesi warga Desa Batu Belerang.';
+    const isi = konten?.isi || 'Data kependudukan terdaftar secara resmi pada Sistem Informasi Desa Batu Belerang.';
 
     const statsSummary = [
         { label: 'Jumlah Penduduk', value: '1,248 Jiwa' },
@@ -19,8 +31,8 @@ export default function DemografiDesa() {
 
     return (
         <PublicPageLayout
-            title="Demografi & Data Penduduk"
-            subtitle="Ringkasan sebaran statistik kependudukan, kelompok usia, dan profesi warga Desa Batu Belerang."
+            title={title}
+            subtitle={subtitle}
             category="Profil Desa"
             breadcrumbs={[{ label: 'Demografi Desa' }]}
             sideMenuItems={sideMenuItems}
@@ -30,8 +42,8 @@ export default function DemografiDesa() {
                     <h2 className="text-xl font-bold tracking-tight text-slate-900 dark:text-white">
                         Ringkasan Demografi
                     </h2>
-                    <p className="mt-2 text-slate-600 dark:text-slate-300 leading-relaxed">
-                        Data kependudukan terdaftar secara resmi pada Sistem Informasi Desa Batu Belerang.
+                    <p className="mt-2 text-slate-600 dark:text-slate-300 leading-relaxed whitespace-pre-line">
+                        {isi}
                     </p>
                 </div>
 
@@ -43,32 +55,6 @@ export default function DemografiDesa() {
                             <p className="mt-1 text-lg font-extrabold text-emerald-600 dark:text-emerald-400">{item.value}</p>
                         </div>
                     ))}
-                </div>
-
-                {/* Sebaran Pekerjaan Utama */}
-                <div className="rounded-xl border border-slate-200/80 bg-slate-50/60 p-5 dark:border-slate-800 dark:bg-slate-900/30">
-                    <h3 className="mb-3 text-base font-bold text-slate-900 dark:text-white">
-                        Mata Pencaharian Utama Warga
-                    </h3>
-                    <div className="space-y-2.5">
-                        {[
-                            { job: 'Petani & Pekebun', pct: 68 },
-                            { job: 'Pedagang & UMKM', pct: 14 },
-                            { job: 'Pegawai Negeri / Guru / PNS', pct: 8 },
-                            { job: 'Karyawan Swasta & Buruh', pct: 6 },
-                            { job: 'Lainnya', pct: 4 },
-                        ].map((row, idx) => (
-                            <div key={idx} className="space-y-1">
-                                <div className="flex justify-between text-xs font-semibold">
-                                    <span className="text-slate-700 dark:text-slate-300">{row.job}</span>
-                                    <span className="text-slate-500">{row.pct}%</span>
-                                </div>
-                                <div className="h-2 w-full rounded-full bg-slate-200 dark:bg-slate-800 overflow-hidden">
-                                    <div className="h-full rounded-full bg-emerald-500" style={{ width: `${row.pct}%` }} />
-                                </div>
-                            </div>
-                        ))}
-                    </div>
                 </div>
             </div>
         </PublicPageLayout>

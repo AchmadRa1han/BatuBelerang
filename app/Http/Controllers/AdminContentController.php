@@ -6,6 +6,7 @@ use App\Models\AgendaDesa;
 use App\Models\AnggaranApbdes;
 use App\Models\AparaturDesa;
 use App\Models\BeritaDesa;
+use App\Models\HalamanKonten;
 use App\Models\ProfilDesa;
 use App\Models\Regulasi;
 use Illuminate\Http\RedirectResponse;
@@ -283,5 +284,22 @@ class AdminContentController extends Controller
         AgendaDesa::create($validated);
 
         return back()->with('success', 'Agenda desa berhasil ditambahkan.');
+    }
+
+    /**
+     * Update Halaman Konten (Profil, Pemerintahan, Lembaga).
+     */
+    public function updateHalamanKonten(Request $request, string $slug): RedirectResponse
+    {
+        $validated = $request->validate([
+            'judul' => 'required|string|max:255',
+            'subjudul' => 'nullable|string|max:255',
+            'isi' => 'nullable|string',
+        ]);
+
+        $halaman = HalamanKonten::where('slug', $slug)->firstOrFail();
+        $halaman->update($validated);
+
+        return back()->with('success', "Konten Halaman {$halaman->judul} berhasil diperbarui.");
     }
 }

@@ -6,6 +6,7 @@ use App\Models\AgendaDesa;
 use App\Models\AnggaranApbdes;
 use App\Models\AparaturDesa;
 use App\Models\BeritaDesa;
+use App\Models\HalamanKonten;
 use App\Models\ProfilDesa;
 use App\Models\Regulasi;
 use Illuminate\Http\Request;
@@ -146,6 +147,7 @@ class DashboardController extends Controller
             'beritaList' => $beritaList,
             'regulasiList' => $regulasiList,
             'apbdesList' => $apbdesList,
+            'halamanKontenList' => HalamanKonten::all(),
         ]);
     }
 }

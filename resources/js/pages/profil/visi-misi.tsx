@@ -3,9 +3,14 @@ import PublicPageLayout from '@/components/public-page-layout';
 
 interface VisiMisiProps {
     category?: 'Profil Desa' | 'Pemerintahan';
+    konten?: {
+        judul?: string;
+        subjudul?: string;
+        isi?: string;
+    };
 }
 
-export default function VisiMisi({ category = 'Profil Desa' }: VisiMisiProps) {
+export default function VisiMisi({ category = 'Profil Desa', konten }: VisiMisiProps) {
     const isPemerintahan = category === 'Pemerintahan';
 
     const sideMenuItems = isPemerintahan
@@ -24,6 +29,10 @@ export default function VisiMisi({ category = 'Profil Desa' }: VisiMisiProps) {
               { title: 'Demografi Desa', href: '/profil/demografi-desa' },
           ];
 
+    const title = konten?.judul || 'Visi & Misi Desa Batu Belerang';
+    const subtitle = konten?.subjudul || 'Arah kebijakan pembangunan dan komitmen jangka panjang Pemerintah Desa Batu Belerang.';
+    const visiText = konten?.isi || '"Terwujudnya Desa Batu Belerang yang Mandiri, Sejahtera, Berdaya Saing, dan Berbasis Potensi Wisata Alami serta Pertanian Berkelanjutan."';
+
     const misiList = [
         'Mewujudkan tata kelola pemerintahan desa yang bersih, transparan, akuntabel, dan berorientasi pada pelayanan masyarakat.',
         'Mengembangkan potensi pariwisata alam air panas belerang dan sarana pendukungnya secara berkelanjutan.',
@@ -34,8 +43,8 @@ export default function VisiMisi({ category = 'Profil Desa' }: VisiMisiProps) {
 
     return (
         <PublicPageLayout
-            title="Visi & Misi Desa Batu Belerang"
-            subtitle="Arah kebijakan pembangunan dan komitmen jangka panjang Pemerintah Desa Batu Belerang."
+            title={title}
+            subtitle={subtitle}
             category={category}
             breadcrumbs={[{ label: 'Visi & Misi' }]}
             sideMenuItems={sideMenuItems}
@@ -47,7 +56,7 @@ export default function VisiMisi({ category = 'Profil Desa' }: VisiMisiProps) {
                         VISI DESA
                     </span>
                     <h2 className="mt-2 text-xl font-bold tracking-tight text-slate-900 md:text-2xl dark:text-white">
-                        "Terwujudnya Desa Batu Belerang yang Mandiri, Sejahtera, Berdaya Saing, dan Berbasis Potensi Wisata Alami serta Pertanian Berkelanjutan."
+                        {visiText}
                     </h2>
                 </div>
 
@@ -56,9 +65,6 @@ export default function VisiMisi({ category = 'Profil Desa' }: VisiMisiProps) {
                     <h2 className="text-lg font-bold text-slate-900 dark:text-white">
                         MISI DESA
                     </h2>
-                    <p className="text-slate-600 dark:text-slate-300">
-                        Untuk mewujudkan visi tersebut, Pemerintah Desa Batu Belerang menetapkan langkah-langkah strategis misi pembangunan berikut:
-                    </p>
                     <div className="space-y-3">
                         {misiList.map((misi, idx) => (
                             <div

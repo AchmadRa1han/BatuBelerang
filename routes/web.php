@@ -6,6 +6,7 @@ use App\Http\Controllers\DebugDatabaseController;
 use App\Models\AnggaranApbdes;
 use App\Models\AparaturDesa;
 use App\Models\BeritaDesa;
+use App\Models\HalamanKonten;
 use App\Models\ProfilDesa;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
@@ -109,14 +110,43 @@ Route::get('/berita/{slug}', function ($slug) {
 })->name('berita.show');
 
 // Public Menu Routes (Profil)
-Route::get('/profil/tentang-kami', fn () => Inertia::render('profil/tentang-kami'))->name('profil.tentang-kami');
-Route::get('/profil/visi-misi', fn () => Inertia::render('profil/visi-misi'))->name('profil.visi-misi');
-Route::get('/profil/sejarah-desa', fn () => Inertia::render('profil/sejarah-desa'))->name('profil.sejarah-desa');
-Route::get('/profil/geografis-desa', fn () => Inertia::render('profil/geografis-desa'))->name('profil.geografis-desa');
-Route::get('/profil/demografi-desa', fn () => Inertia::render('profil/demografi-desa'))->name('profil.demografi-desa');
+Route::get('/profil/tentang-kami', function () {
+    $konten = HalamanKonten::where('slug', 'profil-tentang-kami')->first();
+
+    return Inertia::render('profil/tentang-kami', ['konten' => $konten]);
+})->name('profil.tentang-kami');
+
+Route::get('/profil/visi-misi', function () {
+    $konten = HalamanKonten::where('slug', 'profil-visi-misi')->first();
+
+    return Inertia::render('profil/visi-misi', ['konten' => $konten, 'category' => 'Profil Desa']);
+})->name('profil.visi-misi');
+
+Route::get('/profil/sejarah-desa', function () {
+    $konten = HalamanKonten::where('slug', 'profil-sejarah-desa')->first();
+
+    return Inertia::render('profil/sejarah-desa', ['konten' => $konten]);
+})->name('profil.sejarah-desa');
+
+Route::get('/profil/geografis-desa', function () {
+    $konten = HalamanKonten::where('slug', 'profil-geografis-desa')->first();
+
+    return Inertia::render('profil/geografis-desa', ['konten' => $konten]);
+})->name('profil.geografis-desa');
+
+Route::get('/profil/demografi-desa', function () {
+    $konten = HalamanKonten::where('slug', 'profil-demografi-desa')->first();
+
+    return Inertia::render('profil/demografi-desa', ['konten' => $konten]);
+})->name('profil.demografi-desa');
 
 // Public Menu Routes (Pemerintahan)
-Route::get('/pemerintahan/visi-misi', fn () => Inertia::render('profil/visi-misi', ['category' => 'Pemerintahan']))->name('pemerintahan.visi-misi');
+Route::get('/pemerintahan/visi-misi', function () {
+    $konten = HalamanKonten::where('slug', 'profil-visi-misi')->first();
+
+    return Inertia::render('profil/visi-misi', ['konten' => $konten, 'category' => 'Pemerintahan']);
+})->name('pemerintahan.visi-misi');
+
 Route::get('/pemerintahan/data-perangkat', function () {
     $profilDesa = ProfilDesa::first();
     $aparaturDesa = AparaturDesa::where('status', true)->orderBy('urutan', 'asc')->get();
@@ -126,17 +156,61 @@ Route::get('/pemerintahan/data-perangkat', function () {
         'aparaturDesa' => $aparaturDesa,
     ]);
 })->name('pemerintahan.data-perangkat');
-Route::get('/pemerintahan/struktur-organisasi', fn () => Inertia::render('pemerintahan/struktur-organisasi'))->name('pemerintahan.struktur-organisasi');
-Route::get('/pemerintahan/rpjmdes', fn () => Inertia::render('pemerintahan/rpjmdes'))->name('pemerintahan.rpjmdes');
-Route::get('/pemerintahan/tata-kelola', fn () => Inertia::render('pemerintahan/tata-kelola'))->name('pemerintahan.tata-kelola');
+
+Route::get('/pemerintahan/struktur-organisasi', function () {
+    $konten = HalamanKonten::where('slug', 'pemerintahan-struktur-organisasi')->first();
+
+    return Inertia::render('pemerintahan/struktur-organisasi', ['konten' => $konten]);
+})->name('pemerintahan.struktur-organisasi');
+
+Route::get('/pemerintahan/rpjmdes', function () {
+    $konten = HalamanKonten::where('slug', 'pemerintahan-rpjmdes')->first();
+
+    return Inertia::render('pemerintahan/rpjmdes', ['konten' => $konten]);
+})->name('pemerintahan.rpjmdes');
+
+Route::get('/pemerintahan/tata-kelola', function () {
+    $konten = HalamanKonten::where('slug', 'pemerintahan-tata-kelola')->first();
+
+    return Inertia::render('pemerintahan/tata-kelola', ['konten' => $konten]);
+})->name('pemerintahan.tata-kelola');
 
 // Public Menu Routes (Lembaga)
-Route::get('/lembaga/bpd', fn () => Inertia::render('lembaga/bpd'))->name('lembaga.bpd');
-Route::get('/lembaga/pkk', fn () => Inertia::render('lembaga/pkk'))->name('lembaga.pkk');
-Route::get('/lembaga/karang-taruna', fn () => Inertia::render('lembaga/karang-taruna'))->name('lembaga.karang-taruna');
-Route::get('/lembaga/rt-rw', fn () => Inertia::render('lembaga/rt-rw'))->name('lembaga.rt-rw');
-Route::get('/lembaga/posyandu', fn () => Inertia::render('lembaga/posyandu'))->name('lembaga.posyandu');
-Route::get('/lembaga/bumdes', fn () => Inertia::render('lembaga/bumdes'))->name('lembaga.bumdes');
+Route::get('/lembaga/bpd', function () {
+    $konten = HalamanKonten::where('slug', 'lembaga-bpd')->first();
+
+    return Inertia::render('lembaga/bpd', ['konten' => $konten]);
+})->name('lembaga.bpd');
+
+Route::get('/lembaga/pkk', function () {
+    $konten = HalamanKonten::where('slug', 'lembaga-pkk')->first();
+
+    return Inertia::render('lembaga/pkk', ['konten' => $konten]);
+})->name('lembaga.pkk');
+
+Route::get('/lembaga/karang-taruna', function () {
+    $konten = HalamanKonten::where('slug', 'lembaga-karang-taruna')->first();
+
+    return Inertia::render('lembaga/karang-taruna', ['konten' => $konten]);
+})->name('lembaga.karang-taruna');
+
+Route::get('/lembaga/rt-rw', function () {
+    $konten = HalamanKonten::where('slug', 'lembaga-rt-rw')->first();
+
+    return Inertia::render('lembaga/rt-rw', ['konten' => $konten]);
+})->name('lembaga.rt-rw');
+
+Route::get('/lembaga/posyandu', function () {
+    $konten = HalamanKonten::where('slug', 'lembaga-posyandu')->first();
+
+    return Inertia::render('lembaga/posyandu', ['konten' => $konten]);
+})->name('lembaga.posyandu');
+
+Route::get('/lembaga/bumdes', function () {
+    $konten = HalamanKonten::where('slug', 'lembaga-bumdes')->first();
+
+    return Inertia::render('lembaga/bumdes', ['konten' => $konten]);
+})->name('lembaga.bumdes');
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
@@ -153,6 +227,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::delete('/admin/berita/{id}', [AdminContentController::class, 'deleteBerita'])->name('admin.berita.delete');
 
     Route::post('/admin/apbdes', [AdminContentController::class, 'updateApbdes'])->name('admin.apbdes.update');
+    Route::post('/admin/halaman/{slug}', [AdminContentController::class, 'updateHalamanKonten'])->name('admin.halaman.update');
 
     Route::post('/admin/regulasi', [AdminContentController::class, 'storeRegulasi'])->name('admin.regulasi.store');
     Route::post('/admin/agenda', [AdminContentController::class, 'storeAgenda'])->name('admin.agenda.store');
