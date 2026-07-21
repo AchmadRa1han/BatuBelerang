@@ -20,9 +20,11 @@ export default function PublicNavbar() {
             <div className="mx-auto flex h-18 max-w-7xl items-center justify-between px-6">
                 {/* Logo */}
                 <Link href="/" className="flex items-center gap-3">
-                    <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-tr from-emerald-600 to-emerald-500 font-bold text-white shadow-lg shadow-emerald-500/20">
-                        BB
-                    </div>
+                    <img
+                        src="/images/lambang_kabupaten_sinjai.png"
+                        alt="Lambang Kabupaten Sinjai"
+                        className="h-10 w-auto object-contain transition-transform hover:scale-105"
+                    />
                     <div>
                         <span className="block text-base font-bold tracking-tight text-slate-900 dark:text-white">
                             Batu Belerang

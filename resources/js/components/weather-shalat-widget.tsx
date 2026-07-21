@@ -41,36 +41,13 @@ interface PrayerTimes {
     isya: string;
 }
 
-// Kabupaten Sinjai Authentic Shield Logo SVG
 const SinjaiLogo = () => (
-    <div className="flex h-12 w-12 items-center justify-center overflow-hidden rounded-xl border border-slate-200 bg-slate-50 p-1 shadow-sm md:h-14 md:w-14 dark:border-slate-800 dark:bg-slate-900">
-        <svg
-            viewBox="0 0 100 100"
-            className="h-full w-full"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-        >
-            <path
-                d="M50 5 L85 25 V60 C85 80 50 95 50 95 C50 95 15 80 15 60 V25 L50 5 Z"
-                fill="#1e3a8a"
-                stroke="#fbbf24"
-                strokeWidth="2.5"
-            />
-            <path
-                d="M50 14 L78 30 V57 C78 70 50 83 50 83 C50 83 22 70 22 57 V30 L50 14 Z"
-                fill="#16a34a"
-            />
-            <path
-                d="M22 55 C30 51 40 59 50 55 C60 51 70 59 78 55 V63 C78 73 50 83 50 83 C50 83 22 73 22 63 V55 Z"
-                fill="#0284c7"
-            />
-            <path
-                d="M50 20 L53 27 L61 27 L55 32 L57 39 L50 35 L43 39 L45 32 L39 27 L47 27 Z"
-                fill="#fbbf24"
-            />
-            <rect x="47" y="37" width="6" height="23" fill="#ffffff" rx="0.5" />
-            <circle cx="50" cy="37" r="3.5" fill="#dc2626" />
-        </svg>
+    <div className="flex h-12 w-12 items-center justify-center overflow-hidden rounded-xl border border-slate-200/80 bg-white p-1 shadow-sm md:h-14 md:w-14 dark:border-slate-800 dark:bg-slate-900">
+        <img
+            src="/images/lambang_kabupaten_sinjai.png"
+            alt="Lambang Kabupaten Sinjai"
+            className="h-full w-full object-contain"
+        />
     </div>
 );
 

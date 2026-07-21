@@ -32,6 +32,7 @@ class HomepageContentSeeder extends Seeder
                     'Meningkatkan pemberdayaan ekonomi warga melalui perkuatan UMKM desa.',
                 ],
                 'alamat_kantor' => 'Jl. Poros Biji Nangka - Batu Belerang, Kec. Sinjai Borong',
+                'logo_path' => '/images/lambang_kabupaten_sinjai.png',
                 'telepon' => '(0482) 123-4567',
                 'email' => 'pemdes@batubelerang.desa.id',
                 'nama_kades' => 'H. Ahmad Supardi, S.Sos',
