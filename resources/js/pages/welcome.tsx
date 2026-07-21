@@ -469,11 +469,11 @@ export default function Welcome({
                     <span className="inline-flex rounded-full border border-emerald-500/20 bg-emerald-500/10 px-3.5 py-1 text-xs font-semibold tracking-wider text-emerald-600 uppercase dark:text-emerald-400">
                         Portal Resmi Desa Batu Belerang
                     </span>
-                    <h1 className="mx-auto max-w-4xl bg-gradient-to-b from-slate-950 via-slate-800 to-slate-600 bg-clip-text text-4xl leading-tight font-extrabold tracking-tight text-slate-900 text-transparent md:text-6xl dark:from-white dark:via-white dark:to-slate-400 dark:text-white">
-                        {profilDesa?.hero_title || 'Membangun Desa Modern, Menjaga Potensi Alam'}
+                    <h1 className="mx-auto max-w-4xl text-4xl leading-tight font-extrabold tracking-tight text-slate-900 md:text-6xl dark:text-white">
+                        {profilDesa?.hero_title || 'Desa Batu Belerang'}
                     </h1>
-                    <p className="mx-auto max-w-2xl text-base font-medium text-slate-600 md:text-lg dark:text-slate-400">
-                        {profilDesa?.hero_subtitle || 'Selamat datang di gerbang digital resmi Desa Batu Belerang, Kecamatan Sinjai Borong. Temukan kemudahan layanan mandiri warga, transparansi pembangunan, informasi UMKM, dan keindahan wisata belerang kami.'}
+                    <p className="mx-auto max-w-2xl text-base font-semibold text-slate-600 md:text-xl dark:text-slate-300">
+                        {profilDesa?.hero_subtitle || 'Kecamatan Sinjai Borong, Kabupaten Sinjai, Provinsi Sulawesi Selatan'}
                     </p>
                     <div className="flex flex-col justify-center gap-4 pt-4 sm:flex-row">
                         <Link

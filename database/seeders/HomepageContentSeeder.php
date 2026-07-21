@@ -38,8 +38,8 @@ class HomepageContentSeeder extends Seeder
                 'jabatan_kades' => 'Kepala Desa Batu Belerang',
                 'sambutan_kades' => 'Selamat datang di website resmi Desa Batu Belerang. Kami berkomitmen menyajikan pelayanan publik yang transparan, mudah, dan akuntabel demi kemajuan seluruh masyarakat desa.',
                 'foto_kades' => 'https://images.unsplash.com/photo-1560250097-0b93528c311a?w=400&auto=format&fit=crop&q=80',
-                'hero_title' => 'Membangun Desa Modern, Menjaga Potensi Alam',
-                'hero_subtitle' => 'Selamat datang di gerbang digital resmi Desa Batu Belerang, Kecamatan Sinjai Borong. Temukan kemudahan layanan mandiri warga, transparansi pembangunan, informasi UMKM, dan keindahan wisata belerang kami.',
+                'hero_title' => 'Desa Batu Belerang',
+                'hero_subtitle' => 'Kecamatan Sinjai Borong, Kabupaten Sinjai, Provinsi Sulawesi Selatan',
             ]
         );
 
