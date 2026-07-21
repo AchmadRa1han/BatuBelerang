@@ -40,6 +40,52 @@ interface AgendaItem {
     koordinator?: string;
 }
 
+interface ProfilDesaProps {
+    nama_desa?: string;
+    nama_kecamatan?: string;
+    nama_kabupaten?: string;
+    nama_provinsi?: string;
+    sejarah?: string;
+    visi?: string;
+    misi?: string[];
+    alamat_kantor?: string;
+    telepon?: string;
+    email?: string;
+    nama_kades?: string;
+    jabatan_kades?: string;
+    sambutan_kades?: string;
+    foto_kades?: string;
+    hero_title?: string;
+    hero_subtitle?: string;
+}
+
+interface AparaturItemProps {
+    id?: number;
+    nama: string;
+    jabatan: string;
+    foto_path?: string;
+    foto?: string;
+}
+
+interface BeritaItemProps {
+    id: number;
+    judul: string;
+    kategori: string;
+    ringkasan: string;
+    isi?: string;
+    foto_path?: string;
+    foto?: string;
+    tanggal_publikasi?: string;
+    tanggal?: string;
+}
+
+interface ApbdesItemProps {
+    tahun: number;
+    jenis: string;
+    jumlah_anggaran: number;
+    jumlah_realisasi: number;
+}
+
 interface Props {
     stats: {
         warga: number;
@@ -51,6 +97,10 @@ interface Props {
     demografi?: DemografiData;
     regulasi?: RegulasiItem[];
     agenda?: AgendaItem[];
+    profilDesa?: ProfilDesaProps;
+    aparaturList?: AparaturItemProps[];
+    beritaList?: BeritaItemProps[];
+    apbdesList?: ApbdesItemProps[];
 }
 
 const COLORS = [
@@ -125,6 +175,10 @@ export default function Welcome({
     demografi,
     regulasi = [],
     agenda = [],
+    profilDesa,
+    aparaturList: propsAparaturList = [],
+    beritaList: propsBeritaList = [],
+    apbdesList: propsApbdesList = [],
 }: Props) {
     const [activeGenderIndex, setActiveGenderIndex] = useState<number | null>(
         null,
@@ -286,16 +340,28 @@ export default function Welcome({
     const strokeWidth = 14;
     const circumference = 2 * Math.PI * radius; // ~377
 
-    // Berita Acara
-    const beritaList = [
+    // Dynamic data fallback
+    const activeBeritaList = propsBeritaList.length
+        ? propsBeritaList.map(b => ({
+            id: b.id,
+            judul: b.judul,
+            slug: b.slug,
+            kategori: b.kategori,
+            tanggal: b.tanggal_publikasi || b.tanggal || '09 Jul 2026',
+            ringkasan: b.ringkasan,
+            foto: b.foto_path || b.foto || 'https://images.unsplash.com/photo-1540553016722-983e48a2cd10?w=800&auto=format&fit=crop&q=60',
+            is_headline: Boolean(b.is_headline),
+        }))
+        : [
         {
             id: 1,
             judul: 'Peresmian Kolam Rendam Air Panas Belerang Baru',
             kategori: 'Pariwisata',
             tanggal: '09 Jul 2026',
             ringkasan:
-                'Pemerintah Desa meresmikan kolam berendam belerang baru dan gazebo bersantai bagi wisatawan lokal maupun mancanegara.',
+                'Pemerintah Desa meresmikan kawasan baru fasilitas pemandian air panas belerang yang dilengkapi dengan kolam rendam keluarga dan gazebo bersantai.',
             foto: 'https://images.unsplash.com/photo-1540553016722-983e48a2cd10?w=800&auto=format&fit=crop&q=60',
+            is_headline: true,
         },
         {
             id: 2,
@@ -305,6 +371,7 @@ export default function Welcome({
             ringkasan:
                 'Sebanyak 78 keluarga penerima manfaat di seluruh dusun menerima penyaluran bantuan tunai guna mendukung perekonomian lokal.',
             foto: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=800&auto=format&fit=crop&q=60',
+            is_headline: false,
         },
         {
             id: 3,
@@ -314,15 +381,72 @@ export default function Welcome({
             ringkasan:
                 'Warga berkumpul mendiskusikan rencana pembangunan infrastruktur jalan tani dan perluasan jangkauan air bersih.',
             foto: 'https://images.unsplash.com/photo-1517048676732-d65bc937f952?w=800&auto=format&fit=crop&q=60',
+            is_headline: false,
+        },
+        {
+            id: 4,
+            judul: 'Kunjungan Kerja Tim Penggerak PKK Kabupaten Sinjai ke Desa Batu Belerang',
+            kategori: 'Kelembagaan',
+            tanggal: '28 Jun 2026',
+            ringkasan:
+                'Peninjauan program ketahanan pangan keluarga dan pelatihan kerajinan bambu khas warga desa.',
+            foto: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=800&auto=format&fit=crop&q=60',
+            is_headline: false,
+        },
+        {
+            id: 5,
+            judul: 'Pelatihan Digitalisasi Produk UMKM Pertanian & Olahan Hasil Alami',
+            kategori: 'Ekonomi UMKM',
+            tanggal: '22 Jun 2026',
+            ringkasan:
+                'Pelaku usaha lokal dilatih memasarkan produk kopi olahan dan buah markisa secara digital di marketplace.',
+            foto: 'https://images.unsplash.com/photo-1556761175-5973dc0f32e7?w=800&auto=format&fit=crop&q=60',
+            is_headline: false,
+        },
+        {
+            id: 6,
+            judul: 'Kerja Bakti Masal Membersihkan Saluran Irigasi Persawahan Dusun',
+            kategori: 'Gotong Royong',
+            tanggal: '18 Jun 2026',
+            ringkasan:
+                'Ratusan petani bersama aparatur desa bahu-membahu merapikan saluran air jelang musim tanam padi.',
+            foto: 'https://images.unsplash.com/photo-1500937386664-56d1dfef3854?w=800&auto=format&fit=crop&q=60',
+            is_headline: false,
+        },
+        {
+            id: 7,
+            judul: 'Pemeriksaan Kesehatan Gratis & Pembagian Vitamin untuk Lansia',
+            kategori: 'Kesehatan',
+            tanggal: '12 Jun 2026',
+            ringkasan:
+                'Pemerintah desa bekerja sama dengan Puskesmas menggelar posyandu integrasi rutin di kantor desa.',
+            foto: 'https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=800&auto=format&fit=crop&q=60',
+            is_headline: false,
         },
     ];
 
-    // APBDesa Keuangan
+    // Headline Berita & 6 Sub Berita Compact
+    const headlineBerita = activeBeritaList.find(b => b.is_headline) || activeBeritaList[0];
+    const subBeritaList = activeBeritaList.filter(b => b.id !== headlineBerita?.id).slice(0, 6);
+
+    const activeAparaturList = propsAparaturList.length
+        ? propsAparaturList.map(a => ({
+            nama: a.nama,
+            jabatan: a.jabatan,
+            foto: a.foto_path || a.foto || 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=400&auto=format&fit=crop&q=80',
+        }))
+        : aparaturList;
+
+    // APBDesa Keuangan Dynamic
+    const pend = propsApbdesList.find(a => a.jenis === 'pendapatan');
+    const bel = propsApbdesList.find(a => a.jenis === 'belanja');
+    const pem = propsApbdesList.find(a => a.jenis === 'pembiayaan');
+
     const apbdes = {
-        tahun: 2026,
-        pendapatan: { anggaran: 1200000000, realisasi: 980000000 },
-        belanja: { anggaran: 1150000000, realisasi: 720000000 },
-        pembiayaan: { anggaran: 50000000, realisasi: 50000000 },
+        tahun: pend?.tahun || 2026,
+        pendapatan: { anggaran: Number(pend?.jumlah_anggaran || 1200000000), realisasi: Number(pend?.jumlah_realisasi || 980000000) },
+        belanja: { anggaran: Number(bel?.jumlah_anggaran || 1150000000), realisasi: Number(bel?.jumlah_realisasi || 720000000) },
+        pembiayaan: { anggaran: Number(pem?.jumlah_anggaran || 50000000), realisasi: Number(pem?.jumlah_realisasi || 50000000) },
     };
 
     const hitungPersentase = (realisasi: number, anggaran: number) => {
@@ -346,13 +470,10 @@ export default function Welcome({
                         Portal Resmi Desa Batu Belerang
                     </span>
                     <h1 className="mx-auto max-w-4xl bg-gradient-to-b from-slate-950 via-slate-800 to-slate-600 bg-clip-text text-4xl leading-tight font-extrabold tracking-tight text-slate-900 text-transparent md:text-6xl dark:from-white dark:via-white dark:to-slate-400 dark:text-white">
-                        Membangun Desa Modern, Menjaga Potensi Alam
+                        {profilDesa?.hero_title || 'Membangun Desa Modern, Menjaga Potensi Alam'}
                     </h1>
                     <p className="mx-auto max-w-2xl text-base font-medium text-slate-600 md:text-lg dark:text-slate-400">
-                        Selamat datang di gerbang digital resmi Desa Batu
-                        Belerang, Kecamatan Sinjai Timur. Temukan kemudahan
-                        layanan mandiri warga, transparansi pembangunan,
-                        informasi UMKM, dan keindahan wisata belerang kami.
+                        {profilDesa?.hero_subtitle || 'Selamat datang di gerbang digital resmi Desa Batu Belerang, Kecamatan Sinjai Borong. Temukan kemudahan layanan mandiri warga, transparansi pembangunan, informasi UMKM, dan keindahan wisata belerang kami.'}
                     </p>
                     <div className="flex flex-col justify-center gap-4 pt-4 sm:flex-row">
                         <Link
@@ -418,21 +539,275 @@ export default function Welcome({
             </section>
 
             {/* Main Content Sections */}
-            <div className="mx-auto max-w-7xl space-y-28 px-6 py-20">
-                {/* Weather & Prayer Time Dashboard */}
+            <div className="mx-auto max-w-7xl space-y-12 md:space-y-16 px-6 py-10 md:py-14">
+                {/* 1. KABAR DESA TERKINI (Section Berita Utama & Grid 6 Berita Compact) */}
+                <section className="space-y-5">
+                    <div className="flex flex-col items-center justify-between gap-4 sm:flex-row">
+                        <div className="space-y-1 text-center sm:text-left">
+                            <span className="block text-xs font-semibold tracking-widest text-emerald-600 uppercase dark:text-emerald-400">
+                                Berita & Informasi Resmi
+                            </span>
+                            <h2 className="text-2xl font-extrabold tracking-tight text-slate-900 md:text-3xl dark:text-white">
+                                Kabar Desa Terkini
+                            </h2>
+                            <p className="text-xs md:text-sm text-slate-500 dark:text-slate-400">
+                                Ikuti berita utama dan 6 kabar terbaru perkembangan Desa Batu Belerang.
+                            </p>
+                        </div>
+                        <Link
+                            href="/berita"
+                            className="flex items-center gap-1.5 text-xs font-semibold text-emerald-600 transition-colors hover:text-emerald-500 dark:text-emerald-400 dark:hover:text-emerald-300"
+                        >
+                            Lihat Semua Berita <span>→</span>
+                        </Link>
+                    </div>
+
+                    {/* 👑 Headline Card Utama */}
+                    {headlineBerita && (
+                        <div className="group relative overflow-hidden rounded-2xl border border-emerald-500/30 bg-gradient-to-r from-slate-900 via-slate-900 to-emerald-950/80 p-1 shadow-lg dark:border-emerald-500/20">
+                            <div className="grid grid-cols-1 md:grid-cols-12 items-center gap-6 rounded-xl bg-slate-900/90 p-5 md:p-6 backdrop-blur-md">
+                                <div className="md:col-span-6 lg:col-span-5 relative aspect-16/9 md:aspect-4/3 w-full overflow-hidden rounded-xl bg-slate-800 shrink-0">
+                                    <img
+                                        src={headlineBerita.foto}
+                                        alt={headlineBerita.judul}
+                                        className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                                    />
+                                    <span className="absolute top-3 left-3 flex items-center gap-1 rounded-md bg-emerald-600 px-2.5 py-0.5 text-[10px] font-extrabold text-white shadow-md">
+                                        ⭐ BERITA UTAMA
+                                    </span>
+                                </div>
+                                <div className="md:col-span-6 lg:col-span-7 space-y-3">
+                                    <div className="flex items-center gap-2">
+                                        <span className="rounded-md border border-emerald-500/30 bg-emerald-500/10 px-2.5 py-0.5 text-[10px] font-bold text-emerald-400">
+                                            {headlineBerita.kategori}
+                                        </span>
+                                        <span className="text-xs text-slate-400">
+                                            • {headlineBerita.tanggal}
+                                        </span>
+                                    </div>
+                                    <h3 className="text-lg md:text-2xl font-bold leading-tight text-white transition-colors group-hover:text-emerald-400">
+                                        {headlineBerita.judul}
+                                    </h3>
+                                    <p className="line-clamp-2 md:line-clamp-3 text-xs md:text-sm leading-relaxed text-slate-300">
+                                        {headlineBerita.ringkasan}
+                                    </p>
+                                    <div className="pt-2">
+                                        <Link
+                                            href={headlineBerita.slug ? `/berita/${headlineBerita.slug}` : '/berita'}
+                                            className="inline-flex items-center gap-2 rounded-xl bg-emerald-600 px-4 py-2 text-xs font-semibold text-white shadow-md transition-all hover:bg-emerald-500"
+                                        >
+                                            Baca Berita Utama <span>→</span>
+                                        </Link>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    )}
+
+                    {/* 📰 Grid 6 Sub-Berita Compact */}
+                    <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 pt-1">
+                        {subBeritaList.map((berita) => (
+                            <div
+                                key={berita.id}
+                                className="group flex items-start gap-3.5 rounded-xl border border-slate-200 bg-white p-3 shadow-sm shadow-slate-100/50 transition-all duration-300 hover:-translate-y-0.5 hover:border-emerald-200 dark:border-slate-800 dark:bg-slate-900/30 dark:shadow-none dark:hover:border-slate-700"
+                            >
+                                <div className="relative aspect-4/3 w-24 shrink-0 overflow-hidden rounded-lg bg-slate-100 dark:bg-slate-800">
+                                    <img
+                                        src={berita.foto}
+                                        alt={berita.judul}
+                                        className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                                    />
+                                </div>
+                                <div className="flex flex-1 flex-col justify-between space-y-1.5 min-w-0">
+                                    <div className="flex items-center gap-1.5">
+                                        <span className="rounded px-1.5 py-0.2 text-[9px] font-bold bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-300 truncate max-w-[100px]">
+                                            {berita.kategori}
+                                        </span>
+                                        <span className="text-[10px] text-slate-400 shrink-0">
+                                            {berita.tanggal}
+                                        </span>
+                                    </div>
+                                    <h4 className="text-xs font-bold leading-snug text-slate-900 line-clamp-2 transition-colors group-hover:text-emerald-600 dark:text-white dark:group-hover:text-emerald-400">
+                                        {berita.judul}
+                                    </h4>
+                                    <Link
+                                        href={berita.slug ? `/berita/${berita.slug}` : '/berita'}
+                                        className="text-[11px] font-semibold text-emerald-600 hover:text-emerald-500 dark:text-emerald-400 dark:hover:text-emerald-300 pt-0.5"
+                                    >
+                                        Baca <span>→</span>
+                                    </Link>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </section>
+
+                {/* 2. AGENDA KEGIATAN & REGULASI DESA (BAKU SEBLAHAN - Side by Side Grid) */}
+                <section className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+                    {/* Agenda Kegiatan */}
+                    <div className="space-y-5 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm shadow-slate-100/50 transition-colors dark:border-slate-800 dark:bg-slate-900/20 dark:shadow-none">
+                        <div className="flex items-center justify-between border-b border-slate-100 pb-3.5 dark:border-slate-800">
+                            <div className="flex items-center gap-3">
+                                <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-emerald-50 text-emerald-600 dark:bg-emerald-950/40 dark:text-emerald-400">
+                                    <Calendar className="h-4.5 w-4.5" />
+                                </div>
+                                <div>
+                                    <h3 className="text-base font-bold text-slate-900 dark:text-white">
+                                        Agenda Kegiatan Desa
+                                    </h3>
+                                    <p className="text-xs text-slate-500 dark:text-slate-400">
+                                        Jadwal acara & musyawarah mendatang
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="space-y-3">
+                            {agendaData.map((item) => {
+                                const eventDate = new Date(item.waktu_mulai);
+                                const dateFormatted =
+                                    eventDate.toLocaleDateString('id-ID', {
+                                        day: 'numeric',
+                                        month: 'short',
+                                        year: 'numeric',
+                                    });
+                                const timeFormatted =
+                                    eventDate.toLocaleTimeString('id-ID', {
+                                        hour: '2-digit',
+                                        minute: '2-digit',
+                                    });
+
+                                return (
+                                    <div
+                                        key={item.id}
+                                        className="group relative rounded-xl border border-slate-100 bg-slate-50/60 p-3.5 transition-all duration-200 hover:border-emerald-200 hover:bg-slate-50 dark:border-slate-800/60 dark:bg-slate-900/10 dark:hover:border-slate-800 dark:hover:bg-slate-900/30"
+                                    >
+                                        <h4 className="text-xs font-bold text-slate-900 group-hover:text-emerald-600 dark:text-white dark:group-hover:text-emerald-400">
+                                            {item.judul}
+                                        </h4>
+                                        {item.deskripsi && (
+                                            <p className="mt-1 line-clamp-2 text-xs text-slate-500 dark:text-slate-400">
+                                                {item.deskripsi}
+                                            </p>
+                                        )}
+                                        <div className="mt-2.5 flex flex-wrap gap-x-4 gap-y-1 text-[11px] text-slate-500 dark:text-slate-400">
+                                            <div className="flex items-center gap-1">
+                                                <Clock className="h-3 w-3 text-emerald-500" />
+                                                <span>
+                                                    {dateFormatted} - {timeFormatted} WITA
+                                                </span>
+                                            </div>
+                                            <div className="flex items-center gap-1">
+                                                <MapPin className="h-3 w-3 text-emerald-500" />
+                                                <span>{item.lokasi}</span>
+                                            </div>
+                                        </div>
+                                        {item.koordinator && (
+                                            <div className="mt-2 flex items-center gap-1 border-t border-slate-100 pt-1.5 text-[10px] text-slate-400 dark:border-slate-800/40">
+                                                <User className="h-3 w-3" />
+                                                <span>
+                                                    Koordinator: {item.koordinator}
+                                                </span>
+                                            </div>
+                                        )}
+                                    </div>
+                                );
+                            })}
+                        </div>
+                    </div>
+
+                    {/* Regulasi & Produk Hukum */}
+                    <div className="space-y-5 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm shadow-slate-100/50 transition-colors dark:border-slate-800 dark:bg-slate-900/20 dark:shadow-none">
+                        <div className="flex items-center justify-between border-b border-slate-100 pb-3.5 dark:border-slate-800">
+                            <div className="flex items-center gap-3">
+                                <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-emerald-50 text-emerald-600 dark:bg-emerald-950/40 dark:text-emerald-400">
+                                    <FileText className="h-4.5 w-4.5" />
+                                </div>
+                                <div>
+                                    <h3 className="text-base font-bold text-slate-900 dark:text-white">
+                                        Regulasi & Produk Hukum
+                                    </h3>
+                                    <p className="text-xs text-slate-500 dark:text-slate-400">
+                                        Peraturan & surat keputusan resmi desa
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="space-y-3">
+                            {regulasiData.map((item) => {
+                                const typeNames = {
+                                    perdes: 'Peraturan Desa',
+                                    perkades: 'Peraturan Kades',
+                                    sk_kades: 'SK Kades',
+                                    instruksi: 'Instruksi',
+                                };
+                                const badgeColors = {
+                                    perdes: 'bg-blue-50 text-blue-700 dark:bg-blue-950/30 dark:text-blue-400 border-blue-100 dark:border-blue-900/30',
+                                    perkades:
+                                        'bg-purple-50 text-purple-700 dark:bg-purple-950/30 dark:text-purple-400 border-purple-100 dark:border-purple-900/30',
+                                    sk_kades:
+                                        'bg-amber-50 text-amber-700 dark:bg-amber-950/30 dark:text-amber-400 border-amber-100 dark:border-amber-900/30',
+                                    instruksi:
+                                        'bg-rose-50 text-rose-700 dark:bg-rose-950/30 dark:text-rose-400 border-rose-100 dark:border-rose-900/30',
+                                };
+
+                                return (
+                                    <div
+                                        key={item.id}
+                                        className="group flex items-start justify-between gap-3 rounded-xl border border-slate-100 bg-slate-50/60 p-3.5 transition-all duration-200 hover:border-emerald-200 hover:bg-slate-50 dark:border-slate-800/60 dark:bg-slate-900/20 dark:hover:border-slate-800 dark:hover:bg-slate-900/40"
+                                    >
+                                        <div className="space-y-1">
+                                            <div className="flex items-center gap-2">
+                                                <span
+                                                    className={`rounded-md border px-2 py-0.5 text-[10px] font-bold tracking-wider uppercase ${badgeColors[item.jenis]}`}
+                                                >
+                                                    {typeNames[item.jenis]}
+                                                </span>
+                                                <span className="text-[11px] font-semibold text-slate-500 dark:text-slate-400">
+                                                    {item.nomor}
+                                                </span>
+                                            </div>
+                                            <h4 className="text-xs font-bold text-slate-900 dark:text-white">
+                                                {item.judul}
+                                            </h4>
+                                            {item.deskripsi && (
+                                                <p className="line-clamp-1 text-[11px] text-slate-500 dark:text-slate-400">
+                                                    {item.deskripsi}
+                                                </p>
+                                            )}
+                                        </div>
+                                        <a
+                                            href={item.file_path || '#'}
+                                            className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-slate-200 bg-white text-slate-600 shadow-sm transition-all hover:bg-slate-50 hover:text-emerald-600 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-400 dark:hover:text-emerald-400"
+                                            title="Unduh Berkas"
+                                            download
+                                        >
+                                            <Download className="h-3.5 w-3.5" />
+                                        </a>
+                                    </div>
+                                );
+                            })}
+                        </div>
+                    </div>
+                </section>
+
+                {/* 3. WEATHER & SHALAT WIDGET */}
                 <section className="animate-fade-in scroll-mt-24">
                     <WeatherShalatWidget />
                 </section>
 
-                {/* Demographic Charts Section (Deferred Props) */}
-                <section className="space-y-8">
-                    <div className="space-y-2 text-center md:text-left">
+                {/* 4. DEMOGRAPHIC CHARTS SECTION */}
+                <section className="space-y-6">
+                    <div className="space-y-1 text-center sm:text-left">
+                        <span className="block text-xs font-semibold tracking-widest text-emerald-600 uppercase dark:text-emerald-400">
+                            Data Penduduk
+                        </span>
                         <h2 className="text-2xl font-extrabold tracking-tight text-slate-900 md:text-3xl dark:text-white">
                             Statistik Penduduk Desa
                         </h2>
-                        <p className="text-sm text-slate-500 dark:text-slate-400">
-                            Peta demografi kependudukan real-time Desa Batu
-                            Belerang.
+                        <p className="text-xs md:text-sm text-slate-500 dark:text-slate-400">
+                            Peta demografi kependudukan real-time Desa Batu Belerang.
                         </p>
                     </div>
 
@@ -705,168 +1080,16 @@ export default function Welcome({
                     )}
                 </section>
 
-                {/* Agenda Kegiatan & Regulasi Desa */}
-                <section className="grid grid-cols-1 gap-10 md:grid-cols-2">
-                    {/* Agenda Kegiatan */}
-                    <div className="space-y-6 rounded-3xl border border-slate-200 bg-white p-6 shadow-sm shadow-slate-100/50 transition-colors md:p-8 dark:border-slate-800 dark:bg-slate-900/20 dark:shadow-none">
-                        <div className="flex items-center justify-between border-b border-slate-100 pb-4 dark:border-slate-800">
-                            <div className="flex items-center gap-3">
-                                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-50 text-emerald-600 dark:bg-emerald-950/40 dark:text-emerald-400">
-                                    <Calendar className="h-5 w-5" />
-                                </div>
-                                <div>
-                                    <h3 className="text-lg font-bold text-slate-900 dark:text-white">
-                                        Agenda Kegiatan Desa
-                                    </h3>
-                                    <p className="text-xs text-slate-500 dark:text-slate-400">
-                                        Jadwal acara & musyawarah mendatang
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div className="space-y-4">
-                            {agendaData.map((item) => {
-                                const eventDate = new Date(item.waktu_mulai);
-                                const dateFormatted =
-                                    eventDate.toLocaleDateString('id-ID', {
-                                        day: 'numeric',
-                                        month: 'short',
-                                        year: 'numeric',
-                                    });
-                                const timeFormatted =
-                                    eventDate.toLocaleTimeString('id-ID', {
-                                        hour: '2-digit',
-                                        minute: '2-digit',
-                                    });
-
-                                return (
-                                    <div
-                                        key={item.id}
-                                        className="group dark:border-slate-850 dark:hover:border-slate-805 relative rounded-2xl border border-slate-100 bg-slate-50/50 p-4 transition-all duration-305 hover:-translate-y-0.5 hover:border-slate-200 hover:bg-slate-50 dark:bg-slate-900/10 dark:hover:bg-slate-900/30"
-                                    >
-                                        <h4 className="font-semibold text-slate-900 group-hover:text-emerald-600 dark:text-white dark:group-hover:text-emerald-400">
-                                            {item.judul}
-                                        </h4>
-                                        {item.deskripsi && (
-                                            <p className="mt-1 line-clamp-2 text-xs text-slate-500 dark:text-slate-400">
-                                                {item.deskripsi}
-                                            </p>
-                                        )}
-                                        <div className="dark:text-slate-405 mt-3 flex flex-wrap gap-x-4 gap-y-1 text-xs text-slate-500">
-                                            <div className="flex items-center gap-1">
-                                                <Clock className="h-3.5 w-3.5 text-emerald-500" />
-                                                <span>
-                                                    {dateFormatted} -{' '}
-                                                    {timeFormatted} WIB
-                                                </span>
-                                            </div>
-                                            <div className="flex items-center gap-1">
-                                                <MapPin className="h-3.5 w-3.5 text-emerald-500" />
-                                                <span>{item.lokasi}</span>
-                                            </div>
-                                        </div>
-                                        {item.koordinator && (
-                                            <div className="mt-2 flex items-center gap-1 border-t border-slate-100 pt-2 text-[10px] text-slate-400 dark:border-slate-800/40">
-                                                <User className="h-3 w-3" />
-                                                <span>
-                                                    Koordinator:{' '}
-                                                    {item.koordinator}
-                                                </span>
-                                            </div>
-                                        )}
-                                    </div>
-                                );
-                            })}
-                        </div>
-                    </div>
-
-                    {/* Regulasi & Produk Hukum */}
-                    <div className="space-y-6 rounded-3xl border border-slate-200 bg-white p-6 shadow-sm shadow-slate-100/50 transition-colors md:p-8 dark:border-slate-800 dark:bg-slate-900/20 dark:shadow-none">
-                        <div className="flex items-center justify-between border-b border-slate-100 pb-4 dark:border-slate-800">
-                            <div className="flex items-center gap-3">
-                                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-50 text-emerald-600 dark:bg-emerald-950/40 dark:text-emerald-400">
-                                    <FileText className="h-5 w-5" />
-                                </div>
-                                <div>
-                                    <h3 className="text-lg font-bold text-slate-900 dark:text-white">
-                                        Regulasi & Produk Hukum
-                                    </h3>
-                                    <p className="text-xs text-slate-500 dark:text-slate-400">
-                                        Peraturan & surat keputusan resmi desa
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div className="space-y-4">
-                            {regulasiData.map((item) => {
-                                const typeNames = {
-                                    perdes: 'Peraturan Desa',
-                                    perkades: 'Peraturan Kades',
-                                    sk_kades: 'SK Kades',
-                                    instruksi: 'Instruksi',
-                                };
-                                const badgeColors = {
-                                    perdes: 'bg-blue-50 text-blue-700 dark:bg-blue-950/30 dark:text-blue-400 border-blue-100 dark:border-blue-900/30',
-                                    perkades:
-                                        'bg-purple-50 text-purple-700 dark:bg-purple-950/30 dark:text-purple-400 border-purple-100 dark:border-purple-900/30',
-                                    sk_kades:
-                                        'bg-amber-50 text-amber-700 dark:bg-amber-950/30 dark:text-amber-400 border-amber-100 dark:border-amber-900/30',
-                                    instruksi:
-                                        'bg-rose-50 text-rose-700 dark:bg-rose-950/30 dark:text-rose-400 border-rose-100 dark:border-rose-900/30',
-                                };
-
-                                return (
-                                    <div
-                                        key={item.id}
-                                        className="group dark:border-slate-850 flex items-start justify-between gap-4 rounded-2xl border border-slate-100 bg-slate-50/50 p-4 transition-all duration-300 hover:-translate-y-0.5 hover:border-slate-200 hover:bg-slate-50 dark:bg-slate-900/10 dark:hover:border-slate-800 dark:hover:bg-slate-900/30"
-                                    >
-                                        <div className="space-y-1.5">
-                                            <div className="flex items-center gap-2">
-                                                <span
-                                                    className={`rounded-md border px-2 py-0.5 text-[10px] font-bold tracking-wider uppercase ${badgeColors[item.jenis]}`}
-                                                >
-                                                    {typeNames[item.jenis]}
-                                                </span>
-                                                <span className="text-xs font-semibold text-slate-500 dark:text-slate-400">
-                                                    {item.nomor}
-                                                </span>
-                                            </div>
-                                            <h4 className="font-semibold text-slate-900 dark:text-white">
-                                                {item.judul}
-                                            </h4>
-                                            {item.deskripsi && (
-                                                <p className="line-clamp-1 text-xs text-slate-500 dark:text-slate-400">
-                                                    {item.deskripsi}
-                                                </p>
-                                            )}
-                                        </div>
-                                        <a
-                                            href={item.file_path || '#'}
-                                            className="dark:hover:bg-slate-805 flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border border-slate-200 bg-white text-slate-600 shadow-sm transition-all hover:bg-slate-50 hover:text-emerald-600 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-400 dark:hover:text-emerald-400"
-                                            title="Unduh Berkas"
-                                            download
-                                        >
-                                            <Download className="h-4 w-4" />
-                                        </a>
-                                    </div>
-                                );
-                            })}
-                        </div>
-                    </div>
-                </section>
-
-                {/* APBDes Transparancy Widget */}
-                <section className="grid grid-cols-1 items-center gap-12 rounded-3xl border border-slate-200 bg-white p-8 shadow-sm shadow-slate-100/50 transition-colors md:grid-cols-2 md:p-12 dark:border-slate-800 dark:bg-slate-900/20 dark:shadow-none">
-                    <div className="space-y-6">
+                {/* 5. APBDes TRANSPARENCY WIDGET */}
+                <section className="grid grid-cols-1 items-center gap-8 rounded-3xl border border-slate-200 bg-white p-6 shadow-sm shadow-slate-100/50 transition-colors md:grid-cols-2 md:p-8 dark:border-slate-800 dark:bg-slate-900/20 dark:shadow-none">
+                    <div className="space-y-4">
                         <span className="block text-xs font-semibold tracking-widest text-emerald-600 uppercase dark:text-emerald-400">
                             Akuntabilitas Keuangan
                         </span>
-                        <h2 className="text-3xl leading-tight font-extrabold tracking-tight text-slate-900 dark:text-white">
+                        <h2 className="text-2xl leading-tight font-extrabold tracking-tight text-slate-900 md:text-3xl dark:text-white">
                             Transparansi Dana Desa & APBDesa {apbdes.tahun}
                         </h2>
-                        <p className="text-sm text-slate-600 dark:text-slate-400">
+                        <p className="text-xs md:text-sm text-slate-600 dark:text-slate-400">
                             Sebagai komitmen mewujudkan tata kelola desa yang
                             bersih dan akuntabel, berikut rincian anggaran
                             pendapatan, belanja, dan pembiayaan Desa Batu
@@ -875,376 +1098,234 @@ export default function Welcome({
                         <div className="pt-2">
                             <Link
                                 href="#"
-                                className="inline-flex items-center gap-2 text-sm font-semibold text-emerald-600 transition-colors hover:text-emerald-500 dark:text-emerald-400 dark:hover:text-emerald-300"
+                                className="inline-flex items-center gap-2 text-xs font-semibold text-emerald-600 transition-colors hover:text-emerald-500 dark:text-emerald-400 dark:hover:text-emerald-300"
                             >
-                                Lihat Laporan Keuangan Lengkap →
+                                Unduh Laporan APBDesa PDF <span>→</span>
                             </Link>
                         </div>
                     </div>
 
-                    <div className="space-y-6">
-                        {/* Pendapatan */}
+                    <div className="space-y-4 rounded-2xl border border-slate-100 bg-slate-50/50 p-5 dark:border-slate-800/50 dark:bg-slate-900/40">
+                        {/* Item 1: Pendapatan */}
                         <div className="space-y-2">
-                            <div className="flex justify-between text-sm">
-                                <span className="font-semibold text-slate-900 dark:text-white">
+                            <div className="flex justify-between text-xs font-medium">
+                                <span className="text-slate-700 dark:text-slate-300">
                                     Pendapatan Desa
                                 </span>
-                                <span className="text-slate-500 dark:text-slate-400">
+                                <span className="font-semibold text-slate-900 dark:text-white">
                                     Rp{' '}
                                     {apbdes.pendapatan.realisasi.toLocaleString(
                                         'id-ID',
                                     )}{' '}
-                                    / Rp{' '}
+                                    /{' '}
                                     {apbdes.pendapatan.anggaran.toLocaleString(
                                         'id-ID',
                                     )}
                                 </span>
                             </div>
-                            <div className="h-3 w-full rounded-full border border-slate-200 bg-slate-100 dark:border-slate-800/40 dark:bg-slate-900">
+                            <div className="relative h-2 w-full overflow-hidden rounded-full bg-slate-200 dark:bg-slate-800">
                                 <div
-                                    className="h-2.5 rounded-full bg-emerald-500"
+                                    className="h-full rounded-full bg-emerald-500 transition-all duration-1000"
                                     style={{
                                         width: `${hitungPersentase(apbdes.pendapatan.realisasi, apbdes.pendapatan.anggaran)}%`,
                                     }}
                                 ></div>
                             </div>
-                            <div className="flex justify-between text-[11px] text-slate-500 dark:text-slate-400">
-                                <span>Realisasi Pendapatan</span>
-                                <span className="font-semibold text-slate-900 dark:text-white">
-                                    {hitungPersentase(
-                                        apbdes.pendapatan.realisasi,
-                                        apbdes.pendapatan.anggaran,
-                                    )}
-                                    %
-                                </span>
-                            </div>
                         </div>
 
-                        {/* Belanja */}
+                        {/* Item 2: Belanja */}
                         <div className="space-y-2">
-                            <div className="flex justify-between text-sm">
-                                <span className="font-semibold text-slate-900 dark:text-white">
+                            <div className="flex justify-between text-xs font-medium">
+                                <span className="text-slate-700 dark:text-slate-300">
                                     Belanja Desa
                                 </span>
-                                <span className="text-slate-500 dark:text-slate-400">
+                                <span className="font-semibold text-slate-900 dark:text-white">
                                     Rp{' '}
                                     {apbdes.belanja.realisasi.toLocaleString(
                                         'id-ID',
                                     )}{' '}
-                                    / Rp{' '}
+                                    /{' '}
                                     {apbdes.belanja.anggaran.toLocaleString(
                                         'id-ID',
                                     )}
                                 </span>
                             </div>
-                            <div className="h-3 w-full rounded-full border border-slate-200 bg-slate-100 dark:border-slate-800/40 dark:bg-slate-900">
+                            <div className="relative h-2 w-full overflow-hidden rounded-full bg-slate-200 dark:bg-slate-800">
                                 <div
-                                    className="h-2.5 rounded-full bg-emerald-500"
+                                    className="h-full rounded-full bg-blue-500 transition-all duration-1000"
                                     style={{
                                         width: `${hitungPersentase(apbdes.belanja.realisasi, apbdes.belanja.anggaran)}%`,
                                     }}
                                 ></div>
                             </div>
-                            <div className="flex justify-between text-[11px] text-slate-500 dark:text-slate-400">
-                                <span>Realisasi Pengeluaran</span>
-                                <span className="font-semibold text-slate-900 dark:text-white">
-                                    {hitungPersentase(
-                                        apbdes.belanja.realisasi,
-                                        apbdes.belanja.anggaran,
-                                    )}
-                                    %
-                                </span>
-                            </div>
                         </div>
 
-                        {/* Pembiayaan */}
+                        {/* Item 3: Pembiayaan */}
                         <div className="space-y-2">
-                            <div className="flex justify-between text-sm">
-                                <span className="font-semibold text-slate-900 dark:text-white">
-                                    Pembiayaan Neto
+                            <div className="flex justify-between text-xs font-medium">
+                                <span className="text-slate-700 dark:text-slate-300">
+                                    Pembiayaan Desa
                                 </span>
-                                <span className="text-slate-500 dark:text-slate-400">
+                                <span className="font-semibold text-slate-900 dark:text-white">
                                     Rp{' '}
                                     {apbdes.pembiayaan.realisasi.toLocaleString(
                                         'id-ID',
                                     )}{' '}
-                                    / Rp{' '}
+                                    /{' '}
                                     {apbdes.pembiayaan.anggaran.toLocaleString(
                                         'id-ID',
                                     )}
                                 </span>
                             </div>
-                            <div className="h-3 w-full rounded-full border border-slate-200 bg-slate-100 dark:border-slate-800/40 dark:bg-slate-900">
+                            <div className="relative h-2 w-full overflow-hidden rounded-full bg-slate-200 dark:bg-slate-800">
                                 <div
-                                    className="h-2.5 rounded-full bg-amber-500"
+                                    className="h-full rounded-full bg-purple-500 transition-all duration-1000"
                                     style={{
                                         width: `${hitungPersentase(apbdes.pembiayaan.realisasi, apbdes.pembiayaan.anggaran)}%`,
                                     }}
                                 ></div>
                             </div>
-                            <div className="flex justify-between text-[11px] text-slate-500 dark:text-slate-400">
-                                <span>Realisasi Pembiayaan</span>
-                                <span className="font-semibold text-slate-900 dark:text-white">
-                                    {hitungPersentase(
-                                        apbdes.pembiayaan.realisasi,
-                                        apbdes.pembiayaan.anggaran,
-                                    )}
-                                    %
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-                {/* Aparatur Pemerintah Desa */}
-                <section className="scroll-mt-24 space-y-10">
-                    <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
-                        <div className="space-y-2 text-left">
-                            <span className="block text-xs font-semibold tracking-widest text-emerald-600 uppercase dark:text-emerald-400">
-                                Struktur Organisasi
-                            </span>
-                            <h2 className="text-2xl font-extrabold tracking-tight text-slate-900 md:text-3xl dark:text-white">
-                                Aparatur Pemerintah Desa
-                            </h2>
-                            <p className="max-w-lg text-sm text-slate-500 dark:text-slate-400">
-                                Perangkat Desa Batu Belerang yang siap melayani
-                                kebutuhan administrasi dan kemajuan warga.
-                            </p>
-                        </div>
-                        <div className="flex items-center gap-2 self-start md:self-end">
-                            <button
-                                onClick={prevAparatur}
-                                className="flex h-10 w-10 items-center justify-center rounded-xl border border-slate-200 bg-white text-slate-600 shadow-sm transition-all hover:bg-slate-50 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-400 dark:hover:bg-slate-800"
-                                aria-label="Aparatur Sebelumnya"
-                            >
-                                <ChevronLeft className="h-5 w-5" />
-                            </button>
-                            <button
-                                onClick={nextAparatur}
-                                className="flex h-10 w-10 items-center justify-center rounded-xl border border-slate-200 bg-white text-slate-600 shadow-sm transition-all hover:bg-slate-50 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-400 dark:hover:bg-slate-800"
-                                aria-label="Aparatur Selanjutnya"
-                            >
-                                <ChevronRight className="h-5 w-5" />
-                            </button>
-                        </div>
-                    </div>
-
-                    <div className="relative flex flex-col items-stretch gap-8 md:flex-row">
-                        {/* Kepala Desa - Pinned Left */}
-                        <div className="relative z-20 flex w-full shrink-0 justify-center bg-slate-50 md:w-[240px] md:justify-start md:pr-4 dark:bg-slate-950">
-                            <div className="group flex w-[220px] flex-col items-center space-y-3 text-center">
-                                <div className="relative aspect-4/5 w-full overflow-hidden rounded-2xl border border-emerald-200 bg-emerald-50/50 shadow-md transition-all duration-300 group-hover:-translate-y-1 group-hover:shadow-lg dark:border-emerald-900/50 dark:bg-emerald-950/20">
-                                    <img
-                                        src="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=400&auto=format&fit=crop&q=80"
-                                        alt="Ahmad P"
-                                        className="h-full w-full object-cover object-center grayscale transition-all duration-500 group-hover:grayscale-0"
-                                    />
-                                    <div className="absolute inset-0 flex flex-col justify-end bg-gradient-to-t from-emerald-950/95 via-transparent to-transparent p-3 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-                                        <span className="text-[10px] font-bold tracking-wider text-emerald-300 uppercase">
-                                            Pemimpin Desa
-                                        </span>
-                                    </div>
-                                </div>
-                                <div className="w-full">
-                                    <h4 className="line-clamp-1 text-sm font-bold text-slate-900 transition-colors group-hover:text-emerald-600 dark:text-white dark:group-hover:text-emerald-400">
-                                        Ahmad P
-                                    </h4>
-                                    <p className="text-xs font-semibold text-emerald-600 dark:text-emerald-400">
-                                        Kepala Desa
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-
-                        {/* Carousel Wrapper with Slide/Fade-out Effect */}
-                        <div className="relative flex-1 overflow-hidden">
-                            {/* Left Fade-out Mask Overlay (Visible on md and up) */}
-                            <div className="pointer-events-none absolute top-0 bottom-0 left-0 z-10 hidden w-16 bg-gradient-to-r from-slate-50 via-slate-50/40 to-transparent md:block dark:from-slate-950 dark:via-slate-950/40" />
-
-                            {/* Sliding Track */}
-                            <div
-                                className={`flex gap-6 py-2 ${transitionEnabled ? 'transition-transform duration-500 ease-out' : 'transition-none'}`}
-                                style={{
-                                    transform: `translateX(-${aparaturIndex * (220 + 24)}px)`,
-                                }}
-                                onTransitionEnd={handleTransitionEnd}
-                            >
-                                {[
-                                    ...aparaturList,
-                                    ...aparaturList,
-                                    ...aparaturList,
-                                ].map((item, idx) => (
-                                    <div
-                                        key={idx}
-                                        className="group flex w-[220px] flex-none flex-col items-center space-y-3 text-center"
-                                    >
-                                        <div className="relative aspect-4/5 w-full overflow-hidden rounded-2xl border border-slate-200 bg-slate-100 shadow-sm transition-all duration-300 group-hover:-translate-y-1 group-hover:shadow-md dark:border-slate-800 dark:bg-slate-900">
-                                            <img
-                                                src={item.foto}
-                                                alt={item.nama}
-                                                className="h-full w-full object-cover object-center grayscale transition-all duration-500 group-hover:grayscale-0"
-                                            />
-                                            <div className="absolute inset-0 flex items-end justify-center bg-gradient-to-t from-slate-950/80 via-transparent to-transparent p-3 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-                                                <span className="text-[10px] font-semibold tracking-wide text-slate-200 uppercase">
-                                                    Batu Belerang
-                                                </span>
-                                            </div>
-                                        </div>
-                                        <div className="w-full">
-                                            <h4 className="line-clamp-1 text-sm font-bold text-slate-900 transition-colors group-hover:text-emerald-600 dark:text-white dark:group-hover:text-emerald-400">
-                                                {item.nama}
-                                            </h4>
-                                            <p className="text-xs font-semibold text-slate-500 dark:text-slate-400">
-                                                {item.jabatan}
-                                            </p>
-                                        </div>
-                                    </div>
-                                ))}
-                            </div>
                         </div>
                     </div>
                 </section>
 
-                {/* Quick Services Links Grid */}
-                <section className="space-y-8">
-                    <div className="space-y-2 text-center">
+                {/* 6. STRUKTUR APARATUR DESA */}
+                <section className="space-y-6">
+                    <div className="space-y-1 text-center sm:text-left">
+                        <span className="block text-xs font-semibold tracking-widest text-emerald-600 uppercase dark:text-emerald-400">
+                            Struktur Organisasi
+                        </span>
                         <h2 className="text-2xl font-extrabold tracking-tight text-slate-900 md:text-3xl dark:text-white">
-                            Layanan & Fitur Unggulan
+                            Aparatur Pemerintah Desa
                         </h2>
-                        <p className="mx-auto max-w-lg text-sm text-slate-500 dark:text-slate-400">
-                            Akses instan ke berbagai layanan administrasi,
-                            promosi warga, dan pengaduan.
+                        <p className="text-xs md:text-sm text-slate-500 dark:text-slate-400">
+                            Pengabdi masyarakat yang siap melayani kebutuhan warga Desa Batu Belerang.
                         </p>
                     </div>
 
-                    <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-                        {/* Card 1: Layanan Mandiri */}
+                    <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6">
+                        {/* Pemimpin: Kepala Desa */}
+                        <div className="group flex flex-col items-center overflow-hidden rounded-2xl border border-emerald-500/30 bg-emerald-50/40 p-4 text-center transition-all duration-300 hover:-translate-y-1 hover:border-emerald-500 dark:border-emerald-500/20 dark:bg-emerald-950/20">
+                            <div className="relative mb-3 aspect-4/5 w-full overflow-hidden rounded-xl bg-slate-200 dark:bg-slate-800">
+                                <img
+                                    src={profilDesa?.foto_kades || 'https://images.unsplash.com/photo-1560250097-0b93528c311a?w=400&auto=format&fit=crop&q=80'}
+                                    alt={profilDesa?.nama_kades || 'Kepala Desa'}
+                                    className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                                />
+                                <span className="absolute top-2 left-2 rounded bg-emerald-600 px-1.5 py-0.5 text-[9px] font-bold text-white shadow-sm">
+                                    👑 Kades
+                                </span>
+                            </div>
+                            <h3 className="text-xs font-bold text-slate-900 dark:text-white">
+                                {profilDesa?.nama_kades || 'H. Ahmad Supardi, S.Sos'}
+                            </h3>
+                            <p className="mt-0.5 text-[10px] font-medium text-emerald-700 dark:text-emerald-400">
+                                {profilDesa?.jabatan_kades || 'Kepala Desa'}
+                            </p>
+                        </div>
+
+                        {/* Staf & Perangkat Desa Lainnya */}
+                        {activeAparaturList.map((aparatur, index) => (
+                            <div
+                                key={index}
+                                className="group flex flex-col items-center overflow-hidden rounded-2xl border border-slate-200 bg-white p-4 text-center shadow-sm shadow-slate-100/50 transition-all duration-300 hover:-translate-y-1 dark:border-slate-800 dark:bg-slate-900/30 dark:shadow-none"
+                            >
+                                <div className="relative mb-3 aspect-4/5 w-full overflow-hidden rounded-xl bg-slate-100 dark:bg-slate-800">
+                                    <img
+                                        src={aparatur.foto}
+                                        alt={aparatur.nama}
+                                        className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                                    />
+                                </div>
+                                <h3 className="text-xs font-bold text-slate-900 dark:text-white">
+                                    {aparatur.nama}
+                                </h3>
+                                <p className="mt-0.5 text-[10px] text-slate-500 dark:text-slate-400">
+                                    {aparatur.jabatan}
+                                </p>
+                            </div>
+                        ))}
+                    </div>
+                </section>
+
+                {/* 7. FITUR & LAYANAN UTAMA (Quick Action Grid) */}
+                <section className="space-y-6">
+                    <div className="space-y-1 text-center sm:text-left">
+                        <span className="block text-xs font-semibold tracking-widest text-emerald-600 uppercase dark:text-emerald-400">
+                            Akses Cepat
+                        </span>
+                        <h2 className="text-2xl font-extrabold tracking-tight text-slate-900 md:text-3xl dark:text-white">
+                            Fitur & Layanan Utama
+                        </h2>
+                        <p className="text-xs md:text-sm text-slate-500 dark:text-slate-400">
+                            Kemudahan akses informasi dan pelayanan publik dalam satu genggaman.
+                        </p>
+                    </div>
+
+                    <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
+                        {/* Card 1: Pelayanan Mandiri */}
                         <Link
                             href="/register"
-                            className="group space-y-4 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm shadow-slate-100/50 transition-all duration-300 hover:bg-emerald-50/10 dark:border-slate-800 dark:bg-slate-900/35 dark:shadow-md dark:hover:border-emerald-500/40 dark:hover:bg-emerald-950/15"
+                            className="group space-y-3.5 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm shadow-slate-100/50 transition-all duration-300 hover:bg-emerald-50/10 dark:border-slate-800 dark:bg-slate-900/35 dark:shadow-md dark:hover:border-emerald-500/40 dark:hover:bg-emerald-950/15"
                         >
-                            <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-emerald-200 bg-emerald-500/10 text-lg font-bold text-emerald-600 transition-colors duration-300 group-hover:bg-emerald-600 group-hover:text-white dark:border-emerald-500/20 dark:text-emerald-400">
-                                📄
+                            <div className="flex h-9 w-9 items-center justify-center rounded-xl border border-emerald-200 bg-emerald-500/10 text-base font-bold text-emerald-600 transition-colors duration-300 group-hover:bg-emerald-600 group-hover:text-white dark:border-emerald-500/20 dark:text-emerald-400">
+                                📝
                             </div>
-                            <h3 className="text-base font-bold text-slate-900 transition-colors group-hover:text-emerald-600 dark:text-white dark:group-hover:text-emerald-400">
+                            <h3 className="text-sm font-bold text-slate-900 transition-colors group-hover:text-emerald-600 dark:text-white dark:group-hover:text-emerald-400">
                                 Layanan Mandiri
                             </h3>
                             <p className="text-xs leading-relaxed text-slate-500 dark:text-slate-400">
-                                Ajukan permohonan surat keterangan (SKU, SKTM,
-                                dsb.) secara mandiri dengan NIK dan PIN Anda.
+                                Pengajuan berbagai surat keterangan secara online tanpa antri.
                             </p>
                         </Link>
 
-                        {/* Card 2: Lapak UMKM */}
+                        {/* Card 2: Katalog UMKM */}
                         <Link
                             href="#"
-                            className="group space-y-4 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm shadow-slate-100/50 transition-all duration-300 hover:bg-emerald-50/10 dark:border-slate-800 dark:bg-slate-900/35 dark:shadow-md dark:hover:border-emerald-500/40 dark:hover:bg-emerald-950/15"
+                            className="group space-y-3.5 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm shadow-slate-100/50 transition-all duration-300 hover:bg-emerald-50/10 dark:border-slate-800 dark:bg-slate-900/35 dark:shadow-md dark:hover:border-emerald-500/40 dark:hover:bg-emerald-950/15"
                         >
-                            <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-emerald-200 bg-emerald-500/10 text-lg font-bold text-emerald-600 transition-colors duration-300 group-hover:bg-emerald-500 group-hover:text-white dark:border-emerald-500/20 dark:text-emerald-400">
+                            <div className="flex h-9 w-9 items-center justify-center rounded-xl border border-amber-200 bg-amber-500/10 text-base font-bold text-amber-600 transition-colors duration-300 group-hover:bg-amber-500 group-hover:text-white dark:border-amber-500/20 dark:text-amber-400">
                                 🛍️
                             </div>
-                            <h3 className="text-base font-bold text-slate-900 transition-colors group-hover:text-emerald-600 dark:text-white dark:group-hover:text-emerald-400">
-                                Etalase UMKM
+                            <h3 className="text-sm font-bold text-slate-900 transition-colors group-hover:text-amber-600 dark:text-white dark:group-hover:text-amber-400">
+                                Produk UMKM Warga
                             </h3>
                             <p className="text-xs leading-relaxed text-slate-500 dark:text-slate-400">
-                                Jelajahi berbagai produk makanan khas,
-                                kerajinan, dan hasil tani warga Desa Batu
-                                Belerang.
+                                Dukung perekonomian lokal dengan belanja produk unggulan desa.
                             </p>
                         </Link>
 
-                        {/* Card 3: Wisata */}
+                        {/* Card 3: Pariwisata */}
                         <Link
                             href="#"
-                            className="group space-y-4 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm shadow-slate-100/50 transition-all duration-300 hover:bg-amber-50/10 dark:border-slate-800 dark:bg-slate-900/35 dark:shadow-md dark:hover:border-amber-500/40 dark:hover:bg-amber-950/15"
+                            className="group space-y-3.5 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm shadow-slate-100/50 transition-all duration-300 hover:bg-emerald-50/10 dark:border-slate-800 dark:bg-slate-900/35 dark:shadow-md dark:hover:border-emerald-500/40 dark:hover:bg-emerald-950/15"
                         >
-                            <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-amber-200 bg-amber-500/10 text-lg font-bold text-amber-600 transition-colors duration-300 group-hover:bg-amber-500 group-hover:text-white dark:border-amber-500/20 dark:text-amber-400">
-                                🌋
+                            <div className="flex h-9 w-9 items-center justify-center rounded-xl border border-cyan-200 bg-cyan-500/10 text-base font-bold text-cyan-600 transition-colors duration-300 group-hover:bg-cyan-500 group-hover:text-white dark:border-cyan-500/20 dark:text-cyan-400">
+                                ♨️
                             </div>
-                            <h3 className="text-base font-bold text-slate-900 transition-colors group-hover:text-amber-600 dark:text-white dark:group-hover:text-amber-400">
-                                Destinasi Wisata
+                            <h3 className="text-sm font-bold text-slate-900 transition-colors group-hover:text-cyan-600 dark:text-white dark:group-hover:text-cyan-400">
+                                Wisata Air Panas Belerang
                             </h3>
                             <p className="text-xs leading-relaxed text-slate-500 dark:text-slate-400">
-                                Cek rute pemandian air panas, air terjun,
-                                homestay, serta koordinat peta interaktif desa.
+                                Informasi lengkap destinasi pemandian air panas dan fasilitasnya.
                             </p>
                         </Link>
 
                         {/* Card 4: Pengaduan */}
                         <Link
                             href="#"
-                            className="group space-y-4 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm shadow-slate-100/50 transition-all duration-300 hover:bg-rose-50/10 dark:border-slate-800 dark:bg-slate-900/35 dark:shadow-md dark:hover:border-rose-500/40 dark:hover:bg-rose-950/15"
+                            className="group space-y-3.5 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm shadow-slate-100/50 transition-all duration-300 hover:bg-rose-50/10 dark:border-slate-800 dark:bg-slate-900/35 dark:shadow-md dark:hover:border-rose-500/40 dark:hover:bg-rose-950/15"
                         >
-                            <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-rose-200 bg-rose-500/10 text-lg font-bold text-rose-600 transition-colors duration-300 group-hover:bg-rose-500 group-hover:text-white dark:border-rose-500/20 dark:text-rose-400">
+                            <div className="flex h-9 w-9 items-center justify-center rounded-xl border border-rose-200 bg-rose-500/10 text-base font-bold text-rose-600 transition-colors duration-300 group-hover:bg-rose-500 group-hover:text-white dark:border-rose-500/20 dark:text-rose-400">
                                 📣
                             </div>
-                            <h3 className="text-base font-bold text-slate-900 transition-colors group-hover:text-rose-600 dark:text-white dark:group-hover:text-rose-400">
+                            <h3 className="text-sm font-bold text-slate-900 transition-colors group-hover:text-rose-600 dark:text-white dark:group-hover:text-rose-400">
                                 Layanan Pengaduan
                             </h3>
                             <p className="text-xs leading-relaxed text-slate-500 dark:text-slate-400">
-                                Sampaikan kritik, saran, maupun keluhan secara
-                                tertulis (bisa anonim) demi transparansi.
+                                Sampaikan kritik, saran, maupun keluhan secara tertulis (bisa anonim).
                             </p>
                         </Link>
-                    </div>
-                </section>
-
-                {/* Latest News (Kabar Desa) */}
-                <section className="space-y-8">
-                    <div className="flex flex-col items-center justify-between gap-4 sm:flex-row">
-                        <div className="space-y-2 text-center sm:text-left">
-                            <h2 className="text-2xl font-extrabold tracking-tight text-slate-900 md:text-3xl dark:text-white">
-                                Kabar Desa Terkini
-                            </h2>
-                            <p className="text-sm text-slate-500 dark:text-slate-400">
-                                Ikuti perkembangan berita dan kegiatan warga
-                                Desa Batu Belerang.
-                            </p>
-                        </div>
-                        <Link
-                            href="#"
-                            className="flex items-center gap-1.5 text-sm font-semibold text-emerald-600 transition-colors hover:text-emerald-500 dark:text-emerald-400 dark:hover:text-emerald-300"
-                        >
-                            Lihat Semua Berita <span>→</span>
-                        </Link>
-                    </div>
-
-                    <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
-                        {beritaList.map((berita) => (
-                            <div
-                                key={berita.id}
-                                className="group flex h-full flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm shadow-slate-100/50 transition-transform duration-300 hover:-translate-y-1.5 dark:border-slate-800 dark:bg-slate-900/30 dark:shadow-none"
-                            >
-                                <div className="relative h-44 overflow-hidden">
-                                    <img
-                                        src={berita.foto}
-                                        alt={berita.judul}
-                                        className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
-                                    />
-                                    <span className="absolute top-4 left-4 rounded border border-slate-200 bg-white/90 px-2.5 py-0.5 text-[10px] font-bold text-emerald-700 backdrop-blur-md dark:border-slate-800 dark:bg-slate-950/80 dark:text-emerald-300">
-                                        {berita.kategori}
-                                    </span>
-                                </div>
-                                <div className="flex flex-1 flex-col justify-between space-y-4 p-6">
-                                    <div className="space-y-2">
-                                        <div className="text-[10px] font-semibold text-slate-500 dark:text-slate-400">
-                                            {berita.tanggal}
-                                        </div>
-                                        <h3 className="text-base leading-snug font-bold text-slate-900 transition-colors group-hover:text-emerald-600 dark:text-white dark:group-hover:text-emerald-400">
-                                            {berita.judul}
-                                        </h3>
-                                        <p className="line-clamp-3 text-xs leading-relaxed text-slate-500 dark:text-slate-400">
-                                            {berita.ringkasan}
-                                        </p>
-                                    </div>
-                                    <Link
-                                        href="#"
-                                        className="block pt-2 text-xs font-semibold text-emerald-600 transition-colors group-hover:text-emerald-500 dark:text-emerald-400 dark:group-hover:text-emerald-300"
-                                    >
-                                        Baca Selengkapnya
-                                    </Link>
-                                </div>
-                            </div>
-                        ))}
                     </div>
                 </section>
             </div>
@@ -1328,10 +1409,9 @@ export default function Welcome({
                         <ul className="space-y-3 text-xs">
                             <li className="leading-relaxed">
                                 <span className="block font-semibold text-slate-800 dark:text-slate-300">
-                                    Kantor Kepala Desa:
+                                    Kantor Desa:
                                 </span>
-                                Jl. Poros Batu Belerang, Sinjai Timur, Kabupaten
-                                Sinjai, Sulawesi Selatan.
+                                {profilDesa?.alamat_kantor || 'Jalan Poros Biji Nangka - Batu Belerang, Kec. Sinjai Borong, Kabupaten Sinjai, Sulawesi Selatan.'}
                             </li>
                             <li>
                                 <span className="block font-semibold text-slate-800 dark:text-slate-300">

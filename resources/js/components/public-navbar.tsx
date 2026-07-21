@@ -28,7 +28,7 @@ export default function PublicNavbar() {
                             Batu Belerang
                         </span>
                         <span className="-mt-1 block text-[10px] font-medium tracking-wide text-slate-500 uppercase dark:text-slate-400">
-                            Sinjai Timur
+                            Sinjai Borong
                         </span>
                     </div>
                 </Link>

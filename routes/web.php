@@ -1,5 +1,12 @@
 <?php
 
+use App\Http\Controllers\AdminContentController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\DebugDatabaseController;
+use App\Models\AnggaranApbdes;
+use App\Models\AparaturDesa;
+use App\Models\BeritaDesa;
+use App\Models\ProfilDesa;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -10,6 +17,11 @@ Route::get('/', function () {
     $dusunCount = DB::table('dusun')->count();
     $umkmCount = DB::table('produk_umkm')->where('status', 'aktif')->count();
     $wisataCount = DB::table('destinasi_wisata')->count();
+
+    $profilDesa = ProfilDesa::first();
+    $aparaturList = AparaturDesa::where('status', true)->orderBy('urutan', 'asc')->get();
+    $beritaList = BeritaDesa::where('status', 'terbit')->orderBy('tanggal_publikasi', 'desc')->limit(7)->get();
+    $apbdesList = AnggaranApbdes::where('tahun', date('Y'))->get();
 
     $regulasi = DB::table('regulasi')
         ->where('status', true)
@@ -32,6 +44,10 @@ Route::get('/', function () {
             'umkm' => $umkmCount,
             'wisata' => $wisataCount,
         ],
+        'profilDesa' => $profilDesa,
+        'aparaturList' => $aparaturList,
+        'beritaList' => $beritaList,
+        'apbdesList' => $apbdesList,
         'regulasi' => $regulasi,
         'agenda' => $agenda,
         'demografi' => Inertia::defer(fn () => [
@@ -64,12 +80,58 @@ Route::get('/', function () {
     ]);
 })->name('home');
 
+Route::get('/berita', function () {
+    $beritaList = BeritaDesa::where('status', 'terbit')
+        ->orderBy('tanggal_publikasi', 'desc')
+        ->get();
+    $profilDesa = ProfilDesa::first();
+
+    return Inertia::render('berita/index', [
+        'beritaList' => $beritaList,
+        'profilDesa' => $profilDesa,
+    ]);
+})->name('berita.index');
+
+Route::get('/berita/{slug}', function ($slug) {
+    $berita = BeritaDesa::where('slug', $slug)->firstOrFail();
+    $profilDesa = ProfilDesa::first();
+    $beritaLainnya = BeritaDesa::where('status', 'terbit')
+        ->where('id', '!=', $berita->id)
+        ->orderBy('tanggal_publikasi', 'desc')
+        ->limit(4)
+        ->get();
+
+    return Inertia::render('berita/show', [
+        'berita' => $berita,
+        'profilDesa' => $profilDesa,
+        'beritaLainnya' => $beritaLainnya,
+    ]);
+})->name('berita.show');
+
 Route::middleware(['auth', 'verified'])->group(function () {
-    Route::inertia('dashboard', 'dashboard')->name('dashboard');
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
+    // Admin Content Management Routes
+    Route::post('/admin/profil', [AdminContentController::class, 'updateProfil'])->name('admin.profil.update');
+
+    Route::post('/admin/aparatur', [AdminContentController::class, 'storeAparatur'])->name('admin.aparatur.store');
+    Route::put('/admin/aparatur/{id}', [AdminContentController::class, 'updateAparatur'])->name('admin.aparatur.update');
+    Route::delete('/admin/aparatur/{id}', [AdminContentController::class, 'deleteAparatur'])->name('admin.aparatur.delete');
+
+    Route::post('/admin/berita', [AdminContentController::class, 'storeBerita'])->name('admin.berita.store');
+    Route::put('/admin/berita/{id}', [AdminContentController::class, 'updateBerita'])->name('admin.berita.update');
+    Route::delete('/admin/berita/{id}', [AdminContentController::class, 'deleteBerita'])->name('admin.berita.delete');
+
+    Route::post('/admin/apbdes', [AdminContentController::class, 'updateApbdes'])->name('admin.apbdes.update');
+
+    Route::post('/admin/regulasi', [AdminContentController::class, 'storeRegulasi'])->name('admin.regulasi.store');
+    Route::post('/admin/agenda', [AdminContentController::class, 'storeAgenda'])->name('admin.agenda.store');
 });
 
-use App\Http\Controllers\DebugDatabaseController;
-
 Route::get('/debug/database', [DebugDatabaseController::class, 'index'])->name('debug.database');
+
+Route::get('_boost/browser-logs', function () {
+    return redirect()->route('dashboard');
+});
 
 require __DIR__.'/settings.php';
