@@ -227,6 +227,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::delete('/admin/berita/{id}', [AdminContentController::class, 'deleteBerita'])->name('admin.berita.delete');
 
     Route::post('/admin/apbdes', [AdminContentController::class, 'updateApbdes'])->name('admin.apbdes.update');
+    Route::get('/admin/halaman/{slug}', [AdminContentController::class, 'editHalaman'])->name('admin.halaman.edit');
     Route::post('/admin/halaman/{slug}', [AdminContentController::class, 'updateHalamanKonten'])->name('admin.halaman.update');
 
     Route::post('/admin/regulasi', [AdminContentController::class, 'storeRegulasi'])->name('admin.regulasi.store');

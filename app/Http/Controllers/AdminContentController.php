@@ -13,6 +13,8 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Inertia\Inertia;
+use Inertia\Response;
 
 class AdminContentController extends Controller
 {
@@ -284,6 +286,18 @@ class AdminContentController extends Controller
         AgendaDesa::create($validated);
 
         return back()->with('success', 'Agenda desa berhasil ditambahkan.');
+    }
+
+    /**
+     * Show editor form for a specific Halaman Konten.
+     */
+    public function editHalaman(string $slug): Response
+    {
+        $halaman = HalamanKonten::where('slug', $slug)->firstOrFail();
+
+        return Inertia::render('admin/halaman/edit', [
+            'halaman' => $halaman,
+        ]);
     }
 
     /**
