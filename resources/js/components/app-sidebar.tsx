@@ -7,6 +7,7 @@ import {
     Users,
     Newspaper,
     Wallet,
+    Database,
 } from 'lucide-react';
 import AppLogo from '@/components/app-logo';
 import { NavMain } from '@/components/nav-main';
@@ -59,6 +60,11 @@ const mainNavItems: NavItem[] = [
                 icon: Wallet,
             },
         ],
+    },
+    {
+        title: 'DB Inspector',
+        href: '/debug/database',
+        icon: Database,
     },
 ];
 
