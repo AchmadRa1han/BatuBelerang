@@ -33,7 +33,7 @@ export default function StrukturOrganisasi() {
                     {/* Level 1: Kades */}
                     <div className="mx-auto max-w-xs rounded-xl border-2 border-emerald-500 bg-white p-4 shadow-sm dark:bg-slate-900">
                         <span className="text-[10px] font-bold tracking-widest text-emerald-600 uppercase">KEPALA DESA</span>
-                        <h3 className="text-sm font-extrabold text-slate-900 dark:text-white">H. Ahmad Supardi, S.Sos</h3>
+                        <h3 className="text-sm font-extrabold text-slate-900 dark:text-white">Ahmad P</h3>
                     </div>
 
                     <div className="mx-auto h-6 w-0.5 bg-slate-300 dark:bg-slate-700" />

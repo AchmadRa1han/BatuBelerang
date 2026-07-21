@@ -213,7 +213,7 @@ export default function Dashboard({
         hero_subtitle: profilDesa?.hero_subtitle || 'Kecamatan Sinjai Borong, Kabupaten Sinjai, Provinsi Sulawesi Selatan',
         hero_bg_path: profilDesa?.hero_bg_path || 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=1920&auto=format&fit=crop&q=80',
         hero_bg_file: null as File | null,
-        nama_kades: profilDesa?.nama_kades || 'H. Ahmad Supardi, S.Sos',
+        nama_kades: profilDesa?.nama_kades || 'Ahmad P',
         jabatan_kades: profilDesa?.jabatan_kades || 'Kepala Desa Batu Belerang',
         sambutan_kades: profilDesa?.sambutan_kades || 'Selamat datang di website resmi Desa Batu Belerang.',
         foto_kades: profilDesa?.foto_kades || 'https://images.unsplash.com/photo-1560250097-0b93528c311a?w=400&auto=format&fit=crop&q=80',
@@ -232,7 +232,7 @@ export default function Dashboard({
 
     // Form Edit Kades (under Perangkat Desa Tab)
     const kadesForm = useForm({
-        nama_kades: profilDesa?.nama_kades || 'H. Ahmad Supardi, S.Sos',
+        nama_kades: profilDesa?.nama_kades || 'Ahmad P',
         jabatan_kades: profilDesa?.jabatan_kades || 'Kepala Desa Batu Belerang',
         foto_kades: profilDesa?.foto_kades || 'https://images.unsplash.com/photo-1560250097-0b93528c311a?w=400&auto=format&fit=crop&q=80',
         foto_kades_base64: '',

@@ -11,14 +11,18 @@ export default function DataPerangkat() {
     ];
 
     const perangkatData = [
-        { nama: 'H. Ahmad Supardi, S.Sos', jabatan: 'Kepala Desa', tugas: 'Memimpin penyelenggaraan pemerintahan, pembangunan, dan kemasyarakatan.' },
+        { nama: 'Ahmad P', jabatan: 'Kepala Desa', tugas: 'Memimpin penyelenggaraan pemerintahan, pembangunan, dan kemasyarakatan.' },
         { nama: 'Sulaeman', jabatan: 'Sekretaris Desa', tugas: 'Mengoordinasikan sekretariat dan administrasi keuangan & umum.' },
-        { nama: 'Sadar Syam, S.Pd', jabatan: 'Kasi Pemerintahan', tugas: 'Menyusun serta melaksanakan kebijakan urusan tata pemerintahan.' },
-        { nama: 'Hartati', jabatan: 'Kasi Pelayanan', tugas: 'Mengelola pelayanan administrasi kependudukan dan surat publik.' },
-        { nama: 'Lukman, S.Pd', jabatan: 'Kasi Kesejahteraan', tugas: 'Mengelola program pembinaan kesejahteraan sosial dan pemberdayaan.' },
-        { nama: 'Kartini, S.Pd', jabatan: 'Kaur TU & Umum', tugas: 'Melaksanakan urusan persuratan, inventaris, dan rumah tangga kantor.' },
-        { nama: 'Fitriani', jabatan: 'Kaur Keuangan', tugas: 'Mengelola penatausahaan keuangan dan pembukuan APBDesa.' },
-        { nama: 'Nirmawati, SP', jabatan: 'Kaur Perencanaan', tugas: 'Menyusun dokumen RKPDes, RPJMDes, dan laporan realisasi.' },
+        { nama: 'Sadar Syam, S.Pd', jabatan: 'Kepala Seksi Pemerintahan', tugas: 'Menyusun serta melaksanakan kebijakan urusan tata pemerintahan.' },
+        { nama: 'Hartati', jabatan: 'Kepala Seksi Pelayanan', tugas: 'Mengelola pelayanan administrasi kependudukan dan surat publik.' },
+        { nama: 'Lukman, S.Pd', jabatan: 'Kepala Seksi Kesejahteraan', tugas: 'Mengelola program pembinaan kesejahteraan sosial dan pemberdayaan.' },
+        { nama: 'Kartini, S.Pd', jabatan: 'Kepala Urusan Tata Usaha dan Umum', tugas: 'Melaksanakan urusan persuratan, inventaris, dan rumah tangga kantor.' },
+        { nama: 'Fitriani', jabatan: 'Kepala Urusan Keuangan', tugas: 'Mengelola penatausahaan keuangan dan pembukuan APBDesa.' },
+        { nama: 'Nirmawati, SP', jabatan: 'Kepala Urusan Perencanaan', tugas: 'Menyusun dokumen RKPDes, RPJMDes, dan laporan realisasi.' },
+        { nama: 'Muh. Darwis', jabatan: 'Kepala Dusun Jeppara', tugas: 'Penyelenggaraan urusan pemerintahan di wilayah Dusun Jeppara.' },
+        { nama: 'Aditya Saputra', jabatan: 'Kepala Dusun Bontoe', tugas: 'Penyelenggaraan urusan pemerintahan di wilayah Dusun Bontoe.' },
+        { nama: 'Muh. Tahir', jabatan: 'Kepala Dusun Kalimbu', tugas: 'Penyelenggaraan urusan pemerintahan di wilayah Dusun Kalimbu.' },
+        { nama: 'Ahmad', jabatan: 'Kepala Dusun Mattirotasi', tugas: 'Penyelenggaraan urusan pemerintahan di wilayah Dusun Mattirotasi.' },
     ];
 
     return (

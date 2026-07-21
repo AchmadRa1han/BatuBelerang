@@ -35,7 +35,7 @@ class HomepageContentSeeder extends Seeder
                 'logo_path' => '/images/lambang_kabupaten_sinjai.png',
                 'telepon' => '(0482) 123-4567',
                 'email' => 'pemdes@batubelerang.desa.id',
-                'nama_kades' => 'H. Ahmad Supardi, S.Sos',
+                'nama_kades' => 'Ahmad P',
                 'jabatan_kades' => 'Kepala Desa Batu Belerang',
                 'sambutan_kades' => 'Selamat datang di website resmi Desa Batu Belerang. Kami berkomitmen menyajikan pelayanan publik yang transparan, mudah, dan akuntabel demi kemajuan seluruh masyarakat desa.',
                 'foto_kades' => 'https://images.unsplash.com/photo-1560250097-0b93528c311a?w=400&auto=format&fit=crop&q=80',

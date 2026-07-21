@@ -1261,7 +1261,7 @@ export default function Welcome({
                                 </span>
                             </div>
                             <h3 className="text-xs font-extrabold text-slate-900 dark:text-white line-clamp-1">
-                                {profilDesa?.nama_kades || 'H. Ahmad Supardi, S.Sos'}
+                                {profilDesa?.nama_kades || 'Ahmad P'}
                             </h3>
                             <p className="mt-0.5 text-[10px] font-bold text-emerald-700 dark:text-emerald-400 line-clamp-1">
                                 {profilDesa?.jabatan_kades || 'Kepala Desa'}
