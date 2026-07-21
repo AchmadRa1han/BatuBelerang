@@ -1210,8 +1210,8 @@ export default function Welcome({
                     </div>
                 </section>
 
-                {/* 6. STRUKTUR APARATUR DESA (PINNED KADES + CAROUSEL) */}
-                <section className="space-y-6">
+                {/* 6. STRUKTUR APARATUR DESA (PINNED KADES + CAROUSEL SLIDER) */}
+                <section className="space-y-5">
                     <div className="flex flex-col items-center justify-between gap-4 sm:flex-row">
                         <div className="space-y-1 text-center sm:text-left">
                             <span className="block text-xs font-semibold tracking-widest text-emerald-600 uppercase dark:text-emerald-400">
@@ -1244,63 +1244,53 @@ export default function Welcome({
                         </div>
                     </div>
 
-                    <div className="grid grid-cols-1 gap-6 lg:grid-cols-12 items-stretch">
-                        {/* 👑 PINNED: Kepala Desa Featured Card (Col 4) */}
-                        <div className="lg:col-span-4 group relative overflow-hidden rounded-2xl border border-emerald-500/30 bg-gradient-to-br from-slate-900 via-slate-900 to-emerald-950 p-5 text-white shadow-lg dark:border-emerald-500/20 flex flex-col justify-between">
-                            <div className="space-y-3">
-                                <div className="flex items-center justify-between">
-                                    <span className="flex items-center gap-1 rounded-md bg-emerald-600 px-2.5 py-0.5 text-[10px] font-extrabold text-white shadow-md">
-                                        👑 PINNED • PIMPINAN DESA
-                                    </span>
-                                    <span className="text-[10px] text-emerald-400 font-semibold">
-                                        Periode 2021 - 2027
-                                    </span>
-                                </div>
-                                <div className="relative aspect-4/5 w-full overflow-hidden rounded-xl bg-slate-800 border border-emerald-500/20">
+                    {/* Full Carousel Track (Pinned Kades + Perangkat Desa) */}
+                    <div className="relative w-full overflow-hidden">
+                        <div
+                            ref={aparaturScrollRef}
+                            className="scrollbar-none flex gap-4 overflow-x-auto scroll-smooth py-2 px-1 w-full"
+                        >
+                            {/* 👑 1. PINNED: KEPALA DESA CARD (Same size w-44 sm:w-48 as others) */}
+                            <div className="group flex w-44 sm:w-48 shrink-0 flex-col items-center overflow-hidden rounded-2xl border-2 border-emerald-500/60 bg-gradient-to-b from-emerald-50/80 via-white to-white p-3.5 text-center shadow-md shadow-emerald-500/10 transition-all duration-300 hover:-translate-y-1 dark:from-emerald-950/40 dark:via-slate-900 dark:to-slate-900 dark:border-emerald-500/50">
+                                <div className="relative mb-2.5 aspect-4/5 w-full overflow-hidden rounded-xl bg-slate-100 dark:bg-slate-800 border border-emerald-500/30">
                                     <img
                                         src={profilDesa?.foto_kades || 'https://images.unsplash.com/photo-1560250097-0b93528c311a?w=400&auto=format&fit=crop&q=80'}
                                         alt={profilDesa?.nama_kades || 'Kepala Desa'}
                                         className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
                                     />
+                                    <span className="absolute top-2 left-2 flex items-center gap-1 rounded bg-emerald-600 px-1.5 py-0.5 text-[8px] font-extrabold text-white shadow-md">
+                                        👑 KADES
+                                    </span>
                                 </div>
-                            </div>
-                            <div className="pt-4 space-y-1 text-center">
-                                <h3 className="text-sm md:text-base font-extrabold text-white">
+                                <h3 className="text-xs font-extrabold text-slate-900 dark:text-white line-clamp-1">
                                     {profilDesa?.nama_kades || 'H. Ahmad Supardi, S.Sos'}
                                 </h3>
-                                <p className="text-xs font-semibold text-emerald-400">
-                                    {profilDesa?.jabatan_kades || 'Kepala Desa Batu Belerang'}
+                                <p className="mt-0.5 text-[10px] font-bold text-emerald-700 dark:text-emerald-400 line-clamp-1">
+                                    {profilDesa?.jabatan_kades || 'Kepala Desa'}
                                 </p>
                             </div>
-                        </div>
 
-                        {/* 🎠 CAROUSEL: Perangkat Desa Slider (Col 8) */}
-                        <div className="lg:col-span-8 flex items-center">
-                            <div
-                                ref={aparaturScrollRef}
-                                className="scrollbar-none flex gap-4 overflow-x-auto scroll-smooth py-1 px-1 w-full"
-                            >
-                                {activeAparaturList.map((aparatur, index) => (
-                                    <div
-                                        key={index}
-                                        className="group flex w-44 sm:w-48 shrink-0 flex-col items-center overflow-hidden rounded-2xl border border-slate-200 bg-white p-4 text-center shadow-sm shadow-slate-100/50 transition-all duration-300 hover:-translate-y-1 hover:border-emerald-200 dark:border-slate-800 dark:bg-slate-900/40 dark:shadow-none"
-                                    >
-                                        <div className="relative mb-3 aspect-4/5 w-full overflow-hidden rounded-xl bg-slate-100 dark:bg-slate-800">
-                                            <img
-                                                src={aparatur.foto}
-                                                alt={aparatur.nama}
-                                                className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
-                                            />
-                                        </div>
-                                        <h3 className="text-xs font-bold text-slate-900 dark:text-white line-clamp-1">
-                                            {aparatur.nama}
-                                        </h3>
-                                        <p className="mt-0.5 text-[10px] text-slate-500 dark:text-slate-400 line-clamp-1">
-                                            {aparatur.jabatan}
-                                        </p>
+                            {/* 2. PERANGKAT DESA CARDS */}
+                            {activeAparaturList.map((aparatur, index) => (
+                                <div
+                                    key={index}
+                                    className="group flex w-44 sm:w-48 shrink-0 flex-col items-center overflow-hidden rounded-2xl border border-slate-200 bg-white p-3.5 text-center shadow-sm shadow-slate-100/50 transition-all duration-300 hover:-translate-y-1 hover:border-emerald-200 dark:border-slate-800 dark:bg-slate-900/40 dark:shadow-none"
+                                >
+                                    <div className="relative mb-2.5 aspect-4/5 w-full overflow-hidden rounded-xl bg-slate-100 dark:bg-slate-800">
+                                        <img
+                                            src={aparatur.foto}
+                                            alt={aparatur.nama}
+                                            className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                                        />
                                     </div>
-                                ))}
-                            </div>
+                                    <h3 className="text-xs font-bold text-slate-900 dark:text-white line-clamp-1">
+                                        {aparatur.nama}
+                                    </h3>
+                                    <p className="mt-0.5 text-[10px] text-slate-500 dark:text-slate-400 line-clamp-1">
+                                        {aparatur.jabatan}
+                                    </p>
+                                </div>
+                            ))}
                         </div>
                     </div>
                 </section>
