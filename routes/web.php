@@ -116,6 +116,7 @@ Route::get('/profil/geografis-desa', fn () => Inertia::render('profil/geografis-
 Route::get('/profil/demografi-desa', fn () => Inertia::render('profil/demografi-desa'))->name('profil.demografi-desa');
 
 // Public Menu Routes (Pemerintahan)
+Route::get('/pemerintahan/visi-misi', fn () => Inertia::render('profil/visi-misi', ['category' => 'Pemerintahan']))->name('pemerintahan.visi-misi');
 Route::get('/pemerintahan/data-perangkat', fn () => Inertia::render('pemerintahan/data-perangkat'))->name('pemerintahan.data-perangkat');
 Route::get('/pemerintahan/struktur-organisasi', fn () => Inertia::render('pemerintahan/struktur-organisasi'))->name('pemerintahan.struktur-organisasi');
 Route::get('/pemerintahan/rpjmdes', fn () => Inertia::render('pemerintahan/rpjmdes'))->name('pemerintahan.rpjmdes');

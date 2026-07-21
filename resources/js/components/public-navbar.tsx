@@ -76,7 +76,7 @@ export default function PublicNavbar() {
                         <div className="pointer-events-none absolute top-full left-1/2 z-50 w-52 -translate-x-1/2 translate-y-2 scale-95 pt-2.5 opacity-0 transition-all duration-200 ease-out group-hover/pemerintahan:pointer-events-auto group-hover/pemerintahan:translate-y-0 group-hover/pemerintahan:scale-100 group-hover/pemerintahan:opacity-100">
                             <div className="rounded-2xl border border-slate-200/80 bg-white p-2 shadow-xl ring-1 ring-black/5 dark:border-slate-800 dark:bg-slate-950">
                                 {[
-                                    { title: 'Visi dan Misi', href: '/profil/visi-misi' },
+                                    { title: 'Visi dan Misi', href: '/pemerintahan/visi-misi' },
                                     { title: 'Data Perangkat', href: '/pemerintahan/data-perangkat' },
                                     { title: 'Struktur Organisasi', href: '/pemerintahan/struktur-organisasi' },
                                     { title: 'RPJMDes', href: '/pemerintahan/rpjmdes' },
@@ -267,7 +267,7 @@ export default function PublicNavbar() {
                             }`}
                         >
                             {[
-                                { title: 'Visi dan Misi', href: '/profil/visi-misi' },
+                                { title: 'Visi dan Misi', href: '/pemerintahan/visi-misi' },
                                 { title: 'Data Perangkat', href: '/pemerintahan/data-perangkat' },
                                 { title: 'Struktur Organisasi', href: '/pemerintahan/struktur-organisasi' },
                                 { title: 'RPJMDes', href: '/pemerintahan/rpjmdes' },

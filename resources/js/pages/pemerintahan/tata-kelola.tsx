@@ -3,7 +3,7 @@ import PublicPageLayout from '@/components/public-page-layout';
 
 export default function TataKelola() {
     const sideMenuItems = [
-        { title: 'Visi dan Misi', href: '/profil/visi-misi' },
+        { title: 'Visi dan Misi', href: '/pemerintahan/visi-misi' },
         { title: 'Data Perangkat', href: '/pemerintahan/data-perangkat' },
         { title: 'Struktur Organisasi', href: '/pemerintahan/struktur-organisasi' },
         { title: 'RPJMDes', href: '/pemerintahan/rpjmdes' },

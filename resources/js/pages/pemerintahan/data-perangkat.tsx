@@ -3,7 +3,7 @@ import PublicPageLayout from '@/components/public-page-layout';
 
 export default function DataPerangkat() {
     const sideMenuItems = [
-        { title: 'Visi dan Misi', href: '/profil/visi-misi' },
+        { title: 'Visi dan Misi', href: '/pemerintahan/visi-misi' },
         { title: 'Data Perangkat', href: '/pemerintahan/data-perangkat', active: true },
         { title: 'Struktur Organisasi', href: '/pemerintahan/struktur-organisasi' },
         { title: 'RPJMDes', href: '/pemerintahan/rpjmdes' },

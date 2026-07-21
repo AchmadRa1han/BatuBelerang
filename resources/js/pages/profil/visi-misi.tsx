@@ -1,14 +1,28 @@
 import React from 'react';
 import PublicPageLayout from '@/components/public-page-layout';
 
-export default function VisiMisi() {
-    const sideMenuItems = [
-        { title: 'Tentang Kami', href: '/profil/tentang-kami' },
-        { title: 'Visi & Misi', href: '/profil/visi-misi', active: true },
-        { title: 'Sejarah Desa', href: '/profil/sejarah-desa' },
-        { title: 'Geografis Desa', href: '/profil/geografis-desa' },
-        { title: 'Demografi Desa', href: '/profil/demografi-desa' },
-    ];
+interface VisiMisiProps {
+    category?: 'Profil Desa' | 'Pemerintahan';
+}
+
+export default function VisiMisi({ category = 'Profil Desa' }: VisiMisiProps) {
+    const isPemerintahan = category === 'Pemerintahan';
+
+    const sideMenuItems = isPemerintahan
+        ? [
+              { title: 'Visi dan Misi', href: '/pemerintahan/visi-misi', active: true },
+              { title: 'Data Perangkat', href: '/pemerintahan/data-perangkat' },
+              { title: 'Struktur Organisasi', href: '/pemerintahan/struktur-organisasi' },
+              { title: 'RPJMDes', href: '/pemerintahan/rpjmdes' },
+              { title: 'Tata Kelola', href: '/pemerintahan/tata-kelola' },
+          ]
+        : [
+              { title: 'Tentang Kami', href: '/profil/tentang-kami' },
+              { title: 'Visi & Misi', href: '/profil/visi-misi', active: true },
+              { title: 'Sejarah Desa', href: '/profil/sejarah-desa' },
+              { title: 'Geografis Desa', href: '/profil/geografis-desa' },
+              { title: 'Demografi Desa', href: '/profil/demografi-desa' },
+          ];
 
     const misiList = [
         'Mewujudkan tata kelola pemerintahan desa yang bersih, transparan, akuntabel, dan berorientasi pada pelayanan masyarakat.',
@@ -22,7 +36,7 @@ export default function VisiMisi() {
         <PublicPageLayout
             title="Visi & Misi Desa Batu Belerang"
             subtitle="Arah kebijakan pembangunan dan komitmen jangka panjang Pemerintah Desa Batu Belerang."
-            category="Profil Desa"
+            category={category}
             breadcrumbs={[{ label: 'Visi & Misi' }]}
             sideMenuItems={sideMenuItems}
         >
