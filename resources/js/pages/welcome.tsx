@@ -210,21 +210,7 @@ export default function Welcome({
         }
     };
 
-    // Auto scroll perangkat desa slider
-    useEffect(() => {
-        const interval = setInterval(() => {
-            if (aparaturScrollRef.current) {
-                const { scrollLeft, scrollWidth, clientWidth } = aparaturScrollRef.current;
-                if (scrollLeft + clientWidth >= scrollWidth - 10) {
-                    aparaturScrollRef.current.scrollTo({ left: 0, behavior: 'smooth' });
-                } else {
-                    aparaturScrollRef.current.scrollBy({ left: 220, behavior: 'smooth' });
-                }
-            }
-        }, 3500);
 
-        return () => clearInterval(interval);
-    }, []);
 
     const nextAparatur = () => {
         if (!transitionEnabled) {
@@ -1285,31 +1271,47 @@ export default function Welcome({
                         {/* Divider Line */}
                         <div className="w-px h-36 bg-slate-200 dark:bg-slate-800 shrink-0 hidden sm:block" />
 
-                        {/* 🎠 CAROUSEL SLIDER: PERANGKAT DESA (Auto-scrolls & manual scroll right behind Kades) */}
-                        <div
-                            ref={aparaturScrollRef}
-                            className="scrollbar-none flex flex-1 gap-4 overflow-x-auto scroll-smooth py-2 px-1 w-full"
-                        >
-                            {activeAparaturList.map((aparatur, index) => (
-                                <div
-                                    key={index}
-                                    className="group flex w-44 sm:w-48 shrink-0 flex-col items-center overflow-hidden rounded-2xl border border-slate-200 bg-white p-3.5 text-center shadow-sm shadow-slate-100/50 transition-all duration-300 hover:-translate-y-1 hover:border-emerald-200 dark:border-slate-800 dark:bg-slate-900/40 dark:shadow-none"
-                                >
-                                    <div className="relative mb-2.5 aspect-4/5 w-full overflow-hidden rounded-xl bg-slate-100 dark:bg-slate-800">
-                                        <img
-                                            src={aparatur.foto}
-                                            alt={aparatur.nama}
-                                            className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
-                                        />
-                                    </div>
-                                    <h3 className="text-xs font-bold text-slate-900 dark:text-white line-clamp-1">
-                                        {aparatur.nama}
-                                    </h3>
-                                    <p className="mt-0.5 text-[10px] text-slate-500 dark:text-slate-400 line-clamp-1">
-                                        {aparatur.jabatan}
-                                    </p>
+                        {/* 🎠 CAROUSEL SLIDER: PERANGKAT DESA (Smooth Continuous Infinite Marquee) */}
+                        <div className="relative flex-1 overflow-hidden py-2">
+                            <style>{`
+                                @keyframes aparaturMarquee {
+                                    0% { transform: translateX(0); }
+                                    100% { transform: translateX(-33.333%); }
+                                }
+                                .animate-aparatur-marquee {
+                                    animation: aparaturMarquee 22s linear infinite;
+                                }
+                                .animate-aparatur-marquee:hover {
+                                    animation-play-state: paused;
+                                }
+                            `}</style>
+                            <div
+                                ref={aparaturScrollRef}
+                                className="scrollbar-none flex overflow-x-auto scroll-smooth w-full"
+                            >
+                                <div className="flex gap-4 animate-aparatur-marquee shrink-0">
+                                    {[...activeAparaturList, ...activeAparaturList, ...activeAparaturList].map((aparatur, index) => (
+                                        <div
+                                            key={index}
+                                            className="group flex w-44 sm:w-48 shrink-0 flex-col items-center overflow-hidden rounded-2xl border border-slate-200 bg-white p-3.5 text-center shadow-sm shadow-slate-100/50 transition-all duration-300 hover:-translate-y-1 hover:border-emerald-200 dark:border-slate-800 dark:bg-slate-900/40 dark:shadow-none"
+                                        >
+                                            <div className="relative mb-2.5 aspect-4/5 w-full overflow-hidden rounded-xl bg-slate-100 dark:bg-slate-800">
+                                                <img
+                                                    src={aparatur.foto}
+                                                    alt={aparatur.nama}
+                                                    className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                                                />
+                                            </div>
+                                            <h3 className="text-xs font-bold text-slate-900 dark:text-white line-clamp-1">
+                                                {aparatur.nama}
+                                            </h3>
+                                            <p className="mt-0.5 text-[10px] text-slate-500 dark:text-slate-400 line-clamp-1">
+                                                {aparatur.jabatan}
+                                            </p>
+                                        </div>
+                                    ))}
                                 </div>
-                            ))}
+                            </div>
                         </div>
                     </div>
                 </section>
