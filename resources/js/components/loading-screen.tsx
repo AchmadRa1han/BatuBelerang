@@ -7,8 +7,6 @@ export function LoadingScreen() {
     const [targetPath, setTargetPath] = useState('/');
 
     useEffect(() => {
-        let timeoutId: ReturnType<typeof setTimeout>;
-
         const handleStart = (event: any) => {
             try {
                 const urlObj = new URL(
@@ -19,14 +17,10 @@ export function LoadingScreen() {
             } catch {
                 setTargetPath('/');
             }
-
-            timeoutId = setTimeout(() => {
-                setIsNavigating(true);
-            }, 150);
+            setIsNavigating(true);
         };
 
         const handleFinish = () => {
-            clearTimeout(timeoutId);
             setIsNavigating(false);
         };
 
@@ -34,16 +28,12 @@ export function LoadingScreen() {
         const removeFinish = router.on('finish', handleFinish);
 
         return () => {
-            clearTimeout(timeoutId);
             removeStart();
             removeFinish();
         };
     }, []);
 
-    const isSidebarLayout =
-        targetPath.startsWith('/dashboard') ||
-        targetPath.startsWith('/settings') ||
-        targetPath.startsWith('/debug');
+    const isHomepage = targetPath === '/';
 
     return (
         <AnimatePresence>
@@ -52,8 +42,8 @@ export function LoadingScreen() {
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
-                    transition={{ duration: 0.2 }}
-                    className="bg-slate-55 fixed inset-0 z-[9999] overflow-y-auto select-none dark:bg-slate-950"
+                    transition={{ duration: 0.15 }}
+                    className="fixed inset-0 z-[9999] flex items-center justify-center bg-slate-50/90 dark:bg-slate-950/90 backdrop-blur-sm select-none"
                 >
                     <style
                         dangerouslySetInnerHTML={{
@@ -61,6 +51,10 @@ export function LoadingScreen() {
                         @keyframes shimmer-move {
                             0% { transform: translateX(-100%); }
                             100% { transform: translateX(300%); }
+                        }
+                        @keyframes spin-slow {
+                            from { transform: rotate(0deg); }
+                            to { transform: rotate(360deg); }
                         }
                     `,
                         }}
@@ -76,106 +70,9 @@ export function LoadingScreen() {
                         />
                     </div>
 
-                    {isSidebarLayout ? (
-                        /* SKELETON: SIDEBAR LAYOUT (Dashboard / Settings / Debug) */
-                        <div className="flex min-h-screen">
-                            {/* Left Sidebar Skeleton */}
-                            <div className="flex hidden w-64 shrink-0 flex-col justify-between border-r border-slate-200 bg-white p-6 md:flex dark:border-slate-800 dark:bg-slate-900/50">
-                                <div className="space-y-8">
-                                    <div className="flex items-center gap-3">
-                                        <div className="h-8 w-8 animate-pulse rounded-lg bg-slate-200 dark:bg-slate-800" />
-                                        <div className="h-4 w-28 animate-pulse rounded bg-slate-200 dark:bg-slate-800" />
-                                    </div>
-
-                                    <div className="space-y-4">
-                                        {[1, 2, 3, 4, 5].map((i) => (
-                                            <div
-                                                key={i}
-                                                className="flex items-center gap-3 py-1"
-                                            >
-                                                <div className="h-4 w-4 animate-pulse rounded bg-slate-200 dark:bg-slate-800" />
-                                                <div className="h-3 w-24 animate-pulse rounded bg-slate-200 dark:bg-slate-800" />
-                                            </div>
-                                        ))}
-                                    </div>
-                                </div>
-
-                                <div className="flex items-center gap-3">
-                                    <div className="h-9 w-9 animate-pulse rounded-full bg-slate-200 dark:bg-slate-800" />
-                                    <div className="space-y-1.5">
-                                        <div className="h-3 w-20 animate-pulse rounded bg-slate-200 dark:bg-slate-800" />
-                                        <div className="h-2 w-16 animate-pulse rounded bg-slate-200 dark:bg-slate-800" />
-                                    </div>
-                                </div>
-                            </div>
-
-                            {/* Main Content Skeleton */}
-                            <div className="flex min-w-0 flex-1 flex-col">
-                                {/* Top Header */}
-                                <div className="flex h-14 items-center justify-between border-b border-slate-200 bg-white px-6 dark:border-slate-800 dark:bg-slate-900/50">
-                                    <div className="flex items-center gap-2">
-                                        <div className="hidden h-3.5 w-16 animate-pulse rounded bg-slate-200 sm:block dark:bg-slate-800" />
-                                        <div className="hidden h-3 w-3 animate-pulse rounded bg-slate-200 sm:block dark:bg-slate-800" />
-                                        <div className="h-3.5 w-24 animate-pulse rounded bg-slate-200 dark:bg-slate-800" />
-                                    </div>
-                                    <div className="flex items-center gap-4">
-                                        <div className="h-8 w-8 animate-pulse rounded-lg bg-slate-200 dark:bg-slate-800" />
-                                        <div className="h-8 w-8 animate-pulse rounded-full bg-slate-200 dark:bg-slate-800" />
-                                    </div>
-                                </div>
-
-                                {/* Content Body */}
-                                <div className="flex-1 space-y-8 p-6 md:p-8">
-                                    <div className="space-y-2">
-                                        <div className="h-7 w-48 animate-pulse rounded bg-slate-200 dark:bg-slate-800" />
-                                        <div className="h-3 w-72 animate-pulse rounded bg-slate-200 dark:bg-slate-800" />
-                                    </div>
-
-                                    <div className="grid grid-cols-1 gap-6 sm:grid-cols-3">
-                                        {[1, 2, 3].map((i) => (
-                                            <div
-                                                key={i}
-                                                className="space-y-4 rounded-2xl border border-slate-200 bg-white p-6 dark:border-slate-800 dark:bg-slate-900/30"
-                                            >
-                                                <div className="flex items-center justify-between">
-                                                    <div className="h-3 w-20 animate-pulse rounded bg-slate-200 dark:bg-slate-800" />
-                                                    <div className="h-4 w-4 animate-pulse rounded bg-slate-200 dark:bg-slate-800" />
-                                                </div>
-                                                <div className="h-6 w-16 animate-pulse rounded bg-slate-200 dark:bg-slate-800" />
-                                                <div className="h-2 w-28 animate-pulse rounded bg-slate-200 dark:bg-slate-800" />
-                                            </div>
-                                        ))}
-                                    </div>
-
-                                    <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
-                                        <div className="space-y-6 rounded-2xl border border-slate-200 bg-white p-6 lg:col-span-2 dark:border-slate-800 dark:bg-slate-900/30">
-                                            <div className="h-4 w-32 animate-pulse rounded bg-slate-200 dark:bg-slate-800" />
-                                            <div className="space-y-3">
-                                                {[1, 2, 3, 4, 5].map((i) => (
-                                                    <div
-                                                        key={i}
-                                                        className="h-10 w-full animate-pulse rounded bg-slate-100 dark:bg-slate-800/50"
-                                                    />
-                                                ))}
-                                            </div>
-                                        </div>
-                                        <div className="space-y-6 rounded-2xl border border-slate-200 bg-white p-6 dark:border-slate-800 dark:bg-slate-900/30">
-                                            <div className="h-4 w-24 animate-pulse rounded bg-slate-200 dark:bg-slate-800" />
-                                            <div className="flex justify-center py-4">
-                                                <div className="h-28 w-28 animate-pulse rounded-full border-8 border-slate-100 dark:border-slate-800/80" />
-                                            </div>
-                                            <div className="space-y-2">
-                                                <div className="h-3 w-full animate-pulse rounded bg-slate-200 dark:bg-slate-800" />
-                                                <div className="h-3 w-5/6 animate-pulse rounded bg-slate-200 dark:bg-slate-800" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    ) : (
-                        /* SKELETON: PUBLIC LAYOUT (Welcome / Home Page) */
-                        <div className="flex min-h-screen flex-col bg-slate-50 dark:bg-slate-950">
+                    {isHomepage ? (
+                        /* SKELETON: PUBLIC LAYOUT (Only on Welcome / Home Page) */
+                        <div className="w-full h-full overflow-y-auto bg-slate-50 dark:bg-slate-950">
                             {/* Navbar Skeleton */}
                             <header className="sticky top-0 z-50 flex h-16 items-center justify-between border-b border-slate-200 bg-white/80 px-6 backdrop-blur-md dark:border-slate-900 dark:bg-slate-950/80">
                                 <div className="flex items-center gap-3">
@@ -210,16 +107,11 @@ export function LoadingScreen() {
 
                             {/* Main Cards Grid & Widgets */}
                             <main className="mx-auto w-full max-w-7xl space-y-20 px-6 py-20">
-                                {/* Weather widget block */}
                                 <div className="h-44 animate-pulse rounded-2xl border border-slate-200 bg-white/80 dark:border-slate-800 dark:bg-slate-900/30" />
-
-                                {/* Demographic section header */}
                                 <div className="flex flex-col items-center space-y-2 md:items-start">
                                     <div className="h-6 w-48 animate-pulse rounded bg-slate-200 dark:bg-slate-800" />
                                     <div className="h-3 w-64 animate-pulse rounded bg-slate-200 dark:bg-slate-800" />
                                 </div>
-
-                                {/* Demographics Grid */}
                                 <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
                                     {[1, 2, 3].map((i) => (
                                         <div
@@ -238,6 +130,42 @@ export function LoadingScreen() {
                                     ))}
                                 </div>
                             </main>
+                        </div>
+                    ) : (
+                        /* PREMIUM CUSTOM SPINNER: For all other pages */
+                        <div className="relative flex flex-col items-center justify-center p-8 bg-white/60 dark:bg-slate-900/60 rounded-3xl backdrop-blur-md border border-slate-200/50 dark:border-slate-800/50 shadow-2xl">
+                            {/* Rotating Circular Text SVG */}
+                            <div className="relative w-44 h-44 flex items-center justify-center">
+                                <svg
+                                    viewBox="0 0 100 100"
+                                    className="w-full h-full"
+                                    style={{
+                                        animation: 'spin-slow 10s linear infinite',
+                                    }}
+                                >
+                                    <defs>
+                                        <path
+                                            id="circularTextPath"
+                                            d="M 50,50 m -37,0 a 37,37 0 1,1 74,0 a 37,37 0 1,1 -74,0"
+                                            fill="none"
+                                        />
+                                    </defs>
+                                    <text className="fill-emerald-800 dark:fill-emerald-300 text-[6px] font-black tracking-[0.18em] uppercase">
+                                        <textPath href="#circularTextPath" startOffset="0%">
+                                            Batu Belerang • Sinjai Borong • Batu Belerang • Sinjai Borong •
+                                        </textPath>
+                                    </text>
+                                </svg>
+
+                                {/* Logo Sinjai in Center */}
+                                <div className="absolute inset-0 flex items-center justify-center">
+                                    <img
+                                        src="/images/lambang_kabupaten_sinjai.png"
+                                        alt="Logo Sinjai"
+                                        className="w-16 h-16 object-contain drop-shadow-md animate-pulse"
+                                    />
+                                </div>
+                            </div>
                         </div>
                     )}
                 </motion.div>
