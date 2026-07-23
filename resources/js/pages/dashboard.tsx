@@ -243,6 +243,7 @@ export default function Dashboard({
     const [targetCropper, setTargetCropper] = useState<'aparatur' | 'kades'>('aparatur');
     const [editingAparaturId, setEditingAparaturId] = useState<number | null>(null);
     const [isEditingKades, setIsEditingKades] = useState(false);
+    const [editingBeritaId, setEditingBeritaId] = useState<number | null>(null);
 
     // Form Edit Kades (under Perangkat Desa Tab)
     const kadesForm = useForm({
@@ -395,12 +396,37 @@ export default function Dashboard({
         }
     };
 
+    const startEditBerita = (berita: any) => {
+        setEditingBeritaId(berita.id);
+        beritaForm.setData({
+            judul: berita.judul || '',
+            kategori: berita.kategori || 'Pemerintahan',
+            ringkasan: berita.ringkasan || '',
+            isi: berita.isi || '',
+            foto_path: berita.foto_path || '',
+            tanggal_publikasi: berita.tanggal_publikasi || new Date().toISOString().split('T')[0],
+            status: berita.status || 'terbit',
+        });
+    };
+
+    const resetBeritaForm = () => {
+        beritaForm.reset();
+        setEditingBeritaId(null);
+    };
+
     const submitBerita = (e: React.FormEvent) => {
         e.preventDefault();
-        beritaForm.post('/admin/berita', {
-            preserveScroll: true,
-            onSuccess: () => beritaForm.reset(),
-        });
+        if (editingBeritaId) {
+            beritaForm.put(`/admin/berita/${editingBeritaId}`, {
+                preserveScroll: true,
+                onSuccess: () => resetBeritaForm(),
+            });
+        } else {
+            beritaForm.post('/admin/berita', {
+                preserveScroll: true,
+                onSuccess: () => beritaForm.reset(),
+            });
+        }
     };
 
     const submitApbdes = (e: React.FormEvent) => {
@@ -1118,10 +1144,20 @@ export default function Dashboard({
                 {/* TAB 4: KELOLA BERITA DESA */}
                 {mainTab === 'berita' && (
                     <div className="space-y-6">
-                        {/* Form Tambah Berita */}
+                        {/* Form Tambah/Edit Berita */}
                         <form onSubmit={submitBerita} className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-800 dark:bg-slate-900 space-y-4">
                             <h3 className="font-bold text-sm text-slate-900 dark:text-white flex items-center gap-2">
-                                <Plus className="size-4 text-emerald-600" /> Tulis Berita / Pengumuman Desa Baru
+                                {editingBeritaId ? (
+                                    <>
+                                        <Edit3 className="size-4 text-emerald-600 animate-pulse" />
+                                        <span>Edit Berita: <span className="text-emerald-600">{beritaForm.data.judul}</span></span>
+                                    </>
+                                ) : (
+                                    <>
+                                        <Plus className="size-4 text-emerald-600" />
+                                        <span>Tulis Berita / Pengumuman Desa Baru</span>
+                                    </>
+                                )}
                             </h3>
                             <div className="grid gap-3 sm:grid-cols-2">
                                 <div className="sm:col-span-2">
@@ -1160,10 +1196,35 @@ export default function Dashboard({
                                         onChange={(e) => beritaForm.setData('ringkasan', e.target.value)}
                                     />
                                 </div>
+                                <div className="sm:col-span-2">
+                                    <Label className="text-xs">Isi Berita Lengkap</Label>
+                                    <textarea
+                                        rows={6}
+                                        className="w-full rounded-md border border-slate-300 dark:border-slate-700 bg-transparent p-2 text-xs"
+                                        value={beritaForm.data.isi}
+                                        onChange={(e) => beritaForm.setData('isi', e.target.value)}
+                                        placeholder="Tuliskan isi artikel berita selengkapnya di sini..."
+                                    />
+                                </div>
                             </div>
-                            <div className="flex justify-end">
-                                <Button type="submit" disabled={beritaForm.processing} className="bg-emerald-600 hover:bg-emerald-700 text-white size-sm text-xs">
-                                    Publish Berita
+                            <div className="flex justify-end gap-2">
+                                {editingBeritaId && (
+                                    <Button
+                                        type="button"
+                                        variant="outline"
+                                        onClick={resetBeritaForm}
+                                        className="text-xs"
+                                    >
+                                        Batal Edit
+                                    </Button>
+                                )}
+                                <Button
+                                    type="submit"
+                                    disabled={beritaForm.processing}
+                                    className="bg-emerald-600 hover:bg-emerald-700 text-white size-sm text-xs gap-1.5"
+                                >
+                                    <Save className="size-3.5" />
+                                    <span>{editingBeritaId ? 'Simpan Perubahan' : 'Publish Berita'}</span>
                                 </Button>
                             </div>
                         </form>
@@ -1180,14 +1241,26 @@ export default function Dashboard({
                                         <h4 className="font-bold text-xs text-slate-900 dark:text-white">{b.judul}</h4>
                                         <p className="text-[11px] text-slate-500 line-clamp-1">{b.ringkasan}</p>
                                     </div>
-                                    <Button
-                                        size="icon"
-                                        variant="ghost"
-                                        onClick={() => deleteBerita(b.id)}
-                                        className="text-rose-600 hover:bg-rose-50 dark:hover:bg-rose-950"
-                                    >
-                                        <Trash2 className="size-4" />
-                                    </Button>
+                                    <div className="flex items-center gap-1.5">
+                                        <Button
+                                            size="icon"
+                                            variant="ghost"
+                                            onClick={() => startEditBerita(b)}
+                                            className="text-slate-600 hover:bg-slate-100 dark:text-slate-400 dark:hover:bg-slate-800"
+                                            title="Edit Berita"
+                                        >
+                                            <Edit3 className="size-4" />
+                                        </Button>
+                                        <Button
+                                            size="icon"
+                                            variant="ghost"
+                                            onClick={() => deleteBerita(b.id)}
+                                            className="text-rose-600 hover:bg-rose-50 dark:hover:bg-rose-950"
+                                            title="Hapus Berita"
+                                        >
+                                            <Trash2 className="size-4" />
+                                        </Button>
+                                    </div>
                                 </div>
                             ))}
                         </div>
