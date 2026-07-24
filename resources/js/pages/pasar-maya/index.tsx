@@ -1,6 +1,7 @@
 import { Head, Link } from '@inertiajs/react';
 import { Search, ShoppingBag, PhoneCall, X } from 'lucide-react';
 import React, { useState, useMemo, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import PublicPageLayout from '@/components/public-page-layout';
 
 interface KategoriItem {
@@ -32,6 +33,11 @@ export default function PasarMaya({ kategoriList = [], produkList = [] }: PasarM
     const [searchQuery, setSearchQuery] = useState('');
     const [selectedCategoryId, setSelectedCategoryId] = useState<number | null>(null);
     const [selectedProduk, setSelectedProduk] = useState<ProdukItem | null>(null);
+    const [mounted, setMounted] = useState(false);
+
+    useEffect(() => {
+        setMounted(true);
+    }, []);
 
     // Lock body scroll when modal is open
     useEffect(() => {
@@ -209,13 +215,13 @@ export default function PasarMaya({ kategoriList = [], produkList = [] }: PasarM
             </div>
 
             {/* Modal Detail Produk */}
-            {selectedProduk && (
+            {mounted && selectedProduk && createPortal(
                 <div
-                    className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-slate-950/60 backdrop-blur-sm transition-opacity duration-300 animate-in fade-in"
+                    className="fixed inset-0 z-[9999] overflow-y-auto bg-slate-950/60 backdrop-blur-sm flex justify-center items-start p-4 md:p-8 animate-in fade-in duration-200"
                     onClick={() => setSelectedProduk(null)}
                 >
                     <div
-                        className="relative flex flex-col md:flex-row w-full max-w-3xl overflow-hidden rounded-2xl bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 shadow-2xl transition-all duration-300 animate-in fade-in zoom-in-95"
+                        className="relative w-full max-w-3xl rounded-2xl bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 shadow-2xl flex flex-col md:flex-row overflow-hidden my-auto md:h-[480px] animate-in fade-in zoom-in-95 duration-200"
                         onClick={(e) => e.stopPropagation()}
                     >
                         {/* Close button */}
@@ -228,7 +234,7 @@ export default function PasarMaya({ kategoriList = [], produkList = [] }: PasarM
                         </button>
 
                         {/* Left Side: Image */}
-                        <div className="w-full md:w-1/2 aspect-video md:aspect-auto md:h-[480px] overflow-hidden bg-slate-50 dark:bg-slate-950 flex items-center justify-center">
+                        <div className="w-full md:w-1/2 aspect-video md:aspect-auto md:h-full overflow-hidden bg-slate-50 dark:bg-slate-950 flex items-center justify-center">
                             <img
                                 src={selectedProduk.foto_path}
                                 alt={selectedProduk.nama}
@@ -237,7 +243,7 @@ export default function PasarMaya({ kategoriList = [], produkList = [] }: PasarM
                         </div>
 
                         {/* Right Side: Details */}
-                        <div className="flex flex-col flex-1 p-6 md:h-[480px] md:overflow-y-auto space-y-4">
+                        <div className="flex flex-col flex-1 p-6 md:p-8 md:h-full md:overflow-y-auto space-y-4">
                             <div>
                                 <span className="rounded-md bg-emerald-600/10 px-2.5 py-1 text-[10px] font-extrabold uppercase tracking-wider text-emerald-600 dark:text-emerald-400">
                                     {selectedProduk.nama_kategori}
@@ -288,7 +294,8 @@ export default function PasarMaya({ kategoriList = [], produkList = [] }: PasarM
                             </div>
                         </div>
                     </div>
-                </div>
+                </div>,
+                document.body
             )}
         </PublicPageLayout>
     );
