@@ -109,6 +109,29 @@ Route::get('/berita/{slug}', function ($slug) {
     ]);
 })->name('berita.show');
 
+Route::get('/pasar-maya', function () {
+    $kategoriList = DB::table('kategori_umkm')->get();
+    $produkList = DB::table('produk_umkm')
+        ->join('kategori_umkm', 'produk_umkm.kategori_umkm_id', '=', 'kategori_umkm.id')
+        ->join('penduduk', 'produk_umkm.penduduk_id', '=', 'penduduk.id')
+        ->select(
+            'produk_umkm.*',
+            'kategori_umkm.nama as nama_kategori',
+            'penduduk.nama as nama_penjual'
+        )
+        ->where('produk_umkm.status', 'aktif')
+        ->orderBy('produk_umkm.created_at', 'desc')
+        ->get();
+
+    $profilDesa = ProfilDesa::first();
+
+    return Inertia::render('pasar-maya/index', [
+        'kategoriList' => $kategoriList,
+        'produkList' => $produkList,
+        'profilDesa' => $profilDesa,
+    ]);
+})->name('pasar-maya.index');
+
 // Public Menu Routes (Profil)
 Route::get('/profil/tentang-kami', function () {
     $konten = HalamanKonten::where('slug', 'profil-tentang-kami')->first();

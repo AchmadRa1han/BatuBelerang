@@ -8,6 +8,7 @@ use App\Models\BeritaDesa;
 use App\Models\ProfilDesa;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\DB;
 
 class HomepageContentSeeder extends Seeder
 {
@@ -241,5 +242,106 @@ class HomepageContentSeeder extends Seeder
                 $item
             );
         }
+
+        // 5. Dusun
+        DB::table('dusun')->insertOrIgnore([
+            ['id' => 1, 'nama' => 'Jeppara', 'created_at' => now(), 'updated_at' => now()],
+            ['id' => 2, 'nama' => 'Bontoe', 'created_at' => now(), 'updated_at' => now()],
+            ['id' => 3, 'nama' => 'Kalimbu', 'created_at' => now(), 'updated_at' => now()],
+            ['id' => 4, 'nama' => 'Mattirotasi', 'created_at' => now(), 'updated_at' => now()],
+        ]);
+
+        // 6. Penduduk
+        DB::table('penduduk')->insertOrIgnore([
+            [
+                'id' => 1,
+                'nik' => '7307060101800001',
+                'nama' => 'Ahmad P',
+                'jenis_kelamin' => 'L',
+                'tempat_lahir' => 'Sinjai',
+                'tanggal_lahir' => '1980-01-01',
+                'golongan_darah' => 'O',
+                'agama' => 'Islam',
+                'status_perkawinan' => 'kawin',
+                'dusun_id' => 1,
+                'rt' => '001',
+                'rw' => '001',
+                'alamat' => 'Dusun Jeppara',
+                'status_warga' => 'aktif',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]
+        ]);
+
+        // 7. Kategori UMKM
+        DB::table('kategori_umkm')->insertOrIgnore([
+            ['id' => 1, 'nama' => 'Kopi & Hasil Bumi', 'slug' => 'kopi-hasil-bumi', 'created_at' => now(), 'updated_at' => now()],
+            ['id' => 2, 'nama' => 'Kuliner & Makanan Khas', 'slug' => 'kuliner-makanan-khas', 'created_at' => now(), 'updated_at' => now()],
+            ['id' => 3, 'nama' => 'Kerajinan & Seni', 'slug' => 'kerajinan-seni', 'created_at' => now(), 'updated_at' => now()],
+        ]);
+
+        // 8. Produk UMKM (Pasar Maya)
+        DB::table('produk_umkm')->insertOrIgnore([
+            [
+                'id' => 1,
+                'penduduk_id' => 1,
+                'kategori_umkm_id' => 1,
+                'nama' => 'Kopi Arabika Sinjai Borong',
+                'slug' => 'kopi-arabika-sinjai-borong',
+                'deskripsi' => 'Kopi Arabika asli pegunungan Sinjai Borong dengan aroma khas yang wangi dan cita rasa buah yang segar. Diproses secara higienis oleh kelompok tani desa.',
+                'harga' => 35000,
+                'stok' => 50,
+                'nomor_whatsapp' => '6281234567890',
+                'foto_path' => 'https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?w=600&auto=format&fit=crop&q=80',
+                'status' => 'aktif',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'id' => 2,
+                'penduduk_id' => 1,
+                'kategori_umkm_id' => 1,
+                'nama' => 'Madu Hutan Asli Batu Belerang',
+                'slug' => 'madu-hutan-asli-batu-belerang',
+                'deskripsi' => 'Madu murni hasil panen dari lebah liar di hutan perbukitan Batu Belerang, berkhasiat tinggi untuk kesehatan.',
+                'harga' => 85000,
+                'stok' => 20,
+                'nomor_whatsapp' => '6281234567890',
+                'foto_path' => 'https://images.unsplash.com/photo-1587049352846-4a222e784d38?w=600&auto=format&fit=crop&q=80',
+                'status' => 'aktif',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'id' => 3,
+                'penduduk_id' => 1,
+                'kategori_umkm_id' => 2,
+                'nama' => 'Gula Aren Cetak Tradisional',
+                'slug' => 'gula-aren-cetak-tradisional',
+                'deskripsi' => 'Gula merah cetak asli dari nira kelapa/aren berkualitas tanpa bahan pengawet kimia. Manisnya alami dan legit.',
+                'harga' => 15000,
+                'stok' => 100,
+                'nomor_whatsapp' => '6281234567890',
+                'foto_path' => 'https://images.unsplash.com/photo-1608039829572-78524f79c4c7?w=600&auto=format&fit=crop&q=80',
+                'status' => 'aktif',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'id' => 4,
+                'penduduk_id' => 1,
+                'kategori_umkm_id' => 3,
+                'nama' => 'Kerajinan Anyaman Bambu Jeppara',
+                'slug' => 'kerajinan-anyaman-bambu-jeppara',
+                'deskripsi' => 'Tas, wadah, dan hiasan dinding handmade hasil anyaman terampil warga Dusun Jeppara.',
+                'harga' => 50000,
+                'stok' => 15,
+                'nomor_whatsapp' => '6281234567890',
+                'foto_path' => 'https://images.unsplash.com/photo-1590736969955-71cc94801759?w=600&auto=format&fit=crop&q=80',
+                'status' => 'aktif',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+        ]);
     }
 }

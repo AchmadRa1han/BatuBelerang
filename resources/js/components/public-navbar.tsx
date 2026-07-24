@@ -126,10 +126,10 @@ export default function PublicNavbar() {
                         Berita Desa
                     </Link>
                     <Link
-                        href="#"
+                        href="/pasar-maya"
                         className="transition-colors hover:text-emerald-600 dark:hover:text-emerald-400"
                     >
-                        UMKM
+                        Pasar Maya
                     </Link>
                     <Link
                         href="#"
@@ -335,10 +335,10 @@ export default function PublicNavbar() {
                         Berita Desa
                     </Link>
                     <Link
-                        href="#"
+                        href="/pasar-maya"
                         className="block text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white"
                     >
-                        UMKM
+                        Pasar Maya
                     </Link>
                     <Link
                         href="#"
