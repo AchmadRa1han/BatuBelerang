@@ -1,5 +1,5 @@
 import { Head, Link } from '@inertiajs/react';
-import { Search, ShoppingBag, PhoneCall, X } from 'lucide-react';
+import { Search, ShoppingBag, PhoneCall, X, ChevronLeft, ChevronRight } from 'lucide-react';
 import React, { useState, useMemo, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import PublicPageLayout from '@/components/public-page-layout';
@@ -33,6 +33,7 @@ export default function PasarMaya({ kategoriList = [], produkList = [] }: PasarM
     const [searchQuery, setSearchQuery] = useState('');
     const [selectedCategoryId, setSelectedCategoryId] = useState<number | null>(null);
     const [selectedProduk, setSelectedProduk] = useState<ProdukItem | null>(null);
+    const [currentImageIndex, setCurrentImageIndex] = useState(0);
     const [mounted, setMounted] = useState(false);
 
     useEffect(() => {
@@ -43,6 +44,7 @@ export default function PasarMaya({ kategoriList = [], produkList = [] }: PasarM
     useEffect(() => {
         if (selectedProduk) {
             document.body.classList.add('overflow-hidden');
+            setCurrentImageIndex(0); // Reset image slide index
         } else {
             document.body.classList.remove('overflow-hidden');
         }
@@ -84,6 +86,27 @@ export default function PasarMaya({ kategoriList = [], produkList = [] }: PasarM
             `Halo, saya tertarik dengan produk "${produk.nama}" (${formatRupiah(produk.harga)}) yang diiklankan di Pasar Maya Desa Batu Belerang.`
         );
         return `https://wa.me/${cleanNumber}?text=${text}`;
+    };
+
+    const modalImages = useMemo(() => {
+        if (!selectedProduk) return [];
+        return typeof selectedProduk.foto_path === 'string'
+            ? selectedProduk.foto_path.split(',')
+            : [selectedProduk.foto_path];
+    }, [selectedProduk]);
+
+    const nextImage = (e: React.MouseEvent) => {
+        e.stopPropagation();
+        if (modalImages.length > 1) {
+            setCurrentImageIndex((prev) => (prev + 1) % modalImages.length);
+        }
+    };
+
+    const prevImage = (e: React.MouseEvent) => {
+        e.stopPropagation();
+        if (modalImages.length > 1) {
+            setCurrentImageIndex((prev) => (prev - 1 + modalImages.length) % modalImages.length);
+        }
     };
 
     return (
@@ -143,62 +166,70 @@ export default function PasarMaya({ kategoriList = [], produkList = [] }: PasarM
                 {/* Products Grid */}
                 {filteredProduk.length > 0 ? (
                     <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-                        {filteredProduk.map((produk) => (
-                            <div
-                                key={produk.id}
-                                onClick={() => setSelectedProduk(produk)}
-                                className="group relative flex flex-col overflow-hidden rounded-2xl border border-slate-100 bg-white transition-all duration-300 hover:-translate-y-1 hover:shadow-lg dark:border-slate-800/80 dark:bg-slate-900/60 cursor-pointer"
-                            >
-                                {/* Product Image */}
-                                <div className="relative aspect-video w-full overflow-hidden bg-slate-100">
-                                    <img
-                                        src={produk.foto_path}
-                                        alt={produk.nama}
-                                        className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
-                                    />
-                                    <span className="absolute top-3 left-3 rounded-md bg-emerald-600/90 px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider text-white shadow-sm">
-                                        {produk.nama_kategori}
-                                    </span>
-                                </div>
+                        {filteredProduk.map((produk) => {
+                            // Extract first image from comma-separated list
+                            const firstImage = typeof produk.foto_path === 'string'
+                                ? produk.foto_path.split(',')[0]
+                                : produk.foto_path;
 
-                                {/* Content Details */}
-                                <div className="flex flex-1 flex-col p-4 space-y-3">
-                                    <div className="space-y-1">
-                                        <div className="flex items-center justify-between">
-                                            <span className="text-[10px] font-semibold text-slate-400 uppercase">
-                                                Penjual: {produk.nama_penjual}
-                                            </span>
-                                            <span className="text-[10px] text-slate-500 font-semibold">
-                                                Stok: {produk.stok}
-                                            </span>
+                            return (
+                                <div
+                                    key={produk.id}
+                                    onClick={() => setSelectedProduk(produk)}
+                                    className="group relative flex flex-col overflow-hidden rounded-2xl border border-slate-100 bg-white transition-all duration-300 hover:-translate-y-1 hover:shadow-lg dark:border-slate-800/80 dark:bg-slate-900/60 cursor-pointer"
+                                >
+                                    {/* Product Image */}
+                                    <div className="relative aspect-video w-full overflow-hidden bg-slate-100">
+                                        <img
+                                            src={firstImage}
+                                            alt={produk.nama}
+                                            className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                                        />
+                                        <span className="absolute top-3 left-3 rounded-md bg-emerald-600/90 px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider text-white shadow-sm">
+                                            {produk.nama_kategori}
+                                        </span>
+                                    </div>
+
+                                    {/* Content Details */}
+                                    <div className="flex flex-1 flex-col p-4 space-y-3">
+                                        <div className="space-y-1">
+                                            <div className="flex items-center justify-between">
+                                                <span className="text-[10px] font-semibold text-slate-400 uppercase">
+                                                    Penjual: {produk.nama_penjual}
+                                                </span>
+                                                <span className="text-[10px] text-slate-500 font-semibold">
+                                                    Stok: {produk.stok}
+                                                </span>
+                                            </div>
+                                            <h3 className="font-bold text-sm text-slate-900 dark:text-white line-clamp-1">
+                                                {produk.nama}
+                                            </h3>
+                                            <p className="text-[11px] leading-relaxed text-slate-500 line-clamp-3">
+                                                {produk.deskripsi}
+                                            </p>
                                         </div>
-                                        <h3 className="font-bold text-sm text-slate-900 dark:text-white line-clamp-1">
-                                            {produk.nama}
-                                        </h3>
-                                        <p className="text-[11px] leading-relaxed text-slate-500 line-clamp-3">
-                                            {produk.deskripsi}
-                                        </p>
-                                    </div>
 
-                                    {/* Action Bar */}
-                                    <div className="mt-auto flex items-center justify-between pt-3 border-t border-slate-50 dark:border-slate-800">
-                                        <span className="text-sm font-extrabold text-emerald-600 dark:text-emerald-400">
-                                            {formatRupiah(produk.harga)}
-                                        </span>
+                                        {/* Action Bar */}
+                                        <div className="mt-auto flex items-center justify-between pt-3 border-t border-slate-50 dark:border-slate-800">
+                                            <span className="text-sm font-extrabold text-emerald-600 dark:text-emerald-400">
+                                                {formatRupiah(produk.harga)}
+                                            </span>
 
-                                        <span
-                                            onClick={(e) => {
-                                                e.stopPropagation();
-                                                setSelectedProduk(produk);
-                                            }}
-                                            className="inline-flex items-center gap-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-[10px] font-bold text-white px-3 py-1.5 shadow-sm transition-colors cursor-pointer"
-                                        >
-                                            Detail Produk
-                                        </span>
+                                            <button
+                                                type="button"
+                                                onClick={(e) => {
+                                                    e.stopPropagation();
+                                                    setSelectedProduk(produk);
+                                                }}
+                                                className="px-3.5 py-1.5 text-[11px] font-bold text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/30 hover:bg-emerald-100 dark:hover:bg-emerald-950/60 rounded-lg transition-colors cursor-pointer"
+                                            >
+                                                Detail Produk
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        ))}
+                            );
+                        })}
                     </div>
                 ) : (
                     /* Empty State */
@@ -228,18 +259,55 @@ export default function PasarMaya({ kategoriList = [], produkList = [] }: PasarM
                         <button
                             type="button"
                             onClick={() => setSelectedProduk(null)}
-                            className="absolute top-3 right-3 z-10 rounded-full bg-white/95 dark:bg-slate-800/90 p-2 text-slate-500 hover:text-slate-800 dark:hover:text-white shadow-md transition-colors"
+                            className="absolute top-3 right-3 z-20 rounded-full bg-white/95 dark:bg-slate-800/90 p-2 text-slate-500 hover:text-slate-800 dark:hover:text-white shadow-md transition-colors"
                         >
                             <X className="size-4" />
                         </button>
 
-                        {/* Left Side: Image */}
-                        <div className="w-full md:w-1/2 aspect-video md:aspect-auto md:h-full overflow-hidden bg-slate-50 dark:bg-slate-950 flex items-center justify-center">
+                        {/* Left Side: Image Slider/Carousel */}
+                        <div className="relative w-full md:w-1/2 aspect-video md:aspect-auto md:h-full overflow-hidden bg-slate-50 dark:bg-slate-950 flex items-center justify-center group/slider">
                             <img
-                                src={selectedProduk.foto_path}
+                                src={modalImages[currentImageIndex]}
                                 alt={selectedProduk.nama}
-                                className="h-full w-full object-cover"
+                                className="h-full w-full object-cover transition-opacity duration-300"
                             />
+
+                            {/* Left/Right Slider Controls */}
+                            {modalImages.length > 1 && (
+                                <>
+                                    <button
+                                        type="button"
+                                        onClick={prevImage}
+                                        className="absolute left-3 top-1/2 -translate-y-1/2 rounded-full bg-white/80 dark:bg-slate-900/80 p-1.5 text-slate-800 dark:text-white shadow-md hover:bg-white dark:hover:bg-slate-900 transition-colors opacity-0 group-hover/slider:opacity-100"
+                                    >
+                                        <ChevronLeft className="size-4" />
+                                    </button>
+                                    <button
+                                        type="button"
+                                        onClick={nextImage}
+                                        className="absolute right-3 top-1/2 -translate-y-1/2 rounded-full bg-white/80 dark:bg-slate-900/80 p-1.5 text-slate-800 dark:text-white shadow-md hover:bg-white dark:hover:bg-slate-900 transition-colors opacity-0 group-hover/slider:opacity-100"
+                                    >
+                                        <ChevronRight className="size-4" />
+                                    </button>
+
+                                    {/* Indicator Dots */}
+                                    <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-1.5 bg-black/30 backdrop-blur-xs px-2 py-1 rounded-full">
+                                        {modalImages.map((_, idx) => (
+                                            <button
+                                                key={idx}
+                                                type="button"
+                                                onClick={(e) => {
+                                                    e.stopPropagation();
+                                                    setCurrentImageIndex(idx);
+                                                }}
+                                                className={`size-1.5 rounded-full transition-all ${
+                                                    idx === currentImageIndex ? 'bg-white w-3' : 'bg-white/50'
+                                                }`}
+                                            />
+                                        ))}
+                                    </div>
+                                </>
+                            )}
                         </div>
 
                         {/* Right Side: Details */}
@@ -274,11 +342,12 @@ export default function PasarMaya({ kategoriList = [], produkList = [] }: PasarM
                                 </p>
                             </div>
 
-                            <div className="pt-4 border-t border-slate-100 dark:border-slate-800 flex gap-3">
+                            {/* Clean, balanced grid footer buttons */}
+                            <div className="pt-4 border-t border-slate-100 dark:border-slate-800 grid grid-cols-2 gap-3">
                                 <button
                                     type="button"
                                     onClick={() => setSelectedProduk(null)}
-                                    className="flex-1 rounded-xl border border-slate-200 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800 text-xs font-semibold py-2.5 transition-colors text-slate-600 dark:text-slate-300"
+                                    className="w-full rounded-xl border border-slate-200 dark:border-slate-850 hover:bg-slate-50 dark:hover:bg-slate-800 text-xs font-semibold py-2.5 transition-colors text-slate-600 dark:text-slate-300"
                                 >
                                     Tutup
                                 </button>
@@ -286,10 +355,10 @@ export default function PasarMaya({ kategoriList = [], produkList = [] }: PasarM
                                     href={getWhatsAppUrl(selectedProduk)}
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className="flex-[2] inline-flex items-center justify-center gap-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-xs font-bold text-white px-5 py-2.5 shadow-md shadow-emerald-600/10 transition-colors"
+                                    className="w-full inline-flex items-center justify-center gap-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-xs font-bold text-white py-2.5 shadow-md shadow-emerald-600/10 transition-colors"
                                 >
                                     <PhoneCall className="size-4" />
-                                    <span>Hubungi Penjual (WA)</span>
+                                    <span>Hubungi Penjual</span>
                                 </a>
                             </div>
                         </div>
