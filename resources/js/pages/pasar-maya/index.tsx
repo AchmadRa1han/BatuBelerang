@@ -1,5 +1,5 @@
 import { Head, Link } from '@inertiajs/react';
-import { Search, ShoppingBag, PhoneCall, X, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Search, ShoppingBag, PhoneCall, X, ChevronLeft, ChevronRight, Store } from 'lucide-react';
 import React, { useState, useMemo, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import PublicPageLayout from '@/components/public-page-layout';
@@ -178,53 +178,67 @@ export default function PasarMaya({ kategoriList = [], produkList = [] }: PasarM
                                     onClick={() => setSelectedProduk(produk)}
                                     className="group relative flex flex-col overflow-hidden rounded-2xl border border-slate-100 bg-white transition-all duration-300 hover:-translate-y-1 hover:shadow-lg dark:border-slate-800/80 dark:bg-slate-900/60 cursor-pointer"
                                 >
-                                    {/* Product Image */}
-                                    <div className="relative aspect-video w-full overflow-hidden bg-slate-100">
+                                    {/* Product Image - Aspect Square for Shop feel */}
+                                    <div className="relative aspect-square w-full overflow-hidden bg-slate-100">
                                         <img
                                             src={firstImage}
                                             alt={produk.nama}
                                             className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
                                         />
-                                        <span className="absolute top-3 left-3 rounded-md bg-emerald-600/90 px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider text-white shadow-sm">
+                                        {/* Floating Category Badge */}
+                                        <span className="absolute top-3 left-3 rounded-md bg-emerald-600 px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider text-white shadow-sm">
                                             {produk.nama_kategori}
+                                        </span>
+                                        {/* Floating Price Tag */}
+                                        <span className="absolute bottom-3 right-3 rounded-lg bg-slate-950/80 backdrop-blur-xs px-2.5 py-1 text-xs font-black text-emerald-400 shadow-md">
+                                            {formatRupiah(produk.harga)}
                                         </span>
                                     </div>
 
                                     {/* Content Details */}
                                     <div className="flex flex-1 flex-col p-4 space-y-3">
                                         <div className="space-y-1">
-                                            <div className="flex items-center justify-between">
-                                                <span className="text-[10px] font-semibold text-slate-400 uppercase">
-                                                    Penjual: {produk.nama_penjual}
+                                            {/* Shop & Stock info */}
+                                            <div className="flex items-center justify-between text-[10px] text-slate-400 dark:text-slate-500">
+                                                <span className="flex items-center gap-1">
+                                                    <Store className="size-3" />
+                                                    {produk.nama_penjual}
                                                 </span>
-                                                <span className="text-[10px] text-slate-500 font-semibold">
+                                                <span className="font-semibold text-emerald-600 dark:text-emerald-400 bg-emerald-55/10 dark:bg-emerald-950/30 px-1.5 py-0.5 rounded-md">
                                                     Stok: {produk.stok}
                                                 </span>
                                             </div>
-                                            <h3 className="font-bold text-sm text-slate-900 dark:text-white line-clamp-1">
+
+                                            <h3 className="font-bold text-xs text-slate-950 dark:text-white line-clamp-2 pt-1 min-h-[36px]">
                                                 {produk.nama}
                                             </h3>
-                                            <p className="text-[11px] leading-relaxed text-slate-500 line-clamp-3">
+                                            <p className="text-[11px] leading-relaxed text-slate-500 dark:text-slate-400 line-clamp-2">
                                                 {produk.deskripsi}
                                             </p>
                                         </div>
 
                                         {/* Action Bar */}
-                                        <div className="mt-auto flex items-center justify-between pt-3 border-t border-slate-50 dark:border-slate-800">
-                                            <span className="text-sm font-extrabold text-emerald-600 dark:text-emerald-400">
-                                                {formatRupiah(produk.harga)}
-                                            </span>
-
+                                        <div className="mt-auto pt-3 border-t border-slate-100 dark:border-slate-800 flex gap-2">
                                             <button
                                                 type="button"
                                                 onClick={(e) => {
                                                     e.stopPropagation();
                                                     setSelectedProduk(produk);
                                                 }}
-                                                className="px-3.5 py-1.5 text-[11px] font-bold text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/30 hover:bg-emerald-100 dark:hover:bg-emerald-950/60 rounded-lg transition-colors cursor-pointer"
+                                                className="flex-1 rounded-xl border border-slate-200 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800 text-[11px] font-bold py-2 transition-colors cursor-pointer text-slate-700 dark:text-slate-300 text-center"
                                             >
-                                                Detail Produk
+                                                Detail
                                             </button>
+                                            <a
+                                                href={getWhatsAppUrl(produk)}
+                                                onClick={(e) => e.stopPropagation()}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                className="flex-1 inline-flex items-center justify-center gap-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-[11px] font-bold text-white py-2 shadow-sm transition-colors cursor-pointer"
+                                            >
+                                                <ShoppingBag className="size-3.5" />
+                                                <span>Beli</span>
+                                            </a>
                                         </div>
                                     </div>
                                 </div>
