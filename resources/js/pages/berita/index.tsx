@@ -79,7 +79,18 @@ export default function BeritaIndex({
 
     return (
         <div className="min-h-screen bg-slate-50 font-sans text-slate-800 transition-colors duration-300 selection:bg-emerald-500 selection:text-white dark:bg-slate-950 dark:text-slate-100">
-            <Head title="Kabar & Informasi Berita Desa Batu Belerang" />
+            <Head>
+                <title>Kabar & Informasi Berita Desa Batu Belerang</title>
+                <meta name="description" content="Kumpulan kabar terbaru, informasi kegiatan pembangunan, agenda desa, dan pengumuman resmi Desa Batu Belerang." />
+                <meta property="og:type" content="website" />
+                <meta property="og:title" content="Kabar & Informasi Berita Desa Batu Belerang" />
+                <meta property="og:description" content="Kumpulan kabar terbaru, informasi kegiatan pembangunan, agenda desa, dan pengumuman resmi Desa Batu Belerang." />
+                <meta property="og:image" content="https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=800&auto=format&fit=crop&q=80" />
+                <meta name="twitter:card" content="summary_large_image" />
+                <meta name="twitter:title" content="Kabar & Informasi Berita Desa Batu Belerang" />
+                <meta name="twitter:description" content="Kumpulan kabar terbaru, informasi kegiatan pembangunan, agenda desa, dan pengumuman resmi Desa Batu Belerang." />
+                <meta name="twitter:image" content="https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=800&auto=format&fit=crop&q=80" />
+            </Head>
 
             {/* Public Header */}
             <PublicNavbar />

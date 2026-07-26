@@ -46,7 +46,18 @@ export default function BeritaShow({
 
     return (
         <div className="min-h-screen bg-slate-50 font-sans text-slate-800 transition-colors duration-300 selection:bg-emerald-500 selection:text-white dark:bg-slate-950 dark:text-slate-100">
-            <Head title={`${berita.judul} - Desa Batu Belerang`} />
+            <Head>
+                <title>{`${berita.judul} - Desa Batu Belerang`}</title>
+                <meta name="description" content={berita.ringkasan} />
+                <meta property="og:type" content="article" />
+                <meta property="og:title" content={berita.judul} />
+                <meta property="og:description" content={berita.ringkasan} />
+                <meta property="og:image" content={berita.foto_path || 'https://images.unsplash.com/photo-1540553016722-983e48a2cd10?w=800&auto=format&fit=crop&q=60'} />
+                <meta name="twitter:card" content="summary_large_image" />
+                <meta name="twitter:title" content={berita.judul} />
+                <meta name="twitter:description" content={berita.ringkasan} />
+                <meta name="twitter:image" content={berita.foto_path || 'https://images.unsplash.com/photo-1540553016722-983e48a2cd10?w=800&auto=format&fit=crop&q=60'} />
+            </Head>
 
             {/* Public Header */}
             <PublicNavbar />

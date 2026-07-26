@@ -16,6 +16,10 @@ interface PublicPageLayoutProps {
     breadcrumbs?: Array<{ label: string; href?: string }>;
     sideMenuItems?: SideMenuItem[];
     children: React.ReactNode;
+    // SEO props
+    metaDescription?: string;
+    metaImage?: string;
+    metaType?: string;
 }
 
 export default function PublicPageLayout({
@@ -25,10 +29,32 @@ export default function PublicPageLayout({
     breadcrumbs = [],
     sideMenuItems = [],
     children,
+    metaDescription,
+    metaImage,
+    metaType = 'website',
 }: PublicPageLayoutProps) {
+    const defaultDesc = "Portal Resmi Desa Batu Belerang, Kecamatan Sinjai Borong, Kabupaten Sinjai, Provinsi Sulawesi Selatan.";
+    const descriptionText = metaDescription || subtitle || defaultDesc;
+    const defaultImage = "https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=800&auto=format&fit=crop&q=80";
+
     return (
         <div className="min-h-screen bg-slate-50/50 text-slate-800 antialiased selection:bg-emerald-500 selection:text-white dark:bg-slate-950 dark:text-slate-200">
-            <Head title={`${title} - Desa Batu Belerang`} />
+            <Head>
+                <title>{`${title} - Desa Batu Belerang`}</title>
+                <meta name="description" content={descriptionText} />
+                
+                {/* Open Graph / Facebook */}
+                <meta property="og:type" content={metaType} />
+                <meta property="og:title" content={`${title} - Desa Batu Belerang`} />
+                <meta property="og:description" content={descriptionText} />
+                <meta property="og:image" content={metaImage || defaultImage} />
+                
+                {/* Twitter */}
+                <meta name="twitter:card" content="summary_large_image" />
+                <meta name="twitter:title" content={`${title} - Desa Batu Belerang`} />
+                <meta name="twitter:description" content={descriptionText} />
+                <meta name="twitter:image" content={metaImage || defaultImage} />
+            </Head>
 
             {/* Public Header Navbar */}
             <PublicNavbar />

@@ -471,7 +471,18 @@ export default function Welcome({
 
     return (
         <div className="min-h-screen overflow-x-hidden bg-slate-50 font-sans text-slate-800 transition-colors duration-300 selection:bg-emerald-500 selection:text-white dark:bg-slate-950 dark:text-slate-100">
-            <Head title="Website Resmi Desa Batu Belerang" />
+            <Head>
+                <title>Website Resmi Desa Batu Belerang - Sinjai Borong</title>
+                <meta name="description" content="Portal pelayanan mandiri, informasi publik, APBDesa, Pasar Maya UMKM, dan pariwisata resmi Pemerintah Desa Batu Belerang, Kecamatan Sinjai Borong, Kabupaten Sinjai." />
+                <meta property="og:type" content="website" />
+                <meta property="og:title" content="Website Resmi Desa Batu Belerang" />
+                <meta property="og:description" content="Portal pelayanan mandiri, informasi publik, APBDesa, Pasar Maya UMKM, dan pariwisata resmi Pemerintah Desa Batu Belerang, Kecamatan Sinjai Borong, Kabupaten Sinjai." />
+                <meta property="og:image" content="https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=800&auto=format&fit=crop&q=80" />
+                <meta name="twitter:card" content="summary_large_image" />
+                <meta name="twitter:title" content="Website Resmi Desa Batu Belerang" />
+                <meta name="twitter:description" content="Portal pelayanan mandiri, informasi publik, APBDesa, Pasar Maya UMKM, dan pariwisata resmi Pemerintah Desa Batu Belerang, Kecamatan Sinjai Borong, Kabupaten Sinjai." />
+                <meta name="twitter:image" content="https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=800&auto=format&fit=crop&q=80" />
+            </Head>
 
             {/* Navigation Header */}
             <PublicNavbar />
