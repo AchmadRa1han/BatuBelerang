@@ -12,6 +12,7 @@ use App\Models\Regulasi;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -315,5 +316,125 @@ class AdminContentController extends Controller
         $halaman->update($validated);
 
         return back()->with('success', "Konten Halaman {$halaman->judul} berhasil diperbarui.");
+    }
+
+    /**
+     * Store new Produk UMKM (Pasar Maya).
+     */
+    public function storeProduk(Request $request): RedirectResponse
+    {
+        $validated = $request->validate([
+            'penduduk_id' => 'required|integer',
+            'kategori_umkm_id' => 'required|integer',
+            'nama' => 'required|string|max:255',
+            'deskripsi' => 'required|string',
+            'harga' => 'required|numeric|min:0',
+            'stok' => 'required|integer|min:0',
+            'nomor_whatsapp' => 'required|string|max:20',
+            'foto_path' => 'required|string',
+            'status' => 'required|string|in:menunggu_verifikasi,aktif,non_aktif',
+        ]);
+
+        $validated['slug'] = Str::slug($validated['nama']) . '-' . rand(100, 999);
+        $validated['created_at'] = now();
+        $validated['updated_at'] = now();
+
+        DB::table('produk_umkm')->insert($validated);
+
+        return back()->with('success', 'Produk Pasar Maya berhasil ditambahkan.');
+    }
+
+    /**
+     * Update existing Produk UMKM (Pasar Maya).
+     */
+    public function updateProduk(Request $request, int $id): RedirectResponse
+    {
+        $validated = $request->validate([
+            'penduduk_id' => 'required|integer',
+            'kategori_umkm_id' => 'required|integer',
+            'nama' => 'required|string|max:255',
+            'deskripsi' => 'required|string',
+            'harga' => 'required|numeric|min:0',
+            'stok' => 'required|integer|min:0',
+            'nomor_whatsapp' => 'required|string|max:20',
+            'foto_path' => 'required|string',
+            'status' => 'required|string|in:menunggu_verifikasi,aktif,non_aktif',
+        ]);
+
+        $validated['slug'] = Str::slug($validated['nama']) . '-' . $id;
+        $validated['updated_at'] = now();
+
+        DB::table('produk_umkm')->where('id', $id)->update($validated);
+
+        return back()->with('success', 'Produk Pasar Maya berhasil diperbarui.');
+    }
+
+    /**
+     * Delete Produk UMKM.
+     */
+    public function deleteProduk(int $id): RedirectResponse
+    {
+        DB::table('produk_umkm')->where('id', $id)->delete();
+        return back()->with('success', 'Produk Pasar Maya berhasil dihapus.');
+    }
+
+    /**
+     * Store new Destinasi Wisata.
+     */
+    public function storeWisata(Request $request): RedirectResponse
+    {
+        $validated = $request->validate([
+            'nama' => 'required|string|max:255',
+            'deskripsi' => 'required|string',
+            'harga_tiket' => 'required|numeric|min:0',
+            'koordinat_lokasi' => 'required|string|max:255',
+            'alamat' => 'required|string',
+            'jam_operasional' => 'required|string|max:255',
+            'foto_sampul_path' => 'required|string',
+            'galeri_foto' => 'required|array',
+        ]);
+
+        $validated['slug'] = Str::slug($validated['nama']) . '-' . rand(100, 999);
+        $validated['galeri_foto'] = json_encode($validated['galeri_foto']);
+        $validated['created_at'] = now();
+        $validated['updated_at'] = now();
+
+        DB::table('destinasi_wisata')->insert($validated);
+
+        return back()->with('success', 'Destinasi Wisata berhasil ditambahkan.');
+    }
+
+    /**
+     * Update existing Destinasi Wisata.
+     */
+    public function updateWisata(Request $request, int $id): RedirectResponse
+    {
+        $validated = $request->validate([
+            'nama' => 'required|string|max:255',
+            'deskripsi' => 'required|string',
+            'harga_tiket' => 'required|numeric|min:0',
+            'koordinat_lokasi' => 'required|string|max:255',
+            'alamat' => 'required|string',
+            'jam_operasional' => 'required|string|max:255',
+            'foto_sampul_path' => 'required|string',
+            'galeri_foto' => 'required|array',
+        ]);
+
+        $validated['slug'] = Str::slug($validated['nama']) . '-' . $id;
+        $validated['galeri_foto'] = json_encode($validated['galeri_foto']);
+        $validated['updated_at'] = now();
+
+        DB::table('destinasi_wisata')->where('id', $id)->update($validated);
+
+        return back()->with('success', 'Destinasi Wisata berhasil diperbarui.');
+    }
+
+    /**
+     * Delete Destinasi Wisata.
+     */
+    public function deleteWisata(int $id): RedirectResponse
+    {
+        DB::table('destinasi_wisata')->where('id', $id)->delete();
+        return back()->with('success', 'Destinasi Wisata berhasil dihapus.');
     }
 }

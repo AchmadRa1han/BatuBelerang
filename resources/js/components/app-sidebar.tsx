@@ -85,6 +85,11 @@ const mainNavItems: NavItem[] = [
                 href: '/dashboard?tab=profil',
                 icon: Settings,
             },
+            {
+                title: 'Destinasi Wisata',
+                href: '/dashboard?tab=wisata',
+                icon: Map,
+            },
         ],
     },
     {
@@ -162,6 +167,11 @@ const mainNavItems: NavItem[] = [
                 title: 'Keuangan APBDesa',
                 href: '/dashboard?tab=apbdes',
                 icon: Wallet,
+            },
+            {
+                title: 'Pasar Maya (UMKM)',
+                href: '/dashboard?tab=pasar-maya',
+                icon: Store,
             },
         ],
     },

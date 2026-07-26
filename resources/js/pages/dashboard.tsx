@@ -1,4 +1,4 @@
-import { Head, Link, useForm, usePage, usePoll } from '@inertiajs/react';
+import { Head, Link, useForm, usePage, usePoll, router } from '@inertiajs/react';
 import React, { useState } from 'react';
 import AppLayout from '@/layouts/app-layout';
 import {
@@ -28,6 +28,8 @@ import {
     Edit3,
     Upload,
     Crop,
+    Store,
+    Map,
     Image as ImageIcon,
 } from 'lucide-react';
 import ImageCropperModal from '@/components/image-cropper-modal';
@@ -37,6 +39,47 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { dashboard, home } from '@/routes';
 import type { Auth } from '@/types';
+
+interface KategoriItem {
+    id: number;
+    nama: string;
+    slug: string;
+}
+
+interface PendudukItem {
+    id: number;
+    nama: string;
+    nik: string;
+}
+
+interface ProdukItem {
+    id: number;
+    penduduk_id: number;
+    kategori_umkm_id: number;
+    nama: string;
+    slug: string;
+    deskripsi: string;
+    harga: number;
+    stok: number;
+    nomor_whatsapp: string;
+    foto_path: string;
+    status: 'menunggu_verifikasi' | 'aktif' | 'non_aktif';
+    nama_kategori?: string;
+    nama_penjual?: string;
+}
+
+interface WisataItem {
+    id: number;
+    nama: string;
+    slug: string;
+    deskripsi: string;
+    harga_tiket: number;
+    koordinat_lokasi: string;
+    alamat: string;
+    jam_operasional: string;
+    foto_sampul_path: string;
+    galeri_foto: string[] | string;
+}
 
 interface DashboardStats {
     warga: number;
@@ -176,6 +219,10 @@ interface DashboardProps {
     regulasiList?: any[];
     apbdesList?: any[];
     halamanKontenList?: HalamanKontenItem[];
+    umkmList?: ProdukItem[];
+    wisataList?: WisataItem[];
+    kategoriUmkmList?: KategoriItem[];
+    pendudukList?: PendudukItem[];
 }
 
 export default function Dashboard({
@@ -190,6 +237,10 @@ export default function Dashboard({
     regulasiList = [],
     apbdesList = [],
     halamanKontenList = [],
+    umkmList = [],
+    wisataList = [],
+    kategoriUmkmList = [],
+    pendudukList = [],
 }: DashboardProps) {
     const { auth, url } = usePage<{ auth: Auth }>().props;
 
@@ -197,21 +248,21 @@ export default function Dashboard({
         if (typeof window !== 'undefined') {
             const params = new URLSearchParams(window.location.search);
             const tabParam = params.get('tab');
-            if (['overview', 'profil', 'aparatur', 'halaman', 'berita', 'apbdes'].includes(tabParam || '')) {
-                return tabParam as 'overview' | 'profil' | 'aparatur' | 'halaman' | 'berita' | 'apbdes';
+            if (['overview', 'profil', 'aparatur', 'halaman', 'berita', 'apbdes', 'pasar-maya', 'wisata'].includes(tabParam || '')) {
+                return tabParam as 'overview' | 'profil' | 'aparatur' | 'halaman' | 'berita' | 'apbdes' | 'pasar-maya' | 'wisata';
             }
         }
         return 'overview';
     };
 
-    const [mainTab, setMainTab] = useState<'overview' | 'profil' | 'aparatur' | 'halaman' | 'berita' | 'apbdes'>(getInitialTab);
+    const [mainTab, setMainTab] = useState<'overview' | 'profil' | 'aparatur' | 'halaman' | 'berita' | 'apbdes' | 'pasar-maya' | 'wisata'>(getInitialTab);
     const [activityTab, setActivityTab] = useState<'surat' | 'pengaduan' | 'agenda'>('surat');
 
     React.useEffect(() => {
         if (typeof window !== 'undefined') {
             const params = new URLSearchParams(window.location.search);
             const tabParam = params.get('tab');
-            if (tabParam && ['overview', 'profil', 'aparatur', 'halaman', 'berita', 'apbdes'].includes(tabParam)) {
+            if (tabParam && ['overview', 'profil', 'aparatur', 'halaman', 'berita', 'apbdes', 'pasar-maya', 'wisata'].includes(tabParam)) {
                 setMainTab(tabParam as any);
             }
         }
@@ -244,6 +295,157 @@ export default function Dashboard({
     const [editingAparaturId, setEditingAparaturId] = useState<number | null>(null);
     const [isEditingKades, setIsEditingKades] = useState(false);
     const [editingBeritaId, setEditingBeritaId] = useState<number | null>(null);
+
+    // State & Forms for Pasar Maya & Wisata
+    const [editingProduk, setEditingProduk] = useState<ProdukItem | null>(null);
+    const [editingWisata, setEditingWisata] = useState<WisataItem | null>(null);
+
+    const formatRupiah = (value: number) => {
+        return new Intl.NumberFormat('id-ID', {
+            style: 'currency',
+            currency: 'IDR',
+            minimumFractionDigits: 0,
+            maximumFractionDigits: 0,
+        }).format(value);
+    };
+
+    const produkForm = useForm({
+        penduduk_id: '',
+        kategori_umkm_id: '',
+        nama: '',
+        deskripsi: '',
+        harga: '',
+        stok: '',
+        nomor_whatsapp: '628',
+        foto_path: '',
+        status: 'aktif',
+    });
+
+    const wisataForm = useForm({
+        nama: '',
+        deskripsi: '',
+        harga_tiket: '0',
+        koordinat_lokasi: '',
+        alamat: '',
+        jam_operasional: '',
+        foto_sampul_path: '',
+        galeri_foto_raw: '',
+    });
+
+    const handleSaveProduk = (e: React.FormEvent) => {
+        e.preventDefault();
+        if (editingProduk) {
+            produkForm.put(`/admin/produk/${editingProduk.id}`, {
+                onSuccess: () => {
+                    setEditingProduk(null);
+                    produkForm.reset();
+                }
+            });
+        } else {
+            produkForm.post('/admin/produk', {
+                onSuccess: () => {
+                    produkForm.reset();
+                }
+            });
+        }
+    };
+
+    const handleDeleteProduk = (id: number) => {
+        if (confirm('Apakah Anda yakin ingin menghapus produk ini?')) {
+            router.delete(`/admin/produk/${id}`);
+        }
+    };
+
+    const handleEditProduk = (produk: ProdukItem) => {
+        setEditingProduk(produk);
+        produkForm.setData({
+            penduduk_id: String(produk.penduduk_id),
+            kategori_umkm_id: String(produk.kategori_umkm_id),
+            nama: produk.nama,
+            deskripsi: produk.deskripsi,
+            harga: String(produk.harga),
+            stok: String(produk.stok),
+            nomor_whatsapp: produk.nomor_whatsapp,
+            foto_path: produk.foto_path,
+            status: produk.status,
+        });
+    };
+
+    const handleCancelEditProduk = () => {
+        setEditingProduk(null);
+        produkForm.reset();
+    };
+
+    const handleSaveWisata = (e: React.FormEvent) => {
+        e.preventDefault();
+        const galeriArray = wisataForm.data.galeri_foto_raw
+            ? wisataForm.data.galeri_foto_raw.split(',').map(url => url.trim()).filter(url => url.length > 0)
+            : [];
+
+        const payload = {
+            nama: wisataForm.data.nama,
+            deskripsi: wisataForm.data.deskripsi,
+            harga_tiket: Number(wisataForm.data.harga_tiket),
+            koordinat_lokasi: wisataForm.data.koordinat_lokasi,
+            alamat: wisataForm.data.alamat,
+            jam_operasional: wisataForm.data.jam_operasional,
+            foto_sampul_path: wisataForm.data.foto_sampul_path,
+            galeri_foto: galeriArray,
+        };
+
+        if (editingWisata) {
+            router.put(`/admin/wisata/${editingWisata.id}`, payload, {
+                onSuccess: () => {
+                    setEditingWisata(null);
+                    wisataForm.reset();
+                }
+            });
+        } else {
+            router.post('/admin/wisata', payload, {
+                onSuccess: () => {
+                    wisataForm.reset();
+                }
+            });
+        }
+    };
+
+    const handleDeleteWisata = (id: number) => {
+        if (confirm('Apakah Anda yakin ingin menghapus destinasi wisata ini?')) {
+            router.delete(`/admin/wisata/${id}`);
+        }
+    };
+
+    const handleEditWisata = (wisata: WisataItem) => {
+        setEditingWisata(wisata);
+        let galeriRaw = '';
+        if (Array.isArray(wisata.galeri_foto)) {
+            galeriRaw = wisata.galeri_foto.join(', ');
+        } else if (typeof wisata.galeri_foto === 'string') {
+            try {
+                const parsed = JSON.parse(wisata.galeri_foto);
+                if (Array.isArray(parsed)) {
+                    galeriRaw = parsed.join(', ');
+                }
+            } catch (e) {
+                galeriRaw = wisata.galeri_foto;
+            }
+        }
+        wisataForm.setData({
+            nama: wisata.nama,
+            deskripsi: wisata.deskripsi,
+            harga_tiket: String(wisata.harga_tiket),
+            koordinat_lokasi: wisata.koordinat_lokasi,
+            alamat: wisata.alamat,
+            jam_operasional: wisata.jam_operasional,
+            foto_sampul_path: wisata.foto_sampul_path,
+            galeri_foto_raw: galeriRaw,
+        });
+    };
+
+    const handleCancelEditWisata = () => {
+        setEditingWisata(null);
+        wisataForm.reset();
+    };
 
     // Form Edit Kades (under Perangkat Desa Tab)
     const kadesForm = useForm({
@@ -1348,6 +1550,385 @@ export default function Dashboard({
                             </Button>
                         </div>
                     </form>
+                )}
+
+                {/* TAB 6: KELOLA PASAR MAYA */}
+                {mainTab === 'pasar-maya' && (
+                    <div className="space-y-6">
+                        <div className="grid gap-6 lg:grid-cols-12">
+                            {/* Left Column: Form */}
+                            <div className="lg:col-span-5">
+                                <form onSubmit={handleSaveProduk} className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-800 dark:bg-slate-900 space-y-4">
+                                    <h3 className="font-bold text-sm text-slate-900 dark:text-white flex items-center gap-2">
+                                        {editingProduk ? (
+                                            <>
+                                                <Edit3 className="size-4 text-emerald-600 animate-pulse" />
+                                                <span>Edit Produk: <span className="text-emerald-600">{produkForm.data.nama}</span></span>
+                                            </>
+                                        ) : (
+                                            <>
+                                                <Plus className="size-4 text-emerald-600" />
+                                                <span>Tambah Produk Baru</span>
+                                            </>
+                                        )}
+                                    </h3>
+
+                                    <div>
+                                        <Label className="text-xs">Penjual (Penduduk Desa)</Label>
+                                        <select
+                                            required
+                                            value={produkForm.data.penduduk_id}
+                                            onChange={(e) => produkForm.setData('penduduk_id', e.target.value)}
+                                            className="w-full rounded-xl border border-slate-200 bg-white py-2 px-3 text-xs focus:border-emerald-500 focus:outline-none dark:border-slate-800 dark:bg-slate-950 text-slate-900 dark:text-white"
+                                        >
+                                            <option value="">-- Pilih Penjual --</option>
+                                            {pendudukList.map((p) => (
+                                                <option key={p.id} value={p.id}>
+                                                    {p.nama} ({p.nik})
+                                                </option>
+                                            ))}
+                                        </select>
+                                    </div>
+
+                                    <div>
+                                        <Label className="text-xs">Kategori Produk</Label>
+                                        <select
+                                            required
+                                            value={produkForm.data.kategori_umkm_id}
+                                            onChange={(e) => produkForm.setData('kategori_umkm_id', e.target.value)}
+                                            className="w-full rounded-xl border border-slate-200 bg-white py-2 px-3 text-xs focus:border-emerald-500 focus:outline-none dark:border-slate-800 dark:bg-slate-950 text-slate-900 dark:text-white"
+                                        >
+                                            <option value="">-- Pilih Kategori --</option>
+                                            {kategoriUmkmList.map((cat) => (
+                                                <option key={cat.id} value={cat.id}>
+                                                    {cat.nama}
+                                                </option>
+                                            ))}
+                                        </select>
+                                    </div>
+
+                                    <div>
+                                        <Label className="text-xs">Nama Produk</Label>
+                                        <Input
+                                            required
+                                            value={produkForm.data.nama}
+                                            onChange={(e) => produkForm.setData('nama', e.target.value)}
+                                            placeholder="Nama produk..."
+                                        />
+                                    </div>
+
+                                    <div className="grid grid-cols-2 gap-3">
+                                        <div>
+                                            <Label className="text-xs">Harga (Rp)</Label>
+                                            <Input
+                                                required
+                                                type="number"
+                                                value={produkForm.data.harga}
+                                                onChange={(e) => produkForm.setData('harga', e.target.value)}
+                                                placeholder="35000"
+                                            />
+                                        </div>
+                                        <div>
+                                            <Label className="text-xs">Stok</Label>
+                                            <Input
+                                                required
+                                                type="number"
+                                                value={produkForm.data.stok}
+                                                onChange={(e) => produkForm.setData('stok', e.target.value)}
+                                                placeholder="10"
+                                            />
+                                        </div>
+                                    </div>
+
+                                    <div>
+                                        <Label className="text-xs">Nomor WhatsApp (Format: 628xxx)</Label>
+                                        <Input
+                                            required
+                                            value={produkForm.data.nomor_whatsapp}
+                                            onChange={(e) => produkForm.setData('nomor_whatsapp', e.target.value)}
+                                            placeholder="628123456789"
+                                        />
+                                    </div>
+
+                                    <div>
+                                        <Label className="text-xs">URL Foto Produk (Pisahkan dengan koma jika multi-gambar)</Label>
+                                        <Input
+                                            required
+                                            value={produkForm.data.foto_path}
+                                            onChange={(e) => produkForm.setData('foto_path', e.target.value)}
+                                            placeholder="https://..."
+                                        />
+                                    </div>
+
+                                    <div>
+                                        <Label className="text-xs">Status Verifikasi</Label>
+                                        <select
+                                            required
+                                            value={produkForm.data.status}
+                                            onChange={(e) => produkForm.setData('status', e.target.value)}
+                                            className="w-full rounded-xl border border-slate-200 bg-white py-2 px-3 text-xs focus:border-emerald-500 focus:outline-none dark:border-slate-800 dark:bg-slate-950 text-slate-900 dark:text-white"
+                                        >
+                                            <option value="aktif">Aktif (Tampil)</option>
+                                            <option value="menunggu_verifikasi">Menunggu Verifikasi</option>
+                                            <option value="non_aktif">Non Aktif</option>
+                                        </select>
+                                    </div>
+
+                                    <div>
+                                        <Label className="text-xs">Deskripsi Produk</Label>
+                                        <textarea
+                                            required
+                                            value={produkForm.data.deskripsi}
+                                            onChange={(e) => produkForm.setData('deskripsi', e.target.value)}
+                                            rows={3}
+                                            placeholder="Deskripsi detail produk..."
+                                            className="w-full rounded-xl border border-slate-200 bg-white py-2 px-3 text-xs focus:border-emerald-500 focus:outline-none dark:border-slate-800 dark:bg-slate-950 text-slate-900 dark:text-white"
+                                        />
+                                    </div>
+
+                                    <div className="flex justify-end gap-2 pt-2">
+                                        {editingProduk && (
+                                            <Button
+                                                type="button"
+                                                onClick={handleCancelEditProduk}
+                                                className="bg-slate-100 hover:bg-slate-200 text-slate-700 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-750"
+                                            >
+                                                Batal
+                                            </Button>
+                                        )}
+                                        <Button type="submit" disabled={produkForm.processing} className="bg-emerald-600 hover:bg-emerald-700 text-white gap-2">
+                                            <Save className="size-4" /> Simpan Produk
+                                        </Button>
+                                    </div>
+                                </form>
+                            </div>
+
+                            {/* Right Column: List */}
+                            <div className="lg:col-span-7 rounded-xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-800 dark:bg-slate-900 space-y-4">
+                                <h3 className="font-bold text-sm text-slate-900 dark:text-white">Daftar Produk Pasar Maya ({umkmList.length})</h3>
+                                <div className="overflow-x-auto">
+                                    <table className="w-full text-left text-xs">
+                                        <thead>
+                                            <tr className="border-b border-slate-100 dark:border-slate-800 text-slate-400">
+                                                <th className="py-2">Foto</th>
+                                                <th className="py-2">Nama Produk</th>
+                                                <th className="py-2">Kategori</th>
+                                                <th className="py-2">Harga</th>
+                                                <th className="py-2">Penjual</th>
+                                                <th className="py-2 text-right">Aksi</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {umkmList.map((item) => {
+                                                const firstImg = item.foto_path ? item.foto_path.split(',')[0] : '';
+                                                return (
+                                                    <tr key={item.id} className="border-b border-slate-100 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-950/40">
+                                                        <td className="py-2.5">
+                                                            <img src={firstImg} alt={item.nama} className="size-10 rounded-md object-cover animate-in fade-in" />
+                                                        </td>
+                                                        <td className="py-2.5 font-semibold text-slate-900 dark:text-white">{item.nama}</td>
+                                                        <td className="py-2.5 text-slate-500">{item.nama_kategori}</td>
+                                                        <td className="py-2.5 text-emerald-600 font-extrabold">{formatRupiah(item.harga)}</td>
+                                                        <td className="py-2.5 text-slate-500">{item.nama_penjual}</td>
+                                                        <td className="py-2.5 text-right space-x-2">
+                                                            <button
+                                                                type="button"
+                                                                onClick={() => handleEditProduk(item)}
+                                                                className="text-blue-600 hover:text-blue-700 font-semibold cursor-pointer"
+                                                            >
+                                                                Edit
+                                                            </button>
+                                                            <button
+                                                                type="button"
+                                                                onClick={() => handleDeleteProduk(item.id)}
+                                                                className="text-rose-600 hover:text-rose-700 font-semibold cursor-pointer"
+                                                            >
+                                                                Hapus
+                                                            </button>
+                                                        </td>
+                                                    </tr>
+                                                );
+                                            })}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                )}
+
+                {/* TAB 7: KELOLA DESTINASI WISATA */}
+                {mainTab === 'wisata' && (
+                    <div className="space-y-6">
+                        <div className="grid gap-6 lg:grid-cols-12">
+                            {/* Left Column: Form */}
+                            <div className="lg:col-span-5">
+                                <form onSubmit={handleSaveWisata} className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-800 dark:bg-slate-900 space-y-4">
+                                    <h3 className="font-bold text-sm text-slate-900 dark:text-white flex items-center gap-2">
+                                        {editingWisata ? (
+                                            <>
+                                                <Edit3 className="size-4 text-emerald-600 animate-pulse" />
+                                                <span>Edit Wisata: <span className="text-emerald-600">{wisataForm.data.nama}</span></span>
+                                            </>
+                                        ) : (
+                                            <>
+                                                <Plus className="size-4 text-emerald-600" />
+                                                <span>Tambah Destinasi Wisata Baru</span>
+                                            </>
+                                        )}
+                                    </h3>
+
+                                    <div>
+                                        <Label className="text-xs">Nama Wisata</Label>
+                                        <Input
+                                            required
+                                            value={wisataForm.data.nama}
+                                            onChange={(e) => wisataForm.setData('nama', e.target.value)}
+                                            placeholder="Nama objek wisata..."
+                                        />
+                                    </div>
+
+                                    <div className="grid grid-cols-2 gap-3">
+                                        <div>
+                                            <Label className="text-xs">Harga Tiket (Rp)</Label>
+                                            <Input
+                                                required
+                                                type="number"
+                                                value={wisataForm.data.harga_tiket}
+                                                onChange={(e) => wisataForm.setData('harga_tiket', e.target.value)}
+                                                placeholder="10000"
+                                            />
+                                        </div>
+                                        <div>
+                                            <Label className="text-xs">Jam Operasional</Label>
+                                            <Input
+                                                required
+                                                value={wisataForm.data.jam_operasional}
+                                                onChange={(e) => wisataForm.setData('jam_operasional', e.target.value)}
+                                                placeholder="08:00 - 17:00 WITA"
+                                            />
+                                        </div>
+                                    </div>
+
+                                    <div className="grid grid-cols-2 gap-3">
+                                        <div>
+                                            <Label className="text-xs">Koordinat Lokasi (Lat, Long)</Label>
+                                            <Input
+                                                required
+                                                value={wisataForm.data.koordinat_lokasi}
+                                                onChange={(e) => wisataForm.setData('koordinat_lokasi', e.target.value)}
+                                                placeholder="-5.2974,120.0211"
+                                            />
+                                        </div>
+                                        <div>
+                                            <Label className="text-xs">Alamat / Dusun</Label>
+                                            <Input
+                                                required
+                                                value={wisataForm.data.alamat}
+                                                onChange={(e) => wisataForm.setData('alamat', e.target.value)}
+                                                placeholder="Dusun Bontoe, Desa Batu Belerang"
+                                            />
+                                        </div>
+                                    </div>
+
+                                    <div>
+                                        <Label className="text-xs">URL Foto Sampul Utama</Label>
+                                        <Input
+                                            required
+                                            value={wisataForm.data.foto_sampul_path}
+                                            onChange={(e) => wisataForm.setData('foto_sampul_path', e.target.value)}
+                                            placeholder="https://..."
+                                        />
+                                    </div>
+
+                                    <div>
+                                        <Label className="text-xs">URL Galeri Foto (Pisahkan dengan koma jika lebih dari satu)</Label>
+                                        <textarea
+                                            required
+                                            value={wisataForm.data.galeri_foto_raw}
+                                            onChange={(e) => wisataForm.setData('galeri_foto_raw', e.target.value)}
+                                            rows={2}
+                                            placeholder="https://image1.com, https://image2.com"
+                                            className="w-full rounded-xl border border-slate-200 bg-white py-2 px-3 text-xs focus:border-emerald-500 focus:outline-none dark:border-slate-800 dark:bg-slate-950 text-slate-900 dark:text-white"
+                                        />
+                                    </div>
+
+                                    <div>
+                                        <Label className="text-xs">Deskripsi Wisata</Label>
+                                        <textarea
+                                            required
+                                            value={wisataForm.data.deskripsi}
+                                            onChange={(e) => wisataForm.setData('deskripsi', e.target.value)}
+                                            rows={3}
+                                            placeholder="Deskripsi detail objek wisata..."
+                                            className="w-full rounded-xl border border-slate-200 bg-white py-2 px-3 text-xs focus:border-emerald-500 focus:outline-none dark:border-slate-800 dark:bg-slate-950 text-slate-900 dark:text-white"
+                                        />
+                                    </div>
+
+                                    <div className="flex justify-end gap-2 pt-2">
+                                        {editingWisata && (
+                                            <Button
+                                                type="button"
+                                                onClick={handleCancelEditWisata}
+                                                className="bg-slate-100 hover:bg-slate-200 text-slate-700 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-750"
+                                            >
+                                                Batal
+                                            </Button>
+                                        )}
+                                        <Button type="submit" disabled={wisataForm.processing} className="bg-emerald-600 hover:bg-emerald-700 text-white gap-2">
+                                            <Save className="size-4" /> Simpan Wisata
+                                        </Button>
+                                    </div>
+                                </form>
+                            </div>
+
+                            {/* Right Column: List */}
+                            <div className="lg:col-span-7 rounded-xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-800 dark:bg-slate-900 space-y-4">
+                                <h3 className="font-bold text-sm text-slate-900 dark:text-white">Daftar Destinasi Wisata ({wisataList.length})</h3>
+                                <div className="overflow-x-auto">
+                                    <table className="w-full text-left text-xs">
+                                        <thead>
+                                            <tr className="border-b border-slate-100 dark:border-slate-800 text-slate-400">
+                                                <th className="py-2">Sampul</th>
+                                                <th className="py-2">Nama Wisata</th>
+                                                <th className="py-2">Alamat</th>
+                                                <th className="py-2">Tiket</th>
+                                                <th className="py-2 text-right">Aksi</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {wisataList.map((item) => (
+                                                <tr key={item.id} className="border-b border-slate-100 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-950/40">
+                                                    <td className="py-2.5">
+                                                        <img src={item.foto_sampul_path} alt={item.nama} className="size-10 rounded-md object-cover" />
+                                                    </td>
+                                                    <td className="py-2.5 font-semibold text-slate-900 dark:text-white">{item.nama}</td>
+                                                    <td className="py-2.5 text-slate-500">{item.alamat}</td>
+                                                    <td className="py-2.5 text-emerald-600 font-extrabold">{formatRupiah(item.harga_tiket)}</td>
+                                                    <td className="py-2.5 text-right space-x-2">
+                                                        <button
+                                                            type="button"
+                                                            onClick={() => handleEditWisata(item)}
+                                                            className="text-blue-600 hover:text-blue-700 font-semibold cursor-pointer"
+                                                        >
+                                                            Edit
+                                                        </button>
+                                                        <button
+                                                            type="button"
+                                                            onClick={() => handleDeleteWisata(item.id)}
+                                                            className="text-rose-600 hover:text-rose-700 font-semibold cursor-pointer"
+                                                        >
+                                                            Hapus
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                            ))}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 )}
             </div>
 

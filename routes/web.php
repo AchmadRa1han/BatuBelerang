@@ -269,6 +269,16 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::post('/admin/regulasi', [AdminContentController::class, 'storeRegulasi'])->name('admin.regulasi.store');
     Route::post('/admin/agenda', [AdminContentController::class, 'storeAgenda'])->name('admin.agenda.store');
+
+    // Admin Produk UMKM (Pasar Maya) Routes
+    Route::post('/admin/produk', [AdminContentController::class, 'storeProduk'])->name('admin.produk.store');
+    Route::put('/admin/produk/{id}', [AdminContentController::class, 'updateProduk'])->name('admin.produk.update');
+    Route::delete('/admin/produk/{id}', [AdminContentController::class, 'deleteProduk'])->name('admin.produk.delete');
+
+    // Admin Destinasi Wisata Routes
+    Route::post('/admin/wisata', [AdminContentController::class, 'storeWisata'])->name('admin.wisata.store');
+    Route::put('/admin/wisata/{id}', [AdminContentController::class, 'updateWisata'])->name('admin.wisata.update');
+    Route::delete('/admin/wisata/{id}', [AdminContentController::class, 'deleteWisata'])->name('admin.wisata.delete');
 });
 
 Route::get('/debug/database', [DebugDatabaseController::class, 'index'])->name('debug.database');

@@ -105,6 +105,28 @@ class DashboardController extends Controller
         $regulasiList = Regulasi::orderBy('tahun', 'desc')->orderBy('created_at', 'desc')->get();
         $apbdesList = AnggaranApbdes::where('tahun', date('Y'))->get();
 
+        $umkmList = DB::table('produk_umkm')
+            ->join('kategori_umkm', 'produk_umkm.kategori_umkm_id', '=', 'kategori_umkm.id')
+            ->join('penduduk', 'produk_umkm.penduduk_id', '=', 'penduduk.id')
+            ->select(
+                'produk_umkm.*',
+                'kategori_umkm.nama as nama_kategori',
+                'penduduk.nama as nama_penjual'
+            )
+            ->orderBy('produk_umkm.created_at', 'desc')
+            ->get();
+
+        $wisataList = DB::table('destinasi_wisata')
+            ->orderBy('created_at', 'desc')
+            ->get()
+            ->map(function ($item) {
+                $item->galeri_foto = json_decode($item->galeri_foto);
+                return $item;
+            });
+
+        $kategoriUmkmList = DB::table('kategori_umkm')->get();
+        $pendudukList = DB::table('penduduk')->select('id', 'nama', 'nik')->get();
+
         return Inertia::render('dashboard', [
             'stats' => [
                 'warga' => $wargaCount,
@@ -148,6 +170,12 @@ class DashboardController extends Controller
             'regulasiList' => $regulasiList,
             'apbdesList' => $apbdesList,
             'halamanKontenList' => HalamanKonten::all(),
+
+            // Pasar Maya & Wisata List
+            'umkmList' => $umkmList,
+            'wisataList' => $wisataList,
+            'kategoriUmkmList' => $kategoriUmkmList,
+            'pendudukList' => $pendudukList,
         ]);
     }
 }
