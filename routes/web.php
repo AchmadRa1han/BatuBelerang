@@ -132,6 +132,20 @@ Route::get('/pasar-maya', function () {
     ]);
 })->name('pasar-maya.index');
 
+Route::get('/wisata', function () {
+    $wisataList = DB::table('destinasi_wisata')->get()->map(function ($item) {
+        $item->galeri_foto = json_decode($item->galeri_foto);
+        return $item;
+    });
+
+    $profilDesa = ProfilDesa::first();
+
+    return Inertia::render('wisata/index', [
+        'wisataList' => $wisataList,
+        'profilDesa' => $profilDesa,
+    ]);
+})->name('wisata.index');
+
 // Public Menu Routes (Profil)
 Route::get('/profil/tentang-kami', function () {
     $konten = HalamanKonten::where('slug', 'profil-tentang-kami')->first();

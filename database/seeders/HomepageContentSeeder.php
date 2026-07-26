@@ -343,5 +343,61 @@ class HomepageContentSeeder extends Seeder
                 'updated_at' => now(),
             ],
         ]);
+
+        // 9. Destinasi Wisata
+        DB::table('destinasi_wisata')->insertOrIgnore([
+            [
+                'id' => 1,
+                'nama' => 'Pemandian Air Panas Batu Belerang',
+                'slug' => 'pemandian-air-panas-batu-belerang',
+                'deskripsi' => 'Pemandian air panas alami belerang yang bersumber langsung dari belerang alami di perbukitan Gunung Lompobattang. Terkenal sangat menyehatkan bagi terapi kulit dan menjadi sarana relaksasi keluarga di bawah rimbunnya hutan pinus.',
+                'harga_tiket' => 10000.00,
+                'koordinat_lokasi' => '-5.2974,120.0211',
+                'alamat' => 'Dusun Bontoe, Desa Batu Belerang, Kec. Sinjai Borong',
+                'jam_operasional' => '07:00 - 18:00 WITA',
+                'foto_sampul_path' => 'https://images.unsplash.com/photo-1540553016722-983e48a2cd10?w=800&auto=format&fit=crop&q=80',
+                'galeri_foto' => json_encode([
+                    'https://images.unsplash.com/photo-1540553016722-983e48a2cd10?w=800&auto=format&fit=crop&q=80',
+                    'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800&auto=format&fit=crop&q=80',
+                    'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=800&auto=format&fit=crop&q=80'
+                ]),
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'id' => 2,
+                'nama' => 'Air Terjun Kembar Batu Belerang',
+                'slug' => 'air-terjun-kembar-batu-belerang',
+                'deskripsi' => 'Air terjun ganda eksotis dengan kolam air jernih pegunungan yang sangat dingin dan menyegarkan. Tersembunyi di balik keasrian tebing batu alam Desa Batu Belerang, tempat favorit bertualang dan berswafoto.',
+                'harga_tiket' => 5000.00,
+                'koordinat_lokasi' => '-5.2934,120.0156',
+                'alamat' => 'Dusun Kalimbu, Desa Batu Belerang, Kec. Sinjai Borong',
+                'jam_operasional' => '08:00 - 17:00 WITA',
+                'foto_sampul_path' => 'https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?w=800&auto=format&fit=crop&q=80',
+                'galeri_foto' => json_encode([
+                    'https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?w=800&auto=format&fit=crop&q=80',
+                    'https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=800&auto=format&fit=crop&q=80'
+                ]),
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'id' => 3,
+                'nama' => 'Bukit Pinus Mattirotasi',
+                'slug' => 'bukit-pinus-mattirotasi',
+                'deskripsi' => 'Kawasan hutan pinus rindang di puncak tertinggi desa dengan pemandangan menakjubkan dari lautan awan pagi dan bentang bukit Sinjai Borong. Lokasi camping terpopuler bagi pencinta petualangan alam bebas.',
+                'harga_tiket' => 5000.00,
+                'koordinat_lokasi' => '-5.2894,120.0305',
+                'alamat' => 'Dusun Mattirotasi, Desa Batu Belerang, Kec. Sinjai Borong',
+                'jam_operasional' => '24 Jam (Camping)',
+                'foto_sampul_path' => 'https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=800&auto=format&fit=crop&q=80',
+                'galeri_foto' => json_encode([
+                    'https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=800&auto=format&fit=crop&q=80',
+                    'https://images.unsplash.com/photo-1509391365360-2e959784a276?w=800&auto=format&fit=crop&q=80'
+                ]),
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+        ]);
     }
 }

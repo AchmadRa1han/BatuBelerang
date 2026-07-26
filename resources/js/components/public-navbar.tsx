@@ -132,7 +132,7 @@ export default function PublicNavbar() {
                         Pasar Maya
                     </Link>
                     <Link
-                        href="#"
+                        href="/wisata"
                         className="transition-colors hover:text-emerald-600 dark:hover:text-emerald-400"
                     >
                         Wisata
@@ -341,7 +341,7 @@ export default function PublicNavbar() {
                         Pasar Maya
                     </Link>
                     <Link
-                        href="#"
+                        href="/wisata"
                         className="block text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white"
                     >
                         Wisata
