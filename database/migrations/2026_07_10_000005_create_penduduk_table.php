@@ -21,15 +21,7 @@ return new class extends Migration
             $table->enum('golongan_darah', ['A', 'B', 'AB', 'O', '-']);
             $table->string('agama');
 
-            $table->foreignId('pendidikan_id')
-                ->nullable()
-                ->constrained('pendidikan')
-                ->nullOnDelete();
 
-            $table->foreignId('pekerjaan_id')
-                ->nullable()
-                ->constrained('pekerjaan')
-                ->nullOnDelete();
 
             $table->enum('status_perkawinan', ['belum_kawin', 'kawin', 'cerai_hidup', 'cerai_mati']);
 

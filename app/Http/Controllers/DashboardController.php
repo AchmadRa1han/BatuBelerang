@@ -79,7 +79,7 @@ class DashboardController extends Controller
         $umkmCount = DB::table('produk_umkm')->count();
         $umkmPending = DB::table('produk_umkm')->where('status', 'pending')->count();
         $wisataCount = DB::table('destinasi_wisata')->count();
-        $penginapanCount = DB::table('penginapan')->count();
+        $penginapanCount = 0;
 
         // Kehadiran Aparatur Hari Ini
         $kehadiranHariIni = DB::table('kehadiran_aparatur')
