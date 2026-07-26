@@ -1812,12 +1812,12 @@ export default function Dashboard({
 
                                     <div className="grid grid-cols-2 gap-3">
                                         <div>
-                                            <Label className="text-xs">Koordinat Lokasi (Lat, Long)</Label>
+                                            <Label className="text-xs">Koordinat / Link Lokasi (Lat, Long atau URL)</Label>
                                             <Input
                                                 required
                                                 value={wisataForm.data.koordinat_lokasi}
                                                 onChange={(e) => wisataForm.setData('koordinat_lokasi', e.target.value)}
-                                                placeholder="-5.2974,120.0211"
+                                                placeholder="-5.2974,120.0211 atau https://..."
                                             />
                                         </div>
                                         <div>

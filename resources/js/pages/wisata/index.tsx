@@ -66,6 +66,10 @@ export default function Wisata({ wisataList = [] }: WisataProps) {
     };
 
     const getGoogleMapsUrl = (koordinat: string) => {
+        if (!koordinat) return '#';
+        if (koordinat.startsWith('http://') || koordinat.startsWith('https://')) {
+            return koordinat;
+        }
         return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(koordinat)}`;
     };
 
