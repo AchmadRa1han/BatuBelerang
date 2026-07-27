@@ -135,6 +135,7 @@ Route::get('/pasar-maya', function () {
 Route::get('/wisata', function () {
     $wisataList = DB::table('destinasi_wisata')->get()->map(function ($item) {
         $item->galeri_foto = json_decode($item->galeri_foto);
+
         return $item;
     });
 
@@ -268,7 +269,38 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/admin/halaman/{slug}', [AdminContentController::class, 'updateHalamanKonten'])->name('admin.halaman.update');
 
     Route::post('/admin/regulasi', [AdminContentController::class, 'storeRegulasi'])->name('admin.regulasi.store');
+    Route::put('/admin/regulasi/{id}', [AdminContentController::class, 'updateRegulasi'])->name('admin.regulasi.update');
+    Route::delete('/admin/regulasi/{id}', [AdminContentController::class, 'deleteRegulasi'])->name('admin.regulasi.delete');
+
     Route::post('/admin/agenda', [AdminContentController::class, 'storeAgenda'])->name('admin.agenda.store');
+    Route::put('/admin/agenda/{id}', [AdminContentController::class, 'updateAgenda'])->name('admin.agenda.update');
+    Route::delete('/admin/agenda/{id}', [AdminContentController::class, 'deleteAgenda'])->name('admin.agenda.delete');
+
+    // Admin Dusun Routes
+    Route::post('/admin/dusun', [AdminContentController::class, 'storeDusun'])->name('admin.dusun.store');
+    Route::put('/admin/dusun/{id}', [AdminContentController::class, 'updateDusun'])->name('admin.dusun.update');
+    Route::delete('/admin/dusun/{id}', [AdminContentController::class, 'deleteDusun'])->name('admin.dusun.delete');
+
+    // Admin Kartu Keluarga Routes
+    Route::post('/admin/kartu-keluarga', [AdminContentController::class, 'storeKartuKeluarga'])->name('admin.kartu-keluarga.store');
+    Route::put('/admin/kartu-keluarga/{id}', [AdminContentController::class, 'updateKartuKeluarga'])->name('admin.kartu-keluarga.update');
+    Route::delete('/admin/kartu-keluarga/{id}', [AdminContentController::class, 'deleteKartuKeluarga'])->name('admin.kartu-keluarga.delete');
+
+    // Admin Penduduk Routes
+    Route::post('/admin/penduduk', [AdminContentController::class, 'storePenduduk'])->name('admin.penduduk.store');
+    Route::put('/admin/penduduk/{id}', [AdminContentController::class, 'updatePenduduk'])->name('admin.penduduk.update');
+    Route::delete('/admin/penduduk/{id}', [AdminContentController::class, 'deletePenduduk'])->name('admin.penduduk.delete');
+
+    // Admin Jenis Surat Routes
+    Route::post('/admin/jenis-surat', [AdminContentController::class, 'storeJenisSurat'])->name('admin.jenis-surat.store');
+    Route::put('/admin/jenis-surat/{id}', [AdminContentController::class, 'updateJenisSurat'])->name('admin.jenis-surat.update');
+    Route::delete('/admin/jenis-surat/{id}', [AdminContentController::class, 'deleteJenisSurat'])->name('admin.jenis-surat.delete');
+
+    // Admin Permohonan Surat Verification
+    Route::post('/admin/permohonan-surat/{id}/status', [AdminContentController::class, 'updateStatusPermohonan'])->name('admin.permohonan-surat.status');
+
+    // Admin Pengaduan Response
+    Route::post('/admin/pengaduan/{id}/tanggapan', [AdminContentController::class, 'updateTanggapanPengaduan'])->name('admin.pengaduan.tanggapan');
 
     // Admin Produk UMKM (Pasar Maya) Routes
     Route::post('/admin/produk', [AdminContentController::class, 'storeProduk'])->name('admin.produk.store');

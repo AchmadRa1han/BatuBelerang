@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Penduduk extends Model
 {
@@ -38,4 +40,36 @@ class Penduduk extends Model
         'is_disabilitas' => 'boolean',
         'is_penerima_bansos' => 'boolean',
     ];
+
+    /**
+     * Get the kartu keluarga of this penduduk.
+     */
+    public function kartuKeluarga(): BelongsTo
+    {
+        return $this->belongsTo(KartuKeluarga::class, 'kartu_keluarga_id');
+    }
+
+    /**
+     * Get the dusun of this penduduk.
+     */
+    public function dusun(): BelongsTo
+    {
+        return $this->belongsTo(Dusun::class, 'dusun_id');
+    }
+
+    /**
+     * Get the permohonan surat requested by this penduduk.
+     */
+    public function permohonanSurat(): HasMany
+    {
+        return $this->hasMany(PermohonanSurat::class, 'penduduk_id');
+    }
+
+    /**
+     * Get the pengaduan filed by this penduduk.
+     */
+    public function pengaduan(): HasMany
+    {
+        return $this->hasMany(Pengaduan::class, 'penduduk_id');
+    }
 }

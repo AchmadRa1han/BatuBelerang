@@ -121,11 +121,55 @@ class DashboardController extends Controller
             ->get()
             ->map(function ($item) {
                 $item->galeri_foto = json_decode($item->galeri_foto);
+
                 return $item;
             });
 
         $kategoriUmkmList = DB::table('kategori_umkm')->get();
-        $pendudukList = DB::table('penduduk')->select('id', 'nama', 'nik')->get();
+
+        $pendudukList = DB::table('penduduk')
+            ->leftJoin('dusun', 'penduduk.dusun_id', '=', 'dusun.id')
+            ->leftJoin('kartu_keluarga', 'penduduk.kartu_keluarga_id', '=', 'kartu_keluarga.id')
+            ->select('penduduk.*', 'dusun.nama as nama_dusun', 'kartu_keluarga.no_kk as no_kk')
+            ->get();
+
+        $dusunList = DB::table('dusun')->get();
+        $kartuKeluargaList = DB::table('kartu_keluarga')->get();
+        $jenisSuratList = DB::table('jenis_surat')->get();
+
+        $suratList = DB::table('permohonan_surat')
+            ->join('penduduk', 'permohonan_surat.penduduk_id', '=', 'penduduk.id')
+            ->join('jenis_surat', 'permohonan_surat.jenis_surat_id', '=', 'jenis_surat.id')
+            ->select(
+                'permohonan_surat.id',
+                'permohonan_surat.penduduk_id',
+                'permohonan_surat.jenis_surat_id',
+                'permohonan_surat.data_formulir',
+                'permohonan_surat.status',
+                'permohonan_surat.catatan_admin',
+                'permohonan_surat.disetujui_oleh_user_id',
+                'permohonan_surat.disetujui_pada',
+                'permohonan_surat.created_at',
+                'penduduk.nama as nama_pemohon',
+                'penduduk.nik',
+                'jenis_surat.nama as nama_surat'
+            )
+            ->orderBy('permohonan_surat.created_at', 'desc')
+            ->get()
+            ->map(function ($item) {
+                $item->data_formulir = json_decode($item->data_formulir);
+
+                return $item;
+            });
+
+        $pengaduanList = DB::table('pengaduan')
+            ->leftJoin('penduduk', 'pengaduan.penduduk_id', '=', 'penduduk.id')
+            ->select(
+                'pengaduan.*',
+                DB::raw("CASE WHEN pengaduan.is_anonim = 1 THEN 'Anonim' ELSE COALESCE(penduduk.nama, 'Masyarakat') END as pelapor")
+            )
+            ->orderBy('pengaduan.created_at', 'desc')
+            ->get();
 
         return Inertia::render('dashboard', [
             'stats' => [
@@ -176,6 +220,13 @@ class DashboardController extends Controller
             'wisataList' => $wisataList,
             'kategoriUmkmList' => $kategoriUmkmList,
             'pendudukList' => $pendudukList,
+
+            // New datasets for administration CRUD
+            'dusunList' => $dusunList,
+            'kartuKeluargaList' => $kartuKeluargaList,
+            'jenisSuratList' => $jenisSuratList,
+            'suratList' => $suratList,
+            'pengaduanList' => $pengaduanList,
         ]);
     }
 }

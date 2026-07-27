@@ -24,6 +24,8 @@ import {
     Award,
     Activity,
     Store,
+    Calendar,
+    MessageSquareWarning,
 } from 'lucide-react';
 import AppLogo from '@/components/app-logo';
 import { NavMain } from '@/components/nav-main';
@@ -50,6 +52,48 @@ const mainNavItems: NavItem[] = [
         title: 'Dashboard Admin',
         href: dashboard(),
         icon: LayoutGrid,
+    },
+    {
+        title: 'Kependudukan',
+        icon: Users,
+        items: [
+            {
+                title: 'Data Penduduk',
+                href: '/dashboard?tab=penduduk',
+                icon: Users,
+            },
+            {
+                title: 'Kartu Keluarga',
+                href: '/dashboard?tab=kartu-keluarga',
+                icon: FileText,
+            },
+            {
+                title: 'Dusun',
+                href: '/dashboard?tab=dusun',
+                icon: Map,
+            },
+        ],
+    },
+    {
+        title: 'Layanan & Pengaduan',
+        icon: MessageSquareWarning,
+        items: [
+            {
+                title: 'Permohonan Surat',
+                href: '/dashboard?tab=permohonan-surat',
+                icon: FileText,
+            },
+            {
+                title: 'Jenis Surat',
+                href: '/dashboard?tab=jenis-surat',
+                icon: Settings,
+            },
+            {
+                title: 'Pengaduan Warga',
+                href: '/dashboard?tab=pengaduan',
+                icon: MessageSquareWarning,
+            },
+        ],
     },
     {
         title: 'Profil Desa',
@@ -115,6 +159,16 @@ const mainNavItems: NavItem[] = [
                 title: 'Tata Kelola',
                 href: '/admin/halaman/pemerintahan-tata-kelola',
                 icon: ShieldCheck,
+            },
+            {
+                title: 'Agenda Desa',
+                href: '/dashboard?tab=agenda',
+                icon: Calendar,
+            },
+            {
+                title: 'Regulasi Desa',
+                href: '/dashboard?tab=regulasi',
+                icon: ScrollText,
             },
         ],
     },
@@ -189,7 +243,11 @@ export function AppSidebar() {
                 <SidebarMenu>
                     <SidebarMenuItem>
                         <SidebarMenuButton size="lg" asChild>
-                            <Link href={home()} title="Ke Halaman Utama Website Desa" prefetch>
+                            <Link
+                                href={home()}
+                                title="Ke Halaman Utama Website Desa"
+                                prefetch
+                            >
                                 <AppLogo />
                             </Link>
                         </SidebarMenuButton>
