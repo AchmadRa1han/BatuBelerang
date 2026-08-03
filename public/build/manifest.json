@@ -399,7 +399,7 @@
     ]
   },
   "resources/css/app.css": {
-    "file": "assets/app-t1J0dD70.css",
+    "file": "assets/app-BUH-n3BT.css",
     "name": "app",
     "names": [
       "app.css"
@@ -408,7 +408,7 @@
     "isEntry": true
   },
   "resources/js/app.tsx": {
-    "file": "assets/app-BmZ3hMzb.js",
+    "file": "assets/app-D4QrWYWd.js",
     "name": "app",
     "src": "resources/js/app.tsx",
     "isEntry": true,
@@ -773,7 +773,7 @@
     ]
   },
   "resources/js/pages/profil/demografi-desa.tsx": {
-    "file": "assets/demografi-desa-m13iFWmn.js",
+    "file": "assets/demografi-desa-BAIrSPUK.js",
     "name": "demografi-desa",
     "src": "resources/js/pages/profil/demografi-desa.tsx",
     "isDynamicEntry": true,
@@ -784,7 +784,7 @@
     ]
   },
   "resources/js/pages/profil/geografis-desa.tsx": {
-    "file": "assets/geografis-desa-DShxyOch.js",
+    "file": "assets/geografis-desa-CYhd9yn7.js",
     "name": "geografis-desa",
     "src": "resources/js/pages/profil/geografis-desa.tsx",
     "isDynamicEntry": true,
@@ -795,7 +795,7 @@
     ]
   },
   "resources/js/pages/profil/sejarah-desa.tsx": {
-    "file": "assets/sejarah-desa-BEYBccwE.js",
+    "file": "assets/sejarah-desa-s38yUvcM.js",
     "name": "sejarah-desa",
     "src": "resources/js/pages/profil/sejarah-desa.tsx",
     "isDynamicEntry": true,
