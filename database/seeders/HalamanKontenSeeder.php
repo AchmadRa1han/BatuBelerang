@@ -46,7 +46,7 @@ class HalamanKontenSeeder extends Seeder
                 'kategori' => 'Profil Desa',
                 'judul' => 'Sejarah Desa Batu Belerang',
                 'subjudul' => 'Asal usul penamaan, rekam jejak pembangunan, dan periodisasi kepemimpinan Desa Batu Belerang.',
-                'isi' => 'Penamaan Desa Batu Belerang diambil dari keberadaan batuan belerang alami dan sumber mata air panas alami yang mengalir dari perut bumi pegunungan Sinjai Borong. Sejak dahulu kala, sumber air panas belerang ini dimanfaatkan oleh leluhur sebagai sarana penyembuhan alami dan pemandian warga sekitar.',
+                'isi' => "Sejak beberapa tahun yang lalu, ketika Sinjai Borong masih menjadi perwakilan Kecamatan Sinjai Barat, nama Batu Belerang sudah digunakan. Pemberi nama Desa Batu Belerang adalah A. Muh. Saleh.\n\nPada mulanya, wilayah desa ini hanya terdiri dari 3 dusun utama yaitu Dusun Kalimbu, Dusun Bontoe, dan Dusun Tajjuru, di bawah kepemimpinan Kepala Desa pertama, Mahmud, dari tahun 1960 hingga 1970.\n\nSeiring pesatnya laju kependudukan, atas inisiatif pemerintah desa bersama tokoh masyarakat, diadakan musyawarah pemekaran wilayah dusun pada tahun 1990 di bawah kepemimpinan Kepala Desa A. Ambo Tang. Musyawarah tersebut menyepakati pemekaran dari 3 dusun awal menjadi 7 dusun baru, dengan rincian:\n- Dusun Bontoe dibagi menjadi 2 dusun (salah satunya berkembang menjadi Dusun Jeppara).\n- Dusun Kalimbu dibagi menjadi 2 dusun (salah satunya berkembang menjadi Dusun Maccini).\n- Dusun Tajjuru dibagi menjadi 3 dusun (termasuk Dusun Pattiroang dan Dusun Balantieng).\n\nPada tahun 1998, diselenggarakan Pemilihan Kepala Desa (Pilkades) yang dimenangkan oleh M. Ali Hasan.\n\nMemasuki tahun 2002, BPD bersama tokoh masyarakat berinisiatif memekarkan kembali wilayah administratif dengan membentuk Desa Persiapan Bonto Tengnga pada bulan April 2002, yang kemudian resmi disahkan menjadi Desa Definitif pada bulan Juni 2002. Akibat dari pemekaran ini, Desa Batu Belerang memperbaharui tata kepengurusan pemerintahannya dengan menyisakan 4 dusun definitif yang ada hingga hari ini, yakni Dusun Jeppara, Dusun Bontoe, Dusun Kalimbu, dan Dusun Mattirotasi.\n\nSelanjutnya, sejak tahun 2015 sampai sekarang, kepemimpinan Pemerintah Desa Batu Belerang diamanahkan kepada Ahmad P yang menjabat selama 2 periode.",
                 'meta_json' => [
                     'periodisasi' => [
                         ['periode' => '1960 - 1970', 'judul' => 'Mahmud', 'deskripsi' => 'Kepala Desa Definitif'],
@@ -85,7 +85,7 @@ class HalamanKontenSeeder extends Seeder
                         'Peribadatan' => '4 Masjid, 1 Musholla (Total 5)',
                         'Kesehatan' => '1 Pustu, 4 Posyandu (Total 5)',
                         'Lembaga' => '1 LPM, 1 PKK, 1 Karang Taruna, 1 PKBM, 1 BPD, 1 BKM, 1 KPM, 4 Remaja Masjid, 10 P3A, 28 Kelompok Tani, 1 KIM, 1 Kadarkum (Total 59)',
-                    ]
+                    ],
                 ],
             ],
             [
@@ -124,7 +124,7 @@ class HalamanKontenSeeder extends Seeder
                         ['pendidikan' => 'Tamat SLTP', 'jumlah' => 174],
                         ['pendidikan' => 'Tamat SLTA', 'jumlah' => 190],
                         ['pendidikan' => 'Tamat Perguruan Tinggi', 'jumlah' => 65],
-                    ]
+                    ],
                 ],
             ],
 
