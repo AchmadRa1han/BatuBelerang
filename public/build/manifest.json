@@ -399,7 +399,7 @@
     ]
   },
   "resources/css/app.css": {
-    "file": "assets/app-BUH-n3BT.css",
+    "file": "assets/app-DkZpOCnx.css",
     "name": "app",
     "names": [
       "app.css"
@@ -408,7 +408,7 @@
     "isEntry": true
   },
   "resources/js/app.tsx": {
-    "file": "assets/app-D4QrWYWd.js",
+    "file": "assets/app-C9oNl5iI.js",
     "name": "app",
     "src": "resources/js/app.tsx",
     "isEntry": true,
@@ -806,7 +806,7 @@
     ]
   },
   "resources/js/pages/profil/tentang-kami.tsx": {
-    "file": "assets/tentang-kami-CcwAk34m.js",
+    "file": "assets/tentang-kami-ByBHwwYG.js",
     "name": "tentang-kami",
     "src": "resources/js/pages/profil/tentang-kami.tsx",
     "isDynamicEntry": true,
