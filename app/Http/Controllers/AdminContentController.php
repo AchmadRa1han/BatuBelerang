@@ -22,6 +22,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Inertia\Inertia;
 use Inertia\Response;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 class AdminContentController extends Controller
 {
@@ -597,14 +598,19 @@ class AdminContentController extends Controller
     public function storePenduduk(Request $request): RedirectResponse
     {
         $validated = $request->validate([
-            'nik' => 'required|string|size:16|unique:penduduk,nik',
+            'nik' => 'required|string|max:30|unique:penduduk,nik',
             'nama' => 'required|string|max:255',
             'jenis_kelamin' => 'required|in:L,P',
             'tempat_lahir' => 'required|string|max:255',
             'tanggal_lahir' => 'required|date',
             'golongan_darah' => 'required|in:A,B,AB,O,-',
             'agama' => 'required|string|max:100',
-            'status_perkawinan' => 'required|in:belum_kawin,kawin,cerai_hidup,cerai_mati',
+            'status_perkawinan' => 'required|string|max:100',
+            'hubungan' => 'nullable|string|max:100',
+            'kewarganegaraan' => 'nullable|string|max:100',
+            'suku' => 'nullable|string|max:100',
+            'pendidikan' => 'nullable|string|max:100',
+            'pekerjaan' => 'nullable|string|max:100',
             'kartu_keluarga_id' => 'nullable|integer|exists:kartu_keluarga,id',
             'dusun_id' => 'required|integer|exists:dusun,id',
             'rt' => 'required|string|max:3',
@@ -629,14 +635,19 @@ class AdminContentController extends Controller
     public function updatePenduduk(Request $request, int $id): RedirectResponse
     {
         $validated = $request->validate([
-            'nik' => 'required|string|size:16|unique:penduduk,nik,'.$id,
+            'nik' => 'required|string|max:30|unique:penduduk,nik,'.$id,
             'nama' => 'required|string|max:255',
             'jenis_kelamin' => 'required|in:L,P',
             'tempat_lahir' => 'required|string|max:255',
             'tanggal_lahir' => 'required|date',
             'golongan_darah' => 'required|in:A,B,AB,O,-',
             'agama' => 'required|string|max:100',
-            'status_perkawinan' => 'required|in:belum_kawin,kawin,cerai_hidup,cerai_mati',
+            'status_perkawinan' => 'required|string|max:100',
+            'hubungan' => 'nullable|string|max:100',
+            'kewarganegaraan' => 'nullable|string|max:100',
+            'suku' => 'nullable|string|max:100',
+            'pendidikan' => 'nullable|string|max:100',
+            'pekerjaan' => 'nullable|string|max:100',
             'kartu_keluarga_id' => 'nullable|integer|exists:kartu_keluarga,id',
             'dusun_id' => 'required|integer|exists:dusun,id',
             'rt' => 'required|string|max:3',
@@ -664,6 +675,200 @@ class AdminContentController extends Controller
         Penduduk::findOrFail($id)->delete();
 
         return back()->with('success', 'Data penduduk berhasil dihapus.');
+    }
+
+    /**
+     * Export data penduduk ke file Excel.
+     */
+    public function exportPenduduk(): BinaryFileResponse|RedirectResponse
+    {
+        $residents = DB::table('penduduk')
+            ->leftJoin('dusun', 'penduduk.dusun_id', '=', 'dusun.id')
+            ->leftJoin('kartu_keluarga', 'penduduk.kartu_keluarga_id', '=', 'kartu_keluarga.id')
+            ->leftJoin('penduduk as kepala', 'kartu_keluarga.nik_kepala_keluarga', '=', 'kepala.nik')
+            ->select([
+                'penduduk.rw',
+                'penduduk.rt',
+                'dusun.nama as dusun_nama',
+                'penduduk.alamat',
+                'kartu_keluarga.no_kk',
+                'kepala.nama as nama_kepala',
+                'penduduk.nik',
+                'penduduk.nama',
+                'penduduk.jenis_kelamin',
+                'penduduk.hubungan',
+                'penduduk.tempat_lahir',
+                'penduduk.tanggal_lahir',
+                'penduduk.status_perkawinan',
+                'penduduk.agama',
+                'penduduk.golongan_darah',
+                'penduduk.kewarganegaraan',
+                'penduduk.suku',
+                'penduduk.pendidikan',
+                'penduduk.pekerjaan',
+            ])
+            ->get();
+
+        $jsonTempFile = tempnam(sys_get_temp_dir(), 'export_');
+        file_put_contents($jsonTempFile, json_encode($residents, JSON_UNESCAPED_UNICODE));
+
+        $xlsxTempFile = tempnam(sys_get_temp_dir(), 'export_').'.xlsx';
+
+        $scriptPath = storage_path('app/excel_helper.py');
+        $command = 'python '.escapeshellarg($scriptPath).' export '.escapeshellarg($jsonTempFile).' '.escapeshellarg($xlsxTempFile);
+
+        $output = [];
+        $returnVar = 0;
+        exec($command, $output, $returnVar);
+
+        @unlink($jsonTempFile);
+
+        if ($returnVar !== 0) {
+            return back()->with('error', 'Gagal memproses ekspor Excel: '.implode("\n", $output));
+        }
+
+        return response()->download($xlsxTempFile, 'data_penduduk_'.date('Ymd_His').'.xlsx')->deleteFileAfterSend(true);
+    }
+
+    /**
+     * Import data penduduk dari file Excel.
+     */
+    public function importPenduduk(Request $request): RedirectResponse
+    {
+        $request->validate([
+            'file' => 'required|file|mimes:xls,xlsx,zip',
+        ]);
+
+        $file = $request->file('file');
+        $uploadedPath = $file->getRealPath();
+
+        $jsonTempFile = tempnam(sys_get_temp_dir(), 'import_');
+
+        $scriptPath = storage_path('app/excel_helper.py');
+        $command = 'python '.escapeshellarg($scriptPath).' import '.escapeshellarg($uploadedPath).' '.escapeshellarg($jsonTempFile);
+
+        $output = [];
+        $returnVar = 0;
+        exec($command, $output, $returnVar);
+
+        if ($returnVar !== 0) {
+            @unlink($jsonTempFile);
+
+            return back()->with('error', 'Gagal memproses file Excel: '.implode("\n", $output));
+        }
+
+        $jsonData = file_get_contents($jsonTempFile);
+        @unlink($jsonTempFile);
+
+        if ($jsonData === false) {
+            return back()->with('error', 'Gagal membaca data hasil ekstraksi Excel.');
+        }
+
+        $records = json_decode($jsonData, true);
+
+        if (! is_array($records)) {
+            return back()->with('error', 'Gagal membaca data hasil ekstraksi Excel.');
+        }
+
+        $successCount = 0;
+
+        DB::transaction(function () use ($records, &$successCount) {
+            // Step 1: Pre-process Kartu Keluarga
+            $kkData = [];
+            foreach ($records as $record) {
+                $noKk = $record['no_kk'];
+                if (! $noKk) {
+                    continue;
+                }
+
+                if (! isset($kkData[$noKk])) {
+                    $kkData[$noKk] = [
+                        'no_kk' => $noKk,
+                        'nik_kepala_keluarga' => null,
+                        'alamat' => $record['alamat'] ?: '-',
+                    ];
+                }
+
+                if (strtolower($record['hubungan']) === 'kepala keluarga') {
+                    $kkData[$noKk]['nik_kepala_keluarga'] = $record['nik'];
+                }
+            }
+
+            // Fill missing heads of family with first NIK in the KK
+            foreach ($records as $record) {
+                $noKk = $record['no_kk'];
+                if ($noKk && isset($kkData[$noKk]) && $kkData[$noKk]['nik_kepala_keluarga'] === null) {
+                    $kkData[$noKk]['nik_kepala_keluarga'] = $record['nik'];
+                }
+            }
+
+            // Insert/update Kartu Keluarga and keep their IDs
+            $kkMap = [];
+            foreach ($kkData as $noKk => $data) {
+                $kk = KartuKeluarga::updateOrCreate(
+                    ['no_kk' => $noKk],
+                    [
+                        'nik_kepala_keluarga' => $data['nik_kepala_keluarga'],
+                        'alamat' => $data['alamat'],
+                    ]
+                );
+                $kkMap[$noKk] = $kk->id;
+            }
+
+            // Step 2: Pre-process Dusun
+            $dusunMap = [];
+            $dusunNames = array_unique(array_filter(array_column($records, 'dusun')));
+            foreach ($dusunNames as $name) {
+                $dusun = Dusun::firstOrCreate(['nama' => $name]);
+                $dusunMap[strtolower($name)] = $dusun->id;
+            }
+
+            // Step 3: Insert/update residents
+            foreach ($records as $record) {
+                $dusunKey = strtolower($record['dusun']);
+                $dusunId = $dusunMap[$dusunKey] ?? null;
+
+                if (! $dusunId && $record['dusun']) {
+                    $dusun = Dusun::firstOrCreate(['nama' => $record['dusun']]);
+                    $dusunId = $dusun->id;
+                    $dusunMap[$dusunKey] = $dusunId;
+                }
+
+                $noKk = $record['no_kk'];
+                $kkId = $noKk ? ($kkMap[$noKk] ?? null) : null;
+
+                Penduduk::updateOrCreate(
+                    ['nik' => $record['nik']],
+                    [
+                        'nama' => $record['nama'],
+                        'jenis_kelamin' => $record['jenis_kelamin'],
+                        'tempat_lahir' => $record['tempat_lahir'] ?: '-',
+                        'tanggal_lahir' => $record['tanggal_lahir'],
+                        'golongan_darah' => $record['golongan_darah'] ?: '-',
+                        'agama' => $record['agama'] ?: 'Islam',
+                        'kewarganegaraan' => $record['kewarganegaraan'] ?: 'WNI',
+                        'suku' => $record['suku'] ?: '-',
+                        'pendidikan' => $record['pendidikan'] ?: '-',
+                        'pekerjaan' => $record['pekerjaan'] ?: '-',
+                        'status_perkawinan' => $record['status_perkawinan'] ?: 'belum_kawin',
+                        'hubungan' => $record['hubungan'] ?: '-',
+                        'kartu_keluarga_id' => $kkId,
+                        'dusun_id' => $dusunId,
+                        'rt' => $record['rt'] ?: '000',
+                        'rw' => $record['rw'] ?: '000',
+                        'alamat' => $record['alamat'] ?: '-',
+                        'status_warga' => 'aktif',
+                        'is_hamil' => false,
+                        'is_stunting' => false,
+                        'is_disabilitas' => false,
+                        'is_penerima_bansos' => false,
+                    ]
+                );
+                $successCount++;
+            }
+        });
+
+        return back()->with('success', "Berhasil mengimpor {$successCount} data penduduk.");
     }
 
     /**

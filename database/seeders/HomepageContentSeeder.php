@@ -7,8 +7,8 @@ use App\Models\AparaturDesa;
 use App\Models\BeritaDesa;
 use App\Models\ProfilDesa;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 class HomepageContentSeeder extends Seeder
 {
@@ -270,7 +270,7 @@ class HomepageContentSeeder extends Seeder
                 'status_warga' => 'aktif',
                 'created_at' => now(),
                 'updated_at' => now(),
-            ]
+            ],
         ]);
 
         // 7. Kategori UMKM
@@ -359,7 +359,7 @@ class HomepageContentSeeder extends Seeder
                 'galeri_foto' => json_encode([
                     'https://images.unsplash.com/photo-1540553016722-983e48a2cd10?w=800&auto=format&fit=crop&q=80',
                     'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800&auto=format&fit=crop&q=80',
-                    'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=800&auto=format&fit=crop&q=80'
+                    'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=800&auto=format&fit=crop&q=80',
                 ]),
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -376,7 +376,7 @@ class HomepageContentSeeder extends Seeder
                 'foto_sampul_path' => 'https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?w=800&auto=format&fit=crop&q=80',
                 'galeri_foto' => json_encode([
                     'https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?w=800&auto=format&fit=crop&q=80',
-                    'https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=800&auto=format&fit=crop&q=80'
+                    'https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=800&auto=format&fit=crop&q=80',
                 ]),
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -393,7 +393,7 @@ class HomepageContentSeeder extends Seeder
                 'foto_sampul_path' => 'https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=800&auto=format&fit=crop&q=80',
                 'galeri_foto' => json_encode([
                     'https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=800&auto=format&fit=crop&q=80',
-                    'https://images.unsplash.com/photo-1509391365360-2e959784a276?w=800&auto=format&fit=crop&q=80'
+                    'https://images.unsplash.com/photo-1509391365360-2e959784a276?w=800&auto=format&fit=crop&q=80',
                 ]),
                 'created_at' => now(),
                 'updated_at' => now(),

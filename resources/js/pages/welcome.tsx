@@ -531,7 +531,7 @@ export default function Welcome({
                 <div className="grid grid-cols-2 gap-4 rounded-2xl border border-slate-200 bg-white/90 p-6 shadow-xl shadow-slate-200/50 backdrop-blur-md transition-colors md:grid-cols-5 dark:border-slate-800 dark:bg-slate-900/60 dark:shadow-slate-950/50">
                     <div className="border-slate-150 col-span-1 border-r p-4 text-center last:border-0 dark:border-slate-800/40">
                         <div className="text-3xl font-extrabold text-slate-900 dark:text-white">
-                            {stats.warga > 0 ? stats.warga : 1254}
+                            {stats.warga || 0}
                         </div>
                         <div className="mt-1 text-[10px] font-bold tracking-wider text-slate-500 uppercase dark:text-slate-400">
                             Total Warga
@@ -539,7 +539,7 @@ export default function Welcome({
                     </div>
                     <div className="border-slate-150 col-span-1 border-r p-4 text-center last:border-0 dark:border-slate-800/40">
                         <div className="text-3xl font-extrabold text-slate-900 dark:text-white">
-                            {stats.kk > 0 ? stats.kk : 382}
+                            {stats.kk || 0}
                         </div>
                         <div className="mt-1 text-[10px] font-bold tracking-wider text-slate-500 uppercase dark:text-slate-400">
                             Kartu Keluarga
@@ -547,7 +547,7 @@ export default function Welcome({
                     </div>
                     <div className="border-slate-150 col-span-1 border-r p-4 text-center last:border-0 dark:border-slate-800/40">
                         <div className="text-3xl font-extrabold text-slate-900 dark:text-white">
-                            {stats.dusun > 0 ? stats.dusun : 4}
+                            {stats.dusun || 0}
                         </div>
                         <div className="mt-1 text-[10px] font-bold tracking-wider text-slate-500 uppercase dark:text-slate-400">
                             Wilayah Dusun
@@ -555,7 +555,7 @@ export default function Welcome({
                     </div>
                     <div className="border-slate-150 col-span-1 border-r p-4 text-center last:border-0 dark:border-slate-800/40">
                         <div className="text-3xl font-extrabold text-slate-900 dark:text-white">
-                            {stats.umkm > 0 ? stats.umkm : 24}
+                            {stats.umkm || 0}
                         </div>
                         <div className="mt-1 text-[10px] font-bold tracking-wider text-slate-500 uppercase dark:text-slate-400">
                             UMKM Warga
@@ -563,7 +563,7 @@ export default function Welcome({
                     </div>
                     <div className="col-span-2 p-4 text-center md:col-span-1">
                         <div className="text-3xl font-extrabold text-slate-900 dark:text-white">
-                            {stats.wisata > 0 ? stats.wisata : 3}
+                            {stats.wisata || 0}
                         </div>
                         <div className="mt-1 text-[10px] font-bold tracking-wider text-slate-500 uppercase dark:text-slate-400">
                             Spot Wisata

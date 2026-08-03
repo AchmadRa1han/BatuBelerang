@@ -11,6 +11,7 @@ use App\Models\PermohonanSurat;
 use App\Models\Regulasi;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Http\UploadedFile;
 
 uses(RefreshDatabase::class);
 
@@ -339,5 +340,59 @@ test('authenticated admin can edit and update Halaman Konten', function () {
         'judul' => 'Visi Misi Update',
         'subjudul' => 'Sub Visi Misi Update',
         'isi' => 'Konten update',
+    ]);
+});
+
+test('authenticated admin can export and import residents via Excel', function () {
+    $user = User::factory()->create();
+    $dusun = Dusun::create(['nama' => 'Dusun Tes']);
+
+    // Create a resident
+    $penduduk = Penduduk::create([
+        'nik' => '9999888877776666',
+        'nama' => 'Warga Ekspor',
+        'jenis_kelamin' => 'L',
+        'tempat_lahir' => 'Sinjai',
+        'tanggal_lahir' => '1990-01-01',
+        'golongan_darah' => 'O',
+        'agama' => 'Islam',
+        'status_perkawinan' => 'belum_kawin',
+        'dusun_id' => $dusun->id,
+        'rt' => '001',
+        'rw' => '001',
+        'alamat' => 'Jalan Ekspor',
+        'status_warga' => 'aktif',
+    ]);
+
+    // Test export
+    $response = $this->actingAs($user)
+        ->get(route('admin.penduduk.export'));
+
+    $response->assertOk();
+    $response->assertHeader('content-type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+
+    // Test import
+    $bipFilePath = base_path('BIP BATU BELERANG.xls');
+
+    $uploadedFile = new UploadedFile(
+        $bipFilePath,
+        'BIP BATU BELERANG.xls',
+        'application/vnd.ms-excel',
+        null,
+        true
+    );
+
+    $response = $this->actingAs($user)
+        ->post(route('admin.penduduk.import'), [
+            'file' => $uploadedFile,
+        ]);
+
+    $response->assertRedirect();
+    $response->assertSessionHas('success');
+
+    // Check that some seed records exist
+    $this->assertDatabaseHas('penduduk', [
+        'nik' => '7307072805630001',
+        'nama' => 'ABD. KADIR',
     ]);
 });

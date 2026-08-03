@@ -18,8 +18,13 @@ class Penduduk extends Model
         'tanggal_lahir',
         'golongan_darah',
         'agama',
+        'kewarganegaraan',
+        'suku',
+        'pendidikan',
+        'pekerjaan',
 
         'status_perkawinan',
+        'hubungan',
         'kartu_keluarga_id',
         'dusun_id',
         'rt',

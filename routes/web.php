@@ -287,6 +287,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::delete('/admin/kartu-keluarga/{id}', [AdminContentController::class, 'deleteKartuKeluarga'])->name('admin.kartu-keluarga.delete');
 
     // Admin Penduduk Routes
+    Route::get('/admin/penduduk/export', [AdminContentController::class, 'exportPenduduk'])->name('admin.penduduk.export');
+    Route::post('/admin/penduduk/import', [AdminContentController::class, 'importPenduduk'])->name('admin.penduduk.import');
     Route::post('/admin/penduduk', [AdminContentController::class, 'storePenduduk'])->name('admin.penduduk.store');
     Route::put('/admin/penduduk/{id}', [AdminContentController::class, 'updatePenduduk'])->name('admin.penduduk.update');
     Route::delete('/admin/penduduk/{id}', [AdminContentController::class, 'deletePenduduk'])->name('admin.penduduk.delete');

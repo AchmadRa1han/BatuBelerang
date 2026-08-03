@@ -4,7 +4,6 @@ use App\Models\AgendaDesa;
 use App\Models\KehadiranAparatur;
 use App\Models\Regulasi;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Facades\DB;
 
 uses(RefreshDatabase::class);
 
@@ -18,8 +17,6 @@ test('can create and persist a regulasi', function () {
     expect(Regulasi::count())->toBe(1);
     expect($regulasi->judul)->toBe('Peraturan Pemandian Air Belerang');
 });
-
-
 
 test('can create agenda desa', function () {
     $agenda = AgendaDesa::factory()->create([

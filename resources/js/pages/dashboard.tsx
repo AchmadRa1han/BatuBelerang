@@ -23,6 +23,7 @@ import {
     RefreshCw,
     ShieldAlert,
     ExternalLink,
+    ChevronLeft,
     ChevronRight,
     MapPin,
     Globe,
@@ -34,6 +35,7 @@ import {
     Plus,
     Edit3,
     Upload,
+    Download,
     Crop,
     Store,
     Map,
@@ -442,6 +444,47 @@ export default function Dashboard({
     });
 
     const [editingPenduduk, setEditingPenduduk] = useState<any | null>(null);
+
+    // States and filtering for Penduduk Search & Pagination
+    const [searchPenduduk, setSearchPenduduk] = useState('');
+    const [pagePenduduk, setPagePenduduk] = useState(1);
+    const perPagePenduduk = 10;
+
+    const filteredPenduduk = pendudukList.filter((item) => {
+        const query = searchPenduduk.toLowerCase();
+        return (
+            (item.nama && item.nama.toLowerCase().includes(query)) ||
+            (item.nik && item.nik.toLowerCase().includes(query)) ||
+            (item.alamat && item.alamat.toLowerCase().includes(query)) ||
+            (item.nama_dusun && item.nama_dusun.toLowerCase().includes(query))
+        );
+    });
+
+    const paginatedPenduduk = filteredPenduduk.slice(
+        (pagePenduduk - 1) * perPagePenduduk,
+        pagePenduduk * perPagePenduduk
+    );
+    const totalPagesPenduduk = Math.ceil(filteredPenduduk.length / perPagePenduduk);
+
+    // States and filtering for Kartu Keluarga Search & Pagination
+    const [searchKK, setSearchKK] = useState('');
+    const [pageKK, setPageKK] = useState(1);
+    const perPageKK = 10;
+
+    const filteredKK = kartuKeluargaList.filter((item) => {
+        const query = searchKK.toLowerCase();
+        return (
+            (item.no_kk && item.no_kk.toLowerCase().includes(query)) ||
+            (item.nik_kepala_keluarga && item.nik_kepala_keluarga.toLowerCase().includes(query)) ||
+            (item.alamat && item.alamat.toLowerCase().includes(query))
+        );
+    });
+
+    const paginatedKK = filteredKK.slice(
+        (pageKK - 1) * perPageKK,
+        pageKK * perPageKK
+    );
+    const totalPagesKK = Math.ceil(filteredKK.length / perPageKK);
     const pendudukForm = useForm({
         nik: '',
         nama: '',
@@ -629,6 +672,35 @@ export default function Dashboard({
         if (confirm('Yakin ingin menghapus data penduduk ini?')) {
             router.delete(`/admin/penduduk/${id}`, { preserveScroll: true });
         }
+    };
+
+    const handleImportExcel = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+        if (!file) return;
+
+        if (
+            !confirm(
+                `Yakin ingin mengimpor data penduduk dari file "${file.name}"? Data penduduk yang ada akan diperbarui jika NIK sama.`,
+            )
+        ) {
+            e.target.value = '';
+            return;
+        }
+
+        const formData = new FormData();
+        formData.append('file', file);
+
+        router.post('/admin/penduduk/import', formData as any, {
+            preserveScroll: true,
+            onSuccess: () => {
+                e.target.value = '';
+            },
+            onError: (errors) => {
+                e.target.value = '';
+                const msg = Object.values(errors).join('\n');
+                alert(msg || 'Gagal mengimpor data penduduk.');
+            },
+        });
     };
 
     const handleEditPenduduk = (penduduk: any) => {
@@ -3819,9 +3891,46 @@ export default function Dashboard({
 
                             {/* Table */}
                             <div className="space-y-4 rounded-xl border border-slate-200 bg-white p-5 shadow-sm lg:col-span-8 dark:border-slate-800 dark:bg-slate-900">
-                                <h3 className="text-sm font-bold text-slate-900 dark:text-white">
-                                    Daftar Penduduk ({pendudukList.length})
-                                </h3>
+                                <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+                                    <h3 className="text-sm font-bold text-slate-900 dark:text-white">
+                                        Daftar Penduduk ({filteredPenduduk.length} dari {pendudukList.length})
+                                    </h3>
+                                    <div className="flex flex-wrap items-center gap-2">
+                                        {/* Search Input */}
+                                        <div className="relative">
+                                            <Input
+                                                value={searchPenduduk}
+                                                onChange={(e) => {
+                                                    setSearchPenduduk(e.target.value);
+                                                    setPagePenduduk(1);
+                                                }}
+                                                placeholder="Cari NIK, nama, alamat..."
+                                                className="w-48 pl-2 pr-2 text-xs h-8"
+                                            />
+                                        </div>
+
+                                        {/* Import Form / Button */}
+                                        <label className="flex cursor-pointer items-center gap-1.5 rounded-lg border border-slate-200 bg-white px-3 py-1.5 text-xs font-semibold text-slate-700 shadow-sm hover:bg-slate-50 dark:border-slate-800 dark:bg-slate-950 dark:text-slate-350 dark:hover:bg-slate-900">
+                                            <Upload className="size-3.5" />
+                                            <span>Import Excel</span>
+                                            <input
+                                                type="file"
+                                                accept=".xls,.xlsx"
+                                                className="hidden"
+                                                onChange={handleImportExcel}
+                                            />
+                                        </label>
+
+                                        {/* Export Link/Button */}
+                                        <a
+                                            href="/admin/penduduk/export"
+                                            className="flex items-center gap-1.5 rounded-lg bg-emerald-600 px-3 py-1.5 text-xs font-semibold text-white shadow-sm hover:bg-emerald-700"
+                                        >
+                                            <Download className="size-3.5" />
+                                            <span>Export Excel</span>
+                                        </a>
+                                    </div>
+                                </div>
                                 <div className="overflow-x-auto">
                                     <table className="w-full text-left text-xs">
                                         <thead>
@@ -3843,7 +3952,7 @@ export default function Dashboard({
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            {pendudukList.map((item) => {
+                                            {paginatedPenduduk.map((item) => {
                                                 const age = item.tanggal_lahir
                                                     ? new Date().getFullYear() -
                                                       new Date(
@@ -3941,6 +4050,59 @@ export default function Dashboard({
                                         </tbody>
                                     </table>
                                 </div>
+
+                                {/* Pagination for Penduduk */}
+                                {totalPagesPenduduk > 1 && (
+                                    <div className="flex items-center justify-between border-t border-slate-100 pt-4 dark:border-slate-800">
+                                        <div className="text-xs text-slate-500">
+                                            Menampilkan <span className="font-semibold text-slate-900 dark:text-white">{(pagePenduduk - 1) * perPagePenduduk + 1}</span> sampai{' '}
+                                            <span className="font-semibold text-slate-900 dark:text-white">
+                                                {Math.min(pagePenduduk * perPagePenduduk, filteredPenduduk.length)}
+                                            </span>{' '}
+                                            dari <span className="font-semibold text-slate-900 dark:text-white">{filteredPenduduk.length}</span> data
+                                        </div>
+                                        <div className="flex items-center gap-1">
+                                            <Button
+                                                variant="outline"
+                                                size="sm"
+                                                onClick={() => setPagePenduduk((p) => Math.max(1, p - 1))}
+                                                disabled={pagePenduduk === 1}
+                                                className="h-8 w-8 p-0"
+                                            >
+                                                <ChevronLeft className="size-4" />
+                                            </Button>
+
+                                            {Array.from({ length: totalPagesPenduduk }, (_, i) => i + 1)
+                                                .filter((p) => p === 1 || p === totalPagesPenduduk || Math.abs(p - pagePenduduk) <= 1)
+                                                .map((p, idx, arr) => {
+                                                    const showEllipsis = idx > 0 && arr[idx - 1] !== p - 1;
+                                                    return (
+                                                        <React.Fragment key={p}>
+                                                            {showEllipsis && <span className="px-1 text-slate-400 text-xs">...</span>}
+                                                            <Button
+                                                                variant={p === pagePenduduk ? 'default' : 'outline'}
+                                                                size="sm"
+                                                                onClick={() => setPagePenduduk(p)}
+                                                                className={`h-8 w-8 p-0 ${p === pagePenduduk ? 'bg-emerald-600 hover:bg-emerald-700 text-white' : ''}`}
+                                                            >
+                                                                {p}
+                                                            </Button>
+                                                        </React.Fragment>
+                                                    );
+                                                })}
+
+                                            <Button
+                                                variant="outline"
+                                                size="sm"
+                                                onClick={() => setPagePenduduk((p) => Math.min(totalPagesPenduduk, p + 1))}
+                                                disabled={pagePenduduk === totalPagesPenduduk}
+                                                className="h-8 w-8 p-0"
+                                            >
+                                                <ChevronRight className="size-4" />
+                                            </Button>
+                                        </div>
+                                    </div>
+                                )}
                             </div>
                         </div>
                     </div>
@@ -4063,10 +4225,22 @@ export default function Dashboard({
 
                             {/* Table */}
                             <div className="space-y-4 rounded-xl border border-slate-200 bg-white p-5 shadow-sm lg:col-span-7 dark:border-slate-800 dark:bg-slate-900">
-                                <h3 className="text-sm font-bold text-slate-900 dark:text-white">
-                                    Daftar Kartu Keluarga (
-                                    {kartuKeluargaList.length})
-                                </h3>
+                                <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+                                    <h3 className="text-sm font-bold text-slate-900 dark:text-white">
+                                        Daftar Kartu Keluarga ({filteredKK.length} dari {kartuKeluargaList.length})
+                                    </h3>
+                                    <div className="relative">
+                                        <Input
+                                            value={searchKK}
+                                            onChange={(e) => {
+                                                setSearchKK(e.target.value);
+                                                setPageKK(1);
+                                            }}
+                                            placeholder="Cari No KK, NIK kepala..."
+                                            className="w-48 pl-2 pr-2 text-xs h-8"
+                                        />
+                                    </div>
+                                </div>
                                 <div className="overflow-x-auto">
                                     <table className="w-full text-left text-xs">
                                         <thead>
@@ -4082,7 +4256,7 @@ export default function Dashboard({
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            {kartuKeluargaList.map((item) => (
+                                            {paginatedKK.map((item) => (
                                                 <tr
                                                     key={item.id}
                                                     className="border-b border-slate-100 hover:bg-slate-50 dark:border-slate-800 dark:hover:bg-slate-950/40"
@@ -4126,6 +4300,59 @@ export default function Dashboard({
                                         </tbody>
                                     </table>
                                 </div>
+
+                                {/* Pagination for Kartu Keluarga */}
+                                {totalPagesKK > 1 && (
+                                    <div className="flex items-center justify-between border-t border-slate-100 pt-4 dark:border-slate-800">
+                                        <div className="text-xs text-slate-500">
+                                            Menampilkan <span className="font-semibold text-slate-900 dark:text-white">{(pageKK - 1) * perPageKK + 1}</span> sampai{' '}
+                                            <span className="font-semibold text-slate-900 dark:text-white">
+                                                {Math.min(pageKK * perPageKK, filteredKK.length)}
+                                            </span>{' '}
+                                            dari <span className="font-semibold text-slate-900 dark:text-white">{filteredKK.length}</span> data
+                                        </div>
+                                        <div className="flex items-center gap-1">
+                                            <Button
+                                                variant="outline"
+                                                size="sm"
+                                                onClick={() => setPageKK((p) => Math.max(1, p - 1))}
+                                                disabled={pageKK === 1}
+                                                className="h-8 w-8 p-0"
+                                            >
+                                                <ChevronLeft className="size-4" />
+                                            </Button>
+
+                                            {Array.from({ length: totalPagesKK }, (_, i) => i + 1)
+                                                .filter((p) => p === 1 || p === totalPagesKK || Math.abs(p - pageKK) <= 1)
+                                                .map((p, idx, arr) => {
+                                                    const showEllipsis = idx > 0 && arr[idx - 1] !== p - 1;
+                                                    return (
+                                                        <React.Fragment key={p}>
+                                                            {showEllipsis && <span className="px-1 text-slate-400 text-xs">...</span>}
+                                                            <Button
+                                                                variant={p === pageKK ? 'default' : 'outline'}
+                                                                size="sm"
+                                                                onClick={() => setPageKK(p)}
+                                                                className={`h-8 w-8 p-0 ${p === pageKK ? 'bg-emerald-600 hover:bg-emerald-700 text-white' : ''}`}
+                                                            >
+                                                                {p}
+                                                            </Button>
+                                                        </React.Fragment>
+                                                    );
+                                                })}
+
+                                            <Button
+                                                variant="outline"
+                                                size="sm"
+                                                onClick={() => setPageKK((p) => Math.min(totalPagesKK, p + 1))}
+                                                disabled={pageKK === totalPagesKK}
+                                                className="h-8 w-8 p-0"
+                                            >
+                                                <ChevronRight className="size-4" />
+                                            </Button>
+                                        </div>
+                                    </div>
+                                )}
                             </div>
                         </div>
                     </div>
