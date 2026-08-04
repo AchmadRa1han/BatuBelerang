@@ -39,7 +39,7 @@ class HomepageContentSeeder extends Seeder
                 'nama_kades' => 'Ahmad P',
                 'jabatan_kades' => 'Kepala Desa Batu Belerang',
                 'sambutan_kades' => 'Selamat datang di website resmi Desa Batu Belerang. Kami berkomitmen menyajikan pelayanan publik yang transparan, mudah, dan akuntabel demi kemajuan seluruh masyarakat desa.',
-                'foto_kades' => 'https://images.unsplash.com/photo-1560250097-0b93528c311a?w=400&auto=format&fit=crop&q=80',
+                'foto_kades' => '/images/aparatur/Kepala Desa.png',
                 'hero_title' => 'Desa Batu Belerang',
                 'hero_subtitle' => 'Kecamatan Sinjai Borong, Kabupaten Sinjai, Provinsi Sulawesi Selatan',
                 'hero_bg_path' => 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=1920&auto=format&fit=crop&q=80',
@@ -48,17 +48,17 @@ class HomepageContentSeeder extends Seeder
 
         // 2. Aparatur Desa
         $aparaturData = [
-            ['nama' => 'Sulaeman', 'jabatan' => 'Sekretaris Desa', 'foto_path' => 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=400&auto=format&fit=crop&q=80', 'urutan' => 1],
-            ['nama' => 'Sadar Syam, S.Pd', 'jabatan' => 'Kepala Seksi Pemerintahan', 'foto_path' => 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&auto=format&fit=crop&q=80', 'urutan' => 2],
-            ['nama' => 'Hartati', 'jabatan' => 'Kepala Seksi Pelayanan', 'foto_path' => 'https://images.unsplash.com/photo-1580489944761-15a19d654956?w=400&auto=format&fit=crop&q=80', 'urutan' => 3],
-            ['nama' => 'Lukman, S.Pd', 'jabatan' => 'Kepala Seksi Kesejahteraan', 'foto_path' => 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&auto=format&fit=crop&q=80', 'urutan' => 4],
-            ['nama' => 'Kartini, S.Pd', 'jabatan' => 'Kepala Urusan Tata Usaha dan Umum', 'foto_path' => 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=400&auto=format&fit=crop&q=80', 'urutan' => 5],
-            ['nama' => 'Fitriani', 'jabatan' => 'Kepala Urusan Keuangan', 'foto_path' => 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400&auto=format&fit=crop&q=80', 'urutan' => 6],
-            ['nama' => 'Nirmawati, SP', 'jabatan' => 'Kepala Urusan Perencanaan', 'foto_path' => 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=400&auto=format&fit=crop&q=80', 'urutan' => 7],
-            ['nama' => 'Muh. Darwis', 'jabatan' => 'Kepala Dusun Jeppara', 'foto_path' => 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&auto=format&fit=crop&q=80', 'urutan' => 8],
-            ['nama' => 'Aditya Saputra', 'jabatan' => 'Kepala Dusun Bontoe', 'foto_path' => 'https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=400&auto=format&fit=crop&q=80', 'urutan' => 9],
-            ['nama' => 'Muh. Tahir', 'jabatan' => 'Kepala Dusun Kalimbu', 'foto_path' => 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=400&auto=format&fit=crop&q=80', 'urutan' => 10],
-            ['nama' => 'Ahmad', 'jabatan' => 'Kepala Dusun Mattirotasi', 'foto_path' => 'https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?w=400&auto=format&fit=crop&q=80', 'urutan' => 11],
+            ['nama' => 'Sulaeman', 'jabatan' => 'Sekretaris Desa', 'foto_path' => '/images/aparatur/Sekretaris Desa.png', 'urutan' => 1],
+            ['nama' => 'Sadar Syam, S.Pd', 'jabatan' => 'Kepala Seksi Pemerintahan', 'foto_path' => '/images/aparatur/Kasi Pemerintahan.png', 'urutan' => 2],
+            ['nama' => 'Hartati', 'jabatan' => 'Kepala Seksi Pelayanan', 'foto_path' => '/images/aparatur/Kasi Pelayanan.png', 'urutan' => 3],
+            ['nama' => 'Lukman, S.Pd', 'jabatan' => 'Kepala Seksi Kesejahteraan', 'foto_path' => '/images/aparatur/Kasi Kesejahteraan.png', 'urutan' => 4],
+            ['nama' => 'Kartini, S.Pd', 'jabatan' => 'Kepala Urusan Tata Usaha dan Umum', 'foto_path' => '/images/aparatur/Kaur tata usaha dan umum.png', 'urutan' => 5],
+            ['nama' => 'Fitriani', 'jabatan' => 'Kepala Urusan Keuangan', 'foto_path' => '/images/aparatur/Kaur Keuangan.png', 'urutan' => 6],
+            ['nama' => 'Nirmawati, SP', 'jabatan' => 'Kepala Urusan Perencanaan', 'foto_path' => '/images/aparatur/Kaur Perencanaan.png', 'urutan' => 7],
+            ['nama' => 'Muh. Darwis', 'jabatan' => 'Kepala Dusun Jeppara', 'foto_path' => '/images/aparatur/Kadus Jeppara.png', 'urutan' => 8],
+            ['nama' => 'Aditya Saputra', 'jabatan' => 'Kepala Dusun Bontoe', 'foto_path' => '/images/aparatur/Kadus Bontoe.png', 'urutan' => 9],
+            ['nama' => 'Muh. Tahir', 'jabatan' => 'Kepala Dusun Kalimbu', 'foto_path' => '/images/aparatur/Kadus Kalimbu.png', 'urutan' => 10],
+            ['nama' => 'Ahmad', 'jabatan' => 'Kepala Dusun Mattirotasi', 'foto_path' => '/images/aparatur/Kadus Mattirotasi.png', 'urutan' => 11],
         ];
 
         foreach ($aparaturData as $item) {
