@@ -3981,13 +3981,14 @@ export default function Dashboard({
                                         </label>
 
                                         {/* Export Link/Button */}
-                                        <a
-                                            href="/admin/penduduk/export"
-                                            className="flex items-center gap-1.5 rounded-lg bg-emerald-600 px-3 py-1.5 text-xs font-semibold text-white shadow-sm hover:bg-emerald-700"
+                                        <button
+                                            type="button"
+                                            onClick={() => router.visit('/admin/penduduk/export')}
+                                            className="flex items-center gap-1.5 rounded-lg bg-emerald-600 px-3 py-1.5 text-xs font-semibold text-white shadow-sm hover:bg-emerald-700 cursor-pointer"
                                         >
                                             <Download className="size-3.5" />
                                             <span>Export Excel</span>
-                                        </a>
+                                        </button>
                                     </div>
                                 </div>
                                 <div className="overflow-x-auto">

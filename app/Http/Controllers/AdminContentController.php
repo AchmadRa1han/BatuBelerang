@@ -730,7 +730,8 @@ class AdminContentController extends Controller
         $xlsxTempFile = tempnam(sys_get_temp_dir(), 'export_').'.xlsx';
 
         $scriptPath = storage_path('app/excel_helper.py');
-        $command = 'python '.escapeshellarg($scriptPath).' export '.escapeshellarg($jsonTempFile).' '.escapeshellarg($xlsxTempFile);
+        $python = $this->getPythonExecutable();
+        $command = $python.' '.escapeshellarg($scriptPath).' export '.escapeshellarg($jsonTempFile).' '.escapeshellarg($xlsxTempFile).' 2>&1';
 
         $output = [];
         $returnVar = 0;
@@ -739,7 +740,13 @@ class AdminContentController extends Controller
         @unlink($jsonTempFile);
 
         if ($returnVar !== 0) {
-            return back()->with('error', 'Gagal memproses ekspor Excel: '.implode("\n", $output));
+            Inertia::flash('toast', [
+                'type' => 'error',
+                'message' => 'Gagal memproses ekspor Excel: '.implode("\n", $output),
+            ]);
+            session()->flash('error', 'Gagal memproses ekspor Excel: '.implode("\n", $output));
+
+            return back();
         }
 
         return response()->download($xlsxTempFile, 'data_penduduk_'.date('Ymd_His').'.xlsx')->deleteFileAfterSend(true);
@@ -760,7 +767,8 @@ class AdminContentController extends Controller
         $jsonTempFile = tempnam(sys_get_temp_dir(), 'import_');
 
         $scriptPath = storage_path('app/excel_helper.py');
-        $command = 'python '.escapeshellarg($scriptPath).' import '.escapeshellarg($uploadedPath).' '.escapeshellarg($jsonTempFile);
+        $python = $this->getPythonExecutable();
+        $command = $python.' '.escapeshellarg($scriptPath).' import '.escapeshellarg($uploadedPath).' '.escapeshellarg($jsonTempFile).' 2>&1';
 
         $output = [];
         $returnVar = 0;
@@ -768,21 +776,38 @@ class AdminContentController extends Controller
 
         if ($returnVar !== 0) {
             @unlink($jsonTempFile);
+            Inertia::flash('toast', [
+                'type' => 'error',
+                'message' => 'Gagal memproses file Excel: '.implode("\n", $output),
+            ]);
+            session()->flash('error', 'Gagal memproses file Excel: '.implode("\n", $output));
 
-            return back()->with('error', 'Gagal memproses file Excel: '.implode("\n", $output));
+            return back();
         }
 
         $jsonData = file_get_contents($jsonTempFile);
         @unlink($jsonTempFile);
 
         if ($jsonData === false) {
-            return back()->with('error', 'Gagal membaca data hasil ekstraksi Excel.');
+            Inertia::flash('toast', [
+                'type' => 'error',
+                'message' => 'Gagal membaca data hasil ekstraksi Excel.',
+            ]);
+            session()->flash('error', 'Gagal membaca data hasil ekstraksi Excel.');
+
+            return back();
         }
 
         $records = json_decode($jsonData, true);
 
         if (! is_array($records)) {
-            return back()->with('error', 'Gagal membaca data hasil ekstraksi Excel.');
+            Inertia::flash('toast', [
+                'type' => 'error',
+                'message' => 'Gagal membaca data hasil ekstraksi Excel.',
+            ]);
+            session()->flash('error', 'Gagal membaca data hasil ekstraksi Excel.');
+
+            return back();
         }
 
         $successCount = 0;
@@ -883,7 +908,13 @@ class AdminContentController extends Controller
             }
         });
 
-        return back()->with('success', "Berhasil mengimpor {$successCount} data penduduk.");
+        Inertia::flash('toast', [
+            'type' => 'success',
+            'message' => "Berhasil mengimpor {$successCount} data penduduk.",
+        ]);
+        session()->flash('success', "Berhasil mengimpor {$successCount} data penduduk.");
+
+        return back();
     }
 
     /**
@@ -972,5 +1003,50 @@ class AdminContentController extends Controller
         $pengaduan->update($validated);
 
         return back()->with('success', 'Tanggapan pengaduan berhasil disimpan.');
+    }
+
+    /**
+     * Get the best Python executable command available.
+     */
+    private function getPythonExecutable(): string
+    {
+        // Try 'python'
+        $output = [];
+        $returnVar = 0;
+        exec('python --version 2>&1', $output, $returnVar);
+        if ($returnVar === 0) {
+            return 'python';
+        }
+
+        // Try 'py' (Python Launcher for Windows)
+        $output = [];
+        $returnVar = 0;
+        exec('py --version 2>&1', $output, $returnVar);
+        if ($returnVar === 0) {
+            return 'py';
+        }
+
+        // Try common Windows AppData paths
+        if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+            $userProfile = getenv('USERPROFILE') ?: getenv('HOMEDRIVE').getenv('HOMEPATH');
+            if ($userProfile) {
+                $localAppData = $userProfile.'\AppData\Local\Programs\Python';
+                if (is_dir($localAppData)) {
+                    $dirs = glob($localAppData.'\Python*');
+                    if ($dirs) {
+                        rsort($dirs);
+                        foreach ($dirs as $dir) {
+                            $exe = $dir.'\python.exe';
+                            if (file_exists($exe)) {
+                                return '"'.$exe.'"';
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        // Default fallback
+        return 'python';
     }
 }
