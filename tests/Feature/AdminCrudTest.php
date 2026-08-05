@@ -396,3 +396,102 @@ test('authenticated admin can export and import residents via Excel', function (
         'nama' => 'ABD. KADIR',
     ]);
 });
+
+test('authenticated admin can perform Produk UMKM CRUD', function () {
+    $user = User::factory()->create();
+    $dusun = Dusun::create(['nama' => 'Dusun Wisata']);
+    $penduduk = Penduduk::create([
+        'nik' => '1234567812345678',
+        'nama' => 'Budi UMKM',
+        'jenis_kelamin' => 'L',
+        'tempat_lahir' => 'Sinjai',
+        'tanggal_lahir' => '1990-01-01',
+        'golongan_darah' => 'O',
+        'agama' => 'Islam',
+        'status_perkawinan' => 'belum_kawin',
+        'dusun_id' => $dusun->id,
+        'rt' => '001',
+        'rw' => '001',
+        'alamat' => 'Jalan UMKM',
+        'status_warga' => 'aktif',
+    ]);
+
+    $kategoriId = DB::table('kategori_umkm')->insertGetId([
+        'nama' => 'Kuliner',
+        'slug' => 'kuliner',
+        'created_at' => now(),
+        'updated_at' => now(),
+    ]);
+
+    Storage::fake('public');
+    $file = UploadedFile::fake()->image('produk1.jpg');
+
+    $response = $this->actingAs($user)
+        ->post(route('admin.produk.store'), [
+            'penduduk_id' => $penduduk->id,
+            'kategori_umkm_id' => $kategoriId,
+            'nama' => 'Kopi Belerang',
+            'deskripsi' => 'Kopi khas belerang hangat',
+            'harga' => 15000,
+            'stok' => 50,
+            'nomor_whatsapp' => '6281234567890',
+            'foto_file' => $file,
+            'status' => 'aktif',
+        ]);
+
+    $response->assertRedirect();
+    $this->assertDatabaseHas('produk_umkm', [
+        'nama' => 'Kopi Belerang',
+        'harga' => 15000,
+    ]);
+
+    $produk = DB::table('produk_umkm')->where('nama', 'Kopi Belerang')->first();
+    $this->assertNotNull($produk->foto_path);
+    $this->assertStringStartsWith('/storage/', $produk->foto_path);
+
+    $file2 = UploadedFile::fake()->image('produk2.jpg');
+    $response = $this->actingAs($user)
+        ->put(route('admin.produk.update', $produk->id), [
+            'penduduk_id' => $penduduk->id,
+            'kategori_umkm_id' => $kategoriId,
+            'nama' => 'Kopi Belerang Super',
+            'deskripsi' => 'Kopi khas belerang hangat super',
+            'harga' => 20000,
+            'stok' => 30,
+            'nomor_whatsapp' => '6281234567890',
+            'foto_file' => $file2,
+            'status' => 'aktif',
+        ]);
+
+    $response->assertRedirect();
+    $this->assertDatabaseHas('produk_umkm', [
+        'id' => $produk->id,
+        'nama' => 'Kopi Belerang Super',
+        'harga' => 20000,
+    ]);
+
+    $response = $this->actingAs($user)
+        ->put(route('admin.produk.update', $produk->id), [
+            'penduduk_id' => $penduduk->id,
+            'kategori_umkm_id' => $kategoriId,
+            'nama' => 'Kopi Belerang Super 2',
+            'deskripsi' => 'Kopi khas belerang hangat super 2',
+            'harga' => 25000,
+            'stok' => 20,
+            'nomor_whatsapp' => '6281234567890',
+            'status' => 'aktif',
+        ]);
+
+    $response->assertRedirect();
+    $this->assertDatabaseHas('produk_umkm', [
+        'id' => $produk->id,
+        'nama' => 'Kopi Belerang Super 2',
+        'harga' => 25000,
+    ]);
+
+    $response = $this->actingAs($user)
+        ->delete(route('admin.produk.delete', $produk->id));
+
+    $response->assertRedirect();
+    $this->assertDatabaseMissing('produk_umkm', ['id' => $produk->id]);
+});

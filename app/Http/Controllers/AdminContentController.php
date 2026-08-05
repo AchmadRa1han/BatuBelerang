@@ -325,9 +325,6 @@ class AdminContentController extends Controller
         return back()->with('success', "Konten Halaman {$halaman->judul} berhasil diperbarui.");
     }
 
-    /**
-     * Store new Produk UMKM (Pasar Maya).
-     */
     public function storeProduk(Request $request): RedirectResponse
     {
         $validated = $request->validate([
@@ -338,9 +335,16 @@ class AdminContentController extends Controller
             'harga' => 'required|numeric|min:0',
             'stok' => 'required|integer|min:0',
             'nomor_whatsapp' => 'required|string|max:20',
-            'foto_path' => 'required|string',
+            'foto_file' => 'required|image|max:5120',
             'status' => 'required|string|in:menunggu_verifikasi,aktif,non_aktif',
         ]);
+
+        if ($request->hasFile('foto_file')) {
+            $path = $request->file('foto_file')->store('umkm', 'public');
+            $validated['foto_path'] = '/storage/'.$path;
+        }
+
+        unset($validated['foto_file']);
 
         $validated['slug'] = Str::slug($validated['nama']).'-'.rand(100, 999);
         $validated['created_at'] = now();
@@ -364,9 +368,24 @@ class AdminContentController extends Controller
             'harga' => 'required|numeric|min:0',
             'stok' => 'required|integer|min:0',
             'nomor_whatsapp' => 'required|string|max:20',
-            'foto_path' => 'required|string',
+            'foto_path' => 'nullable|string',
+            'foto_file' => 'nullable|image|max:5120',
             'status' => 'required|string|in:menunggu_verifikasi,aktif,non_aktif',
         ]);
+
+        if ($request->hasFile('foto_file')) {
+            $path = $request->file('foto_file')->store('umkm', 'public');
+            $validated['foto_path'] = '/storage/'.$path;
+        }
+
+        unset($validated['foto_file']);
+
+        if (empty($validated['foto_path'])) {
+            $existing = DB::table('produk_umkm')->where('id', $id)->first();
+            if ($existing) {
+                $validated['foto_path'] = $existing->foto_path;
+            }
+        }
 
         $validated['slug'] = Str::slug($validated['nama']).'-'.$id;
         $validated['updated_at'] = now();

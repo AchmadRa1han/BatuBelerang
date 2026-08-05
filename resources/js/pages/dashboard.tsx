@@ -396,6 +396,9 @@ export default function Dashboard({
     // State & Forms for Pasar Maya & Wisata
     const [editingProduk, setEditingProduk] = useState<ProdukItem | null>(null);
     const [editingWisata, setEditingWisata] = useState<WisataItem | null>(null);
+    const [searchPenjualQuery, setSearchPenjualQuery] = useState('');
+    const [isPenjualDropdownOpen, setIsPenjualDropdownOpen] = useState(false);
+    const [produkImagePreview, setProdukImagePreview] = useState<string | null>(null);
 
     const formatRupiah = (value: number) => {
         return new Intl.NumberFormat('id-ID', {
@@ -415,8 +418,10 @@ export default function Dashboard({
         stok: '',
         nomor_whatsapp: '628',
         foto_path: '',
+        foto_file: null as any,
         status: 'aktif',
     });
+
 
     const wisataForm = useForm({
         nama: '',
@@ -917,15 +922,20 @@ export default function Dashboard({
     const handleSaveProduk = (e: React.FormEvent) => {
         e.preventDefault();
         if (editingProduk) {
-            produkForm.put(`/admin/produk/${editingProduk.id}`, {
+            produkForm.transform((data) => ({
+                ...data,
+                _method: 'PUT',
+            })).post(`/admin/produk/${editingProduk.id}`, {
                 onSuccess: () => {
                     setEditingProduk(null);
+                    setProdukImagePreview(null);
                     produkForm.reset();
                 },
             });
         } else {
             produkForm.post('/admin/produk', {
                 onSuccess: () => {
+                    setProdukImagePreview(null);
                     produkForm.reset();
                 },
             });
@@ -940,6 +950,7 @@ export default function Dashboard({
 
     const handleEditProduk = (produk: ProdukItem) => {
         setEditingProduk(produk);
+        setProdukImagePreview(produk.foto_path);
         produkForm.setData({
             penduduk_id: String(produk.penduduk_id),
             kategori_umkm_id: String(produk.kategori_umkm_id),
@@ -949,12 +960,14 @@ export default function Dashboard({
             stok: String(produk.stok),
             nomor_whatsapp: produk.nomor_whatsapp,
             foto_path: produk.foto_path,
+            foto_file: null,
             status: produk.status,
         });
     };
 
     const handleCancelEditProduk = () => {
         setEditingProduk(null);
+        setProdukImagePreview(null);
         produkForm.reset();
     };
 
@@ -2823,26 +2836,74 @@ export default function Dashboard({
                                         <Label className="text-xs">
                                             Penjual (Penduduk Desa)
                                         </Label>
-                                        <select
-                                            required
-                                            value={produkForm.data.penduduk_id}
-                                            onChange={(e) =>
-                                                produkForm.setData(
-                                                    'penduduk_id',
-                                                    e.target.value,
-                                                )
-                                            }
-                                            className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-xs text-slate-900 focus:border-emerald-500 focus:outline-none dark:border-slate-800 dark:bg-slate-950 dark:text-white"
-                                        >
-                                            <option value="">
-                                                -- Pilih Penjual --
-                                            </option>
-                                            {pendudukList.map((p) => (
-                                                <option key={p.id} value={p.id}>
-                                                    {p.nama} ({p.nik})
-                                                </option>
-                                            ))}
-                                        </select>
+                                        <div className="relative">
+                                            <div
+                                                onClick={() => setIsPenjualDropdownOpen(!isPenjualDropdownOpen)}
+                                                className="flex w-full cursor-pointer items-center justify-between rounded-xl border border-slate-200 bg-white px-3 py-2 text-xs text-slate-900 focus-within:border-emerald-500 dark:border-slate-800 dark:bg-slate-950 dark:text-white"
+                                            >
+                                                <span>
+                                                    {produkForm.data.penduduk_id
+                                                        ? pendudukList.find((p) => String(p.id) === String(produkForm.data.penduduk_id))
+                                                            ? `${pendudukList.find((p) => String(p.id) === String(produkForm.data.penduduk_id)).nama} (${pendudukList.find((p) => String(p.id) === String(produkForm.data.penduduk_id)).nik})`
+                                                            : '-- Pilih Penjual --'
+                                                        : '-- Pilih Penjual --'}
+                                                </span>
+                                                <span className="text-slate-400">▼</span>
+                                            </div>
+
+                                            {isPenjualDropdownOpen && (
+                                                <div className="absolute z-50 mt-1 max-h-60 w-full overflow-y-auto rounded-xl border border-slate-200 bg-white p-2 shadow-lg dark:border-slate-800 dark:bg-slate-950">
+                                                    <input
+                                                        type="text"
+                                                        placeholder="Cari nama atau NIK..."
+                                                        value={searchPenjualQuery}
+                                                        onChange={(e) => setSearchPenjualQuery(e.target.value)}
+                                                        className="mb-2 w-full rounded-lg border border-slate-200 bg-slate-50 px-2 py-1 text-xs text-slate-900 focus:border-emerald-500 focus:outline-none dark:border-slate-800 dark:bg-slate-900 dark:text-white"
+                                                        autoFocus
+                                                    />
+                                                    <div className="space-y-1">
+                                                        {pendudukList.filter((p) => {
+                                                            const query = searchPenjualQuery.toLowerCase();
+                                                            return (
+                                                                (p.nama || '').toLowerCase().includes(query) ||
+                                                                String(p.nik || '').includes(query)
+                                                            );
+                                                        }).length === 0 ? (
+                                                            <div className="p-2 text-center text-xs text-slate-500">
+                                                                Penduduk tidak ditemukan
+                                                            </div>
+                                                        ) : (
+                                                            pendudukList
+                                                                .filter((p) => {
+                                                                    const query = searchPenjualQuery.toLowerCase();
+                                                                    return (
+                                                                        (p.nama || '').toLowerCase().includes(query) ||
+                                                                        String(p.nik || '').includes(query)
+                                                                    );
+                                                                })
+                                                                .map((p) => (
+                                                                    <div
+                                                                        key={p.id}
+                                                                        onClick={() => {
+                                                                            produkForm.setData('penduduk_id', String(p.id));
+                                                                            setIsPenjualDropdownOpen(false);
+                                                                            setSearchPenjualQuery('');
+                                                                        }}
+                                                                        className={`cursor-pointer rounded-lg px-2.5 py-1.5 text-xs transition-colors hover:bg-slate-100 dark:hover:bg-slate-900 ${
+                                                                            String(produkForm.data.penduduk_id) === String(p.id)
+                                                                                ? 'bg-emerald-50 font-semibold text-emerald-600 dark:bg-emerald-950/40'
+                                                                                : 'text-slate-700 dark:text-slate-300'
+                                                                        }`}
+                                                                    >
+                                                                        <div className="font-medium">{p.nama}</div>
+                                                                        <div className="text-[10px] text-slate-400">{p.nik}</div>
+                                                                    </div>
+                                                                ))
+                                                        )}
+                                                    </div>
+                                                </div>
+                                            )}
+                                        </div>
                                     </div>
 
                                     <div>
@@ -2951,20 +3012,63 @@ export default function Dashboard({
 
                                     <div>
                                         <Label className="text-xs">
-                                            URL Foto Produk (Pisahkan dengan
-                                            koma jika multi-gambar)
+                                            Foto Produk
                                         </Label>
-                                        <Input
-                                            required
-                                            value={produkForm.data.foto_path}
-                                            onChange={(e) =>
-                                                produkForm.setData(
-                                                    'foto_path',
-                                                    e.target.value,
-                                                )
-                                            }
-                                            placeholder="https://..."
-                                        />
+                                        <div className="mt-1 flex flex-col gap-3">
+                                            {/* Preview */}
+                                            {produkImagePreview && (
+                                                <div className="relative size-32 overflow-hidden rounded-xl border border-slate-200 dark:border-slate-800">
+                                                    <img
+                                                        src={produkImagePreview}
+                                                        alt="Pratinjau Foto Produk"
+                                                        className="size-full object-cover"
+                                                    />
+                                                    <button
+                                                        type="button"
+                                                        onClick={() => {
+                                                            setProdukImagePreview(null);
+                                                            produkForm.setData({
+                                                                ...produkForm.data,
+                                                                foto_file: null,
+                                                                foto_path: '',
+                                                            });
+                                                        }}
+                                                        className="absolute right-1 top-1 rounded-full bg-red-600 p-1 text-white shadow hover:bg-red-700 focus:outline-none"
+                                                    >
+                                                        <Trash2 className="size-3.5" />
+                                                    </button>
+                                                </div>
+                                            )}
+
+                                            <div className="flex items-center gap-2">
+                                                <label className="inline-flex cursor-pointer items-center gap-2 rounded-lg bg-emerald-600 px-3 py-1.5 text-xs font-semibold text-white shadow-sm transition-colors hover:bg-emerald-700">
+                                                    <Upload className="size-3.5" />
+                                                    <span>
+                                                        {produkImagePreview
+                                                            ? 'Ganti Foto'
+                                                            : 'Upload Foto'}
+                                                    </span>
+                                                    <input
+                                                        type="file"
+                                                        accept="image/*"
+                                                        className="hidden"
+                                                        required={!editingProduk && !produkImagePreview}
+                                                        onChange={(e) => {
+                                                            if (e.target.files && e.target.files.length > 0) {
+                                                                const file = e.target.files[0];
+                                                                produkForm.setData('foto_file', file);
+                                                                setProdukImagePreview(URL.createObjectURL(file));
+                                                            }
+                                                        }}
+                                                    />
+                                                </label>
+                                                {!produkImagePreview && (
+                                                    <span className="text-[10px] text-slate-500">
+                                                        Format: JPG, PNG (Maks 5MB)
+                                                    </span>
+                                                )}
+                                            </div>
+                                        </div>
                                     </div>
 
                                     <div>
