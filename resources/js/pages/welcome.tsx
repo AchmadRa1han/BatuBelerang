@@ -1131,7 +1131,7 @@ export default function Welcome({
                         </p>
                         <div className="pt-2">
                             <Link
-                                href="#"
+                                href="/pemerintahan/tata-kelola"
                                 className="inline-flex items-center gap-2 text-xs font-semibold text-emerald-600 transition-colors hover:text-emerald-500 dark:text-emerald-400 dark:hover:text-emerald-300"
                             >
                                 Unduh Laporan APBDesa PDF <span>→</span>
@@ -1450,7 +1450,7 @@ export default function Welcome({
                             </li>
                             <li>
                                 <Link
-                                    href="#"
+                                    href="/profil/geografis-desa"
                                     className="transition-colors hover:text-emerald-600 dark:hover:text-white"
                                 >
                                     Profil Geografis
@@ -1458,7 +1458,7 @@ export default function Welcome({
                             </li>
                             <li>
                                 <Link
-                                    href="#"
+                                    href="/lembaga/bpd"
                                     className="transition-colors hover:text-emerald-600 dark:hover:text-white"
                                 >
                                     Kelembagaan Desa
@@ -1466,7 +1466,7 @@ export default function Welcome({
                             </li>
                             <li>
                                 <Link
-                                    href="#"
+                                    href="/pasar-maya"
                                     className="transition-colors hover:text-emerald-600 dark:hover:text-white"
                                 >
                                     Etalase UMKM
@@ -1474,7 +1474,7 @@ export default function Welcome({
                             </li>
                             <li>
                                 <Link
-                                    href="#"
+                                    href="/wisata"
                                     className="transition-colors hover:text-emerald-600 dark:hover:text-white"
                                 >
                                     Informasi Wisata
