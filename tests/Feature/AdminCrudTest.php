@@ -432,8 +432,6 @@ test('authenticated admin can perform Produk UMKM CRUD', function () {
             'kategori_umkm_id' => $kategoriId,
             'nama' => 'Kopi Belerang',
             'deskripsi' => 'Kopi khas belerang hangat',
-            'harga' => 15000,
-            'stok' => 50,
             'nomor_whatsapp' => '6281234567890',
             'foto_file' => $file,
             'status' => 'aktif',
@@ -442,7 +440,6 @@ test('authenticated admin can perform Produk UMKM CRUD', function () {
     $response->assertRedirect();
     $this->assertDatabaseHas('produk_umkm', [
         'nama' => 'Kopi Belerang',
-        'harga' => 15000,
     ]);
 
     $produk = DB::table('produk_umkm')->where('nama', 'Kopi Belerang')->first();
@@ -456,8 +453,6 @@ test('authenticated admin can perform Produk UMKM CRUD', function () {
             'kategori_umkm_id' => $kategoriId,
             'nama' => 'Kopi Belerang Super',
             'deskripsi' => 'Kopi khas belerang hangat super',
-            'harga' => 20000,
-            'stok' => 30,
             'nomor_whatsapp' => '6281234567890',
             'foto_file' => $file2,
             'status' => 'aktif',
@@ -467,7 +462,6 @@ test('authenticated admin can perform Produk UMKM CRUD', function () {
     $this->assertDatabaseHas('produk_umkm', [
         'id' => $produk->id,
         'nama' => 'Kopi Belerang Super',
-        'harga' => 20000,
     ]);
 
     $response = $this->actingAs($user)
@@ -476,8 +470,6 @@ test('authenticated admin can perform Produk UMKM CRUD', function () {
             'kategori_umkm_id' => $kategoriId,
             'nama' => 'Kopi Belerang Super 2',
             'deskripsi' => 'Kopi khas belerang hangat super 2',
-            'harga' => 25000,
-            'stok' => 20,
             'nomor_whatsapp' => '6281234567890',
             'status' => 'aktif',
         ]);
@@ -486,7 +478,6 @@ test('authenticated admin can perform Produk UMKM CRUD', function () {
     $this->assertDatabaseHas('produk_umkm', [
         'id' => $produk->id,
         'nama' => 'Kopi Belerang Super 2',
-        'harga' => 25000,
     ]);
 
     $response = $this->actingAs($user)

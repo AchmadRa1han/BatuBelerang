@@ -414,8 +414,6 @@ export default function Dashboard({
         kategori_umkm_id: '',
         nama: '',
         deskripsi: '',
-        harga: '',
-        stok: '',
         nomor_whatsapp: '628',
         foto_path: '',
         foto_file: null as any,
@@ -956,8 +954,6 @@ export default function Dashboard({
             kategori_umkm_id: String(produk.kategori_umkm_id),
             nama: produk.nama,
             deskripsi: produk.deskripsi,
-            harga: String(produk.harga),
-            stok: String(produk.stok),
             nomor_whatsapp: produk.nomor_whatsapp,
             foto_path: produk.foto_path,
             foto_file: null,
@@ -2954,42 +2950,7 @@ export default function Dashboard({
                                         />
                                     </div>
 
-                                    <div className="grid grid-cols-2 gap-3">
-                                        <div>
-                                            <Label className="text-xs">
-                                                Harga (Rp)
-                                            </Label>
-                                            <Input
-                                                required
-                                                type="number"
-                                                value={produkForm.data.harga}
-                                                onChange={(e) =>
-                                                    produkForm.setData(
-                                                        'harga',
-                                                        e.target.value,
-                                                    )
-                                                }
-                                                placeholder="35000"
-                                            />
-                                        </div>
-                                        <div>
-                                            <Label className="text-xs">
-                                                Stok
-                                            </Label>
-                                            <Input
-                                                required
-                                                type="number"
-                                                value={produkForm.data.stok}
-                                                onChange={(e) =>
-                                                    produkForm.setData(
-                                                        'stok',
-                                                        e.target.value,
-                                                    )
-                                                }
-                                                placeholder="10"
-                                            />
-                                        </div>
-                                    </div>
+
 
                                     <div>
                                         <Label className="text-xs">
@@ -3155,7 +3116,6 @@ export default function Dashboard({
                                                 <th className="py-2">
                                                     Kategori
                                                 </th>
-                                                <th className="py-2">Harga</th>
                                                 <th className="py-2">
                                                     Penjual
                                                 </th>
@@ -3188,11 +3148,6 @@ export default function Dashboard({
                                                         </td>
                                                         <td className="py-2.5 text-slate-500">
                                                             {item.nama_kategori}
-                                                        </td>
-                                                        <td className="py-2.5 font-extrabold text-emerald-600">
-                                                            {formatRupiah(
-                                                                item.harga,
-                                                            )}
                                                         </td>
                                                         <td className="py-2.5 text-slate-500">
                                                             {item.nama_penjual}

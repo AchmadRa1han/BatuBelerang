@@ -83,7 +83,7 @@ export default function PasarMaya({ kategoriList = [], produkList = [] }: PasarM
             cleanNumber = '62' + cleanNumber.slice(1);
         }
         const text = encodeURIComponent(
-            `Halo, saya tertarik dengan produk "${produk.nama}" (${formatRupiah(produk.harga)}) yang diiklankan di Pasar Maya Desa Batu Belerang.`
+            `Halo, saya tertarik dengan produk "${produk.nama}" yang diiklankan di Pasar Maya Desa Batu Belerang.`
         );
         return `https://wa.me/${cleanNumber}?text=${text}`;
     };
@@ -189,26 +189,18 @@ export default function PasarMaya({ kategoriList = [], produkList = [] }: PasarM
                                         <span className="absolute top-3 left-3 rounded-md bg-emerald-600 px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider text-white shadow-sm">
                                             {produk.nama_kategori}
                                         </span>
-                                        {/* Floating Price Tag */}
-                                        <span className="absolute bottom-3 right-3 rounded-lg bg-slate-950/80 backdrop-blur-xs px-2.5 py-1 text-xs font-black text-emerald-400 shadow-md">
-                                            {formatRupiah(produk.harga)}
-                                        </span>
                                     </div>
 
                                     {/* Content Details */}
                                     <div className="flex flex-1 flex-col p-4 space-y-3">
                                         <div className="space-y-1">
-                                            {/* Shop & Stock info */}
-                                            <div className="flex items-center justify-between text-[10px] text-slate-400 dark:text-slate-500">
+                                            {/* Shop info */}
+                                            <div className="flex items-center text-[10px] text-slate-400 dark:text-slate-500">
                                                 <span className="flex items-center gap-1">
                                                     <Store className="size-3" />
                                                     {produk.nama_penjual}
                                                 </span>
-                                                <span className="font-semibold text-emerald-600 dark:text-emerald-400 bg-emerald-55/10 dark:bg-emerald-950/30 px-1.5 py-0.5 rounded-md">
-                                                    Stok: {produk.stok}
-                                                </span>
                                             </div>
-
                                             <h3 className="font-bold text-xs text-slate-950 dark:text-white line-clamp-2 pt-1 min-h-[36px]">
                                                 {produk.nama}
                                             </h3>
@@ -338,13 +330,7 @@ export default function PasarMaya({ kategoriList = [], produkList = [] }: PasarM
                                 </h3>
                                 <div className="flex flex-wrap items-center gap-3 text-[11px] text-slate-400">
                                     <span>Penjual: <strong className="text-slate-600 dark:text-slate-300">{selectedProduk.nama_penjual}</strong></span>
-                                    <span>•</span>
-                                    <span>Stok: <strong className="text-slate-600 dark:text-slate-300">{selectedProduk.stok}</strong></span>
                                 </div>
-                            </div>
-
-                            <div className="text-lg font-black text-emerald-600 dark:text-emerald-400">
-                                {formatRupiah(selectedProduk.harga)}
                             </div>
 
                             <div className="space-y-2 flex-1">
